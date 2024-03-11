@@ -10,9 +10,12 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"prepare": "husky install"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^19.0.3",
+		"@commitlint/config-conventional": "^19.0.3",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -21,10 +24,13 @@
 		"@typescript-eslint/eslint-plugin": "^7.1.1",
 		"@typescript-eslint/parser": "^7.1.1",
 		"autoprefixer": "^10.4.16",
+		"dotenv": "^16.4.5",
 		"drizzle-kit": "^0.20.14",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-drizzle": "^0.2.3",
 		"eslint-plugin-svelte": "^2.36.0-next.4",
+		"husky": "^8.0.0",
 		"postcss": "^8.4.32",
 		"postcss-load-config": "^5.0.2",
 		"prettier": "^3.1.1",
@@ -40,9 +46,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.30.1",
-		"eslint-plugin-drizzle": "^0.2.3",
 		"postgres": "^3.4.3",
 		"zod": "^3.22.4"
 	}
