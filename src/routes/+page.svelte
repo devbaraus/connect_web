@@ -1,3 +1,36 @@
+<script lang="ts">
+	import Swiper from 'swiper/bundle';
+	import { Pagination } from 'swiper/modules';
+	import 'swiper/css/bundle';
+	import 'swiper/css/pagination';
+	import 'swiper/css/effect-cards'
+
+	$effect(() => {
+		const swiper = new Swiper('.proofSlides', {
+			effect: "cube",
+			cubeEffect : {
+				slideShadows: false,
+				shadow: false,
+				shadowOffset: 20,
+				shadowScale: 0.94,
+			},
+			loop: true,
+			autoplay : {
+				delay: 3000,
+				duration : 500
+			},
+			grabCursor: true,
+			modules: [Pagination],
+			centeredSlides: true,
+			pagination: {
+				el: '.swiper-pagination',
+			}
+		});
+	})
+
+
+</script>
+
 <main class="overflow-hidden">
 	<section class="relative">
 		<div class="relative pt-24 lg:pt-28">
