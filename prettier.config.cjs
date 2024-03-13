@@ -1,4 +1,18 @@
 module.exports = {
-	plugins: [require("prettier-plugin-tailwindcss")],
-	tailwindConfig: "./tailwind.config.js",
+	"useTabs": true,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"printWidth": 100,
+	"plugins": [
+		"prettier-plugin-svelte",
+		"prettier-plugin-tailwindcss"
+	],
+	"overrides": [
+		{
+			"files": "*.svelte",
+			"options": {
+				"parser": "svelte"
+			}
+		}
+	]
 };

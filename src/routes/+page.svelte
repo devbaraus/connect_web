@@ -31,7 +31,6 @@
 
 </script>
 
-<main class="overflow-hidden">
 	<section class="relative">
 		<div class="relative pt-24 lg:pt-28">
 			<div class="mx-auto px-6 max-w-7xl md:px-12">
@@ -1590,4 +1589,3 @@
 			</div>
 		</div>
 	</section>
-</main>

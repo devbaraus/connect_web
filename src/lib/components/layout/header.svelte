@@ -30,7 +30,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#" class="block md:px-4 transition hover:text-primary-600 dark:hover:text-primary-400">
+								<a href="/playground" class="block md:px-4 transition hover:text-primary-600 dark:hover:text-primary-400">
 									<span>Playground</span>
 								</a>
 							</li>
