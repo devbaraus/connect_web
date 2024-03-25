@@ -6,14 +6,20 @@
 		data: PageData
 	}>();
 
-	const years = data.chart.map(d => d.ano_producao)
-	const groups = data.chart.reduce((acc, d) => {
-		if (!acc[d.tipo_producao]) {
-			acc[d.tipo_producao] = []
+	enum TipoProducao {
+		ARTIGO = 'Artigos'
+	}
+
+	const years = $derived(data.chart.map(d => d.ano_producao))
+	const groups = $derived(data.chart.reduce((acc, d) => {
+		const tipo = TipoProducao[d.tipo_producao]
+
+		if (!acc[tipo]) {
+			acc[tipo] = []
 		}
-		acc[d.tipo_producao].push(d.count)
+		acc[tipo].push(d.count)
 		return acc
-	}, {})
+	}, {}))
 
 	let options: ChartOptions = $state({
 		tooltip: {
@@ -37,30 +43,53 @@
 			type: 'category',
 			data: years
 		},
-		series: [
-			...Object.entries(groups).map(([tipo, count]) => ({
-				name: tipo,
-				type: 'bar',
-				stack: 'total',
-				label: {
-					show: true
-				},
-				emphasis: {
-					focus: 'series'
-				},
-				data:count
-			})),
-		]
+		series: Object.entries(groups).map(([tipo, count]) => ({
+			name: tipo,
+			type: 'bar',
+			stack: 'total',
+			label: {
+				show: true
+			},
+			emphasis: {
+				focus: 'series'
+			},
+			data: count
+		}))
 	})
 
-	// function updateSeries() {
-	// 	options.series[0].data = Array.from({length: 7}, () => Math.floor(Math.random() * 300))
-	// }
+	$effect(() => {
+		options.series = Object.entries(groups).map(([tipo, count]) => ({
+			name: tipo,
+			type: 'bar',
+			stack: 'total',
+			label: {
+				show: true
+			},
+			emphasis: {
+				focus: 'series'
+			},
+			data: count
+		}))
+	})
 </script>
 
 <section class="relative">
 	<div class="pt-24t relative lg:pt-28">
 		<div class="mx-auto max-w-7xl px-6 md:px-12">
+			<form action="">
+				<div class="flex flex-col items-center">
+					<select name="campus" id="campus">
+						<option value=''>TODOS</option>
+						{#each data.campus as campus }
+							<option value={campus}>{campus.toUpperCase()}</option>
+						{/each}
+					</select>
+					<button >
+						buscar
+					</button>
+
+				</div>
+			</form>
 			<div class="h-96" use:chart={options}/>
 <!--			<button class="mt-4 text-white" onclick={updateSeries}>Update Series</button>-->
 		</div>

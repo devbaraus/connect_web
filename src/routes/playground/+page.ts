@@ -1,17 +1,14 @@
 import type { PageLoad } from './$types';
-import {PUBLIC_API_URL} from '$env/static/public'
+import { fetchChart } from '$lib/services/chart-service';
 
-type ChartData = {
-	ano_producao: string;
-	tipo_producao: string;
-	count: number;
-};
-
-export const load: PageLoad = async () => {
-	const response = await fetch(`${PUBLIC_API_URL}/article/producao_bibliografica/chart`);
-	const chart =  await response.json() as ChartData[]
+export const load: PageLoad = async ({ params, fetch, url: { searchParams } }) => {
+	const campus = searchParams.get('campus');
+	// const grandeArea = params.grandeArea as string;
+	// const area = params.area as string;
 
 	return {
-		chart,
-	}
+		chart: await fetchChart(fetch, {
+			campus
+		})
+	};
 };
