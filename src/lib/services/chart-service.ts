@@ -11,7 +11,7 @@ export async function fetchChart( fetch: any, filters: {
 	grandeArea?: string | null;
 	area?: string | null;
 }) {
-	const url = new URL(`${PUBLIC_API_URL}/article/producao_bibliografica/chart`);
+	const url = new URL(`${PUBLIC_API_URL}/producao_bibliografica/chart`);
 	if (filters.campus) url.searchParams.append('campus', filters.campus);
 	if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 	if (filters.area) url.searchParams.append('area', filters.area);
