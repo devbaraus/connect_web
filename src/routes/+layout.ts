@@ -1,8 +1,8 @@
+import { listCampus } from '$lib/services/campus-service';
 import type { LayoutLoad } from './$types';
-import { fetchCampus } from '$lib/services/campus-service';
 
 export const load: LayoutLoad = async ({ fetch }) => {
 	return {
-		campus: await fetchCampus(fetch)
+		campus: await listCampus(fetch)
 	};
 };

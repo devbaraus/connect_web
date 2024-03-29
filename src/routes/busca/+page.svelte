@@ -1,38 +1,66 @@
 <script lang="ts">
-import Wrapper from '$lib/components/wrapper.svelte';
 import { createQuery } from '@tanstack/svelte-query'
-import { searchResearchers } from '$lib/services/researchers-service';
+import { listPesquisadores } from '$lib/services/pesquisadores-service';
+import { Input } from "$lib/components/ui/input";
+import {
+	createSvelteTable, flexRender,
+	getCoreRowModel
+} from '@tanstack/svelte-table';
+import type { ColumnDef, TableOptions } from '@tanstack/svelte-table'
+import { writable } from 'svelte/store';
+import type { Researcher } from '$lib/types';
+import DataTable from '$lib/components/ui/data-table.svelte'
+import PesquisadorDataTableAction from '$lib/components/pesquisadores/pesquisador-data-table-action.svelte'
 
-let searchQuery = $state('')
+let searchQuery = ''
+
+const defaultColumns: ColumnDef<Researcher>[] = [
+	{
+		accessorKey: 'siape',
+		header: () => 'Siape'
+	},
+	{
+		accessorKey: 'nome_completo',
+		header: () => 'Nome Completo'
+	},
+	{
+		accessorKey: 'actions',
+		header: () => 'Ações',
+		cell: ({row}) => flexRender(PesquisadorDataTableAction, {id:row.getValue('siape')})
+	}
+]
+
+const options = writable<TableOptions<Researcher>>({
+	data: [],
+	columns: defaultColumns,
+	getCoreRowModel: getCoreRowModel(),
+})
 
 const query = createQuery({
-	queryKey: ['todos'],
-	queryFn: async () => searchResearchers({
-		query: searchQuery,
-	}),
-	enabled: false,
+	queryKey: ['searchResearchers'],
+	queryFn: async () => {
+		const {results} = await listPesquisadores({
+			query: searchQuery,
+		})
+		options.update((o) => ({ ...o, data: results }))
+
+		return results
+	},
 })
 
-$effect(() => {
-	if (!searchQuery) {
-		return
+$: {
+	if(searchQuery.length > 0) {
+		$query.refetch()
 	}
+}
 
-	$query.refetch({
-		cancelRefetch: true,
-	})
-})
-
+const	table = createSvelteTable(options)
 </script>
 
-<Wrapper>
+<div class="mb-8">
 	<h1>Search - {searchQuery}</h1>
-	<input type="text" bind:value={searchQuery}>
-	{#if $query.data}
-		<ul>
-			{#each $query.data.results as article}
-				<li>{article.nome_completo}</li>
-			{/each}
-		</ul>
-	{/if}
-</Wrapper>
+	<Input type="text" bind:value={searchQuery}/>
+</div>
+
+<DataTable {table} />
+

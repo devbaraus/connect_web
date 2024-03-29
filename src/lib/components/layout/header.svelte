@@ -1,62 +1,53 @@
 <script lang="ts">
 	const links = [
 		{
-			name: 'Busca',
-			href: '/busca'
+			name: 'Home',
+			href: '/'
 		},
 		{
-			name: 'Playground',
-			href: '/playground'
-		},
+			name: 'Busca',
+			href: '/busca'
+		}
 	];
 </script>
 
-<header>
-	<nav
-		class="fixed z-20 w-full overflow-hidden rounded-b-lg border-x border-b border-[--ui-light-border-color] bg-white/80 backdrop-blur dark:border-[--ui-dark-border-color] dark:bg-gray-950/75 dark:shadow-md dark:shadow-gray-950/10"
-	>
-		<div class="m-auto max-w-6xl px-6 2xl:px-0">
-			<div class="flex flex-wrap items-center justify-between py-2 sm:py-4">
-				<div class="flex w-full items-center justify-between lg:w-auto">
-					<a href="/" class="font-semibold uppercase" aria-label="connect logo">connect</a>
-					<div class="flex lg:hidden">
-						<button
-							aria-label="humburger"
-							id="menu"
-							class="bordeer-gray-950/30 relative size-9 rounded-full border transition duration-300 active:scale-95 dark:border-white/20"
-						>
-							<div
-								aria-hidden="true"
-								id="line1"
-								class="m-auto h-[1.5px] w-4 rounded bg-gray-900 transition duration-300 dark:bg-gray-300"
-							></div>
-							<div
-								aria-hidden="true"
-								id="line2"
-								class="m-auto mt-1.5 h-[1.5px] w-4 rounded bg-gray-900 transition duration-300 dark:bg-gray-300"
-							></div>
-						</button>
+<!-- ========== { HEADER }==========  -->
+<header class="fixed top-0 left-0 right-0 z-40">
+	<nav class="main-nav">
+		<div class="container mx-auto px-4">
+			<div class="lg:flex lg:justify-between">
+				<div class="flex justify-between">
+					<div class="mx-w-10 text-4xl font-bold capitalize text-gray-900 flex items-center">CONNECT</div>
+					<!-- mobile nav -->
+					<div class="flex flex-row items-center py-4 lg:py-0">
+						<div class="relative text-gray-900 hover:text-black block lg:hidden">
+							<button type="button" class="menu-mobile block py-3 px-6 border-b-2 border-transparent">
+								<span class="sr-only">Mobile menu</span>
+								<svg class="open h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+								</svg>
+
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="close bi bi-x-lg h-8 w-8" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+									<path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+								</svg>
+							</button>
+						</div>
 					</div>
 				</div>
-				<div
-					class="h-0 w-full flex-wrap items-center justify-end space-y-8 md:flex-nowrap lg:flex lg:h-fit lg:w-fit lg:space-y-0"
-				>
-					<div class="mt-6 text-gray-600 md:-ml-4 lg:mt-0 lg:pr-4 dark:text-gray-300">
-						<ul class="space-y-6 text-base tracking-wide lg:flex lg:space-y-0 lg:text-sm">
-							{#each links as link (link.href)}
-								<li>
-									<a
-										href={link.href}
-										class="block transition hover:text-primary-600 md:px-4 dark:hover:text-primary-400"
-									>
-										<span>{link.name}</span>
-									</a>
-								</li>
-							{/each}
-						</ul>
-					</div>
+
+				<div class="flex flex-row">
+					<!-- nav menu -->
+					<ul class="navbar bg-white lg:bg-transparent w-full hidden text-center lg:text-left lg:flex lg:flex-row text-gray-900 text-sm items-center font-bold">
+						{#each links as link (link.href)}
+							<li class="relative hover:text-black">
+								<a class="active block py-3 lg:py-7 px-6 border-b-2 border-transparent" href={link.href}>{link.name}</a>
+							</li>
+						{/each}
+					</ul>
 				</div>
 			</div>
 		</div>
 	</nav>
 </header>
+<!-- end header -->
