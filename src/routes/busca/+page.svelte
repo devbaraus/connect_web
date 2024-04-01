@@ -1,6 +1,6 @@
 <script lang="ts">
 import { createQuery } from '@tanstack/svelte-query'
-import { listPesquisadores } from '$lib/services/pesquisadores-service';
+import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 import { Input } from "$lib/components/ui/input";
 import {
 	createSvelteTable, flexRender,
@@ -39,7 +39,7 @@ const options = writable<TableOptions<Researcher>>({
 const query = createQuery({
 	queryKey: ['searchResearchers'],
 	queryFn: async () => {
-		const {results} = await listPesquisadores({
+		const {results} = await PesquisadoresService.list({
 			query: searchQuery,
 		})
 		options.update((o) => ({ ...o, data: results }))

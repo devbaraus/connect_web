@@ -1,14 +1,12 @@
-import { fetchChart } from '$lib/services/chart-service';
 import type { PageLoad } from './$types';
-import { getPesquisador } from '$lib/services/pesquisadores-service';
+import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 
-export const load: PageLoad = async ({ params, fetch}) => {
+export const load: PageLoad = async ({ params}) => {
 	const siape = params.siape as string;
 
 	return {
-		chart: await fetchChart(fetch, {
-			siape
-		}),
-		pesquisador: await getPesquisador(siape)
+		producoes: await PesquisadoresService.producoesChart(siape),
+		formacao: await PesquisadoresService.formacaoStats(siape),
+		pesquisador: await PesquisadoresService.get(siape)
 	};
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type ChartOptions, chart} from '$lib/actions/chart';
-	import type { ChartData } from '$lib/services/chart-service';
+	import type { ChartData } from '$lib/services/producoes-service';
 
 	export let data: ChartData[]
 	export let defaultYears: number[] | undefined = undefined
