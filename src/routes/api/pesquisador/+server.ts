@@ -14,7 +14,9 @@ export const GET: RequestHandler = async ({ url }) => {
 	// 			areaAtuacao: true,
 	// 			formacaoAcademica: true
 	// 		}
+	
 	// 	});
+
 
 		return new Response(JSON.stringify({
 			status: 'ok'
