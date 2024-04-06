@@ -1,16 +1,30 @@
 import * as echarts from 'echarts';
 export type ChartOptions = echarts.EChartsOption;
+export type ChartEvents = echarts.ECElementEvent
 
-export function chart(node: HTMLDivElement, options: ChartOptions) {
+export type ChartParams = {
+	options: ChartOptions,
+	events?: {
+		[event: string]: (params: any) => void
+	}
+}
+
+export function chart(node: HTMLDivElement, params: ChartParams) {
 	const chart = echarts.init(node);
-	chart.setOption(options);
+	chart.setOption(params.options);
+
+	if(params.events) {
+		Object.entries(params.events).map(([event, fn]) => chart.on(event, fn))
+	}
+
+
 
 	return {
 		destroy() {
 			chart.dispose();
 		},
-		update(newOptions: ChartOptions) {
-			chart.setOption(newOptions);
+		update(newParams: ChartParams) {
+			chart.setOption(newParams.options);
 		}
 	};
 }

@@ -19,7 +19,7 @@
 
 	$: groups = data?.reduce(
 		(acc, d) => {
-			const tipo = TipoProducao[d.tipo as keyof typeof TipoProducao];
+			const tipo = d.tipo;
 
 			if (!acc[tipo]) {
 				acc[tipo] = {};
@@ -46,6 +46,12 @@
 		legend: {},
 		dataZoom: [
 			{
+				type: 'inside',
+				start: 0,
+				end: 100
+			},
+			{
+				type: 'slider',
 				start: 0,
 				end: 100
 			}
@@ -75,10 +81,15 @@
 			...options,
 			dataZoom: [
 				{
-					start: percentYearsGTE2000,
-					end: 100,
-					xAxisIndex: 0
-				}
+				type: 'inside',
+				start: percentYearsGTE2000,
+				end: 100
+			},
+			{
+				type: 'slider',
+				start: percentYearsGTE2000,
+				end: 100
+			}
 			],
 			xAxis: {
 				...options.xAxis,
@@ -91,7 +102,8 @@
 		options = {
 			...options,
 			series: Object.entries(groups).map(([tipo, count]) => ({
-				name: tipo,
+				id: tipo,
+				name: TipoProducao[tipo as keyof typeof TipoProducao],
 				type: 'bar',
 				stack: 'total',
 				label: {
@@ -106,4 +118,4 @@
 	}
 </script>
 
-<div class="h-[420px] py-12" use:chart={options} />
+<div class="h-[420px] py-12" use:chart={{options}} />
