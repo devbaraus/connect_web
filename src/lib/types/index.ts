@@ -1,7 +1,7 @@
 export type ProducoesChartData = {
-	ano_producao: string;
-	tipo_producao: string;
-	count: number;
+	ano: string;
+	tipo: string;
+	total: number;
 };
 
 export type FormacaoStatsData =   {

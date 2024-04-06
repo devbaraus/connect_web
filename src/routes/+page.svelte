@@ -8,19 +8,15 @@
 
 	export let data: PageData;
 
-	$: years = Array.from({
-		length: new Date().getFullYear() - 2000 + 1
-	}).map((_, i) => 2000 + i);
-
-	function gotoOption(option: Selected<string>) {
+	function gotoOption(option: Selected<string>, paramName: string) {
 		const url = new URL(location.href);
-		url.searchParams.set('campus', option.value);
+		url.searchParams.set(paramName, option.value);
 		goto(url.toString());
 	}
 </script>
 
-<div class="flex items-center gap-4">
-	<Select.Root onSelectedChange={(v) => gotoOption(v)}>
+<div class="space-y-4">
+	<Select.Root onSelectedChange={(v) => gotoOption(v, 'campus')}>
 		<Select.Trigger>
 			<Select.Value placeholder="Câmpus" />
 		</Select.Trigger>
@@ -31,6 +27,29 @@
 			{/each}
 		</Select.Content>
 	</Select.Root>
-	<Button class="uppercase">buscar</Button>
+	<Select.Root onSelectedChange={(v) => gotoOption(v, 'grande_area')}>
+		<Select.Trigger>
+			<Select.Value placeholder="Grande Área do Conhecimento" />
+		</Select.Trigger>
+		<Select.Content>
+			<Select.Item value="">TODAS</Select.Item>
+			{#each data.grandesAreas as grandeArea}
+				<Select.Item value={grandeArea} class="capitalize"
+					>{grandeArea.replaceAll('_', ' ').toUpperCase()}</Select.Item
+				>
+			{/each}
+		</Select.Content>
+	</Select.Root>
+	<Select.Root onSelectedChange={(v) => gotoOption(v, 'area')}>
+		<Select.Trigger>
+			<Select.Value placeholder="Área do Conhecimento" />
+		</Select.Trigger>
+		<Select.Content>
+			<Select.Item value="">TODAS</Select.Item>
+			{#each data.areas as area}
+				<Select.Item value={area} class="capitalize">{area}</Select.Item>
+			{/each}
+		</Select.Content>
+	</Select.Root>
 </div>
-<ProducaoBibliograficaChart data={data.chart} defaultYears={years} />
+<ProducaoBibliograficaChart data={data.chart} />

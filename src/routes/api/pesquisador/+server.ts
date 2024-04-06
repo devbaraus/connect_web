@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 // import { articleCurriculo } from '$lib/db/migrations/schema';
 // import { eq } from 'drizzle-orm';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ }) => {
 	// try {
 	// 	const siape = z.string().parse(url.searchParams.get('siape') as string);
 	//

@@ -3,12 +3,22 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url: { searchParams } }) => {
 	const campus = searchParams.get('campus');
-	// const grandeArea = params.grandeArea as string;
-	// const area = params.area as string;
+	const grandeArea = searchParams.get('grande_area');
+	const area = searchParams.get('area');
 
 	return {
-		chart: await ProducoesService.chart({
+		grandesAreas: await ProducoesService.grandeAreas({
 			campus
+		}),
+		areas: await ProducoesService.area({
+			campus,
+			grandeArea
+		}),
+		campus: await ProducoesService.campus(),
+		chart: await ProducoesService.chart({
+			campus,
+			grandeArea,
+			area
 		})
 	};
 };

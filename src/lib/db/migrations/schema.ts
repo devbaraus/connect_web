@@ -9,7 +9,6 @@ import {
 	timestamp,
 	doublePrecision
 } from 'drizzle-orm/pg-core';
-import { sql } from 'drizzle-orm';
 
 export const articleAtuacaoProfissional = pgTable(
 	'article_atuacao_profissional',
