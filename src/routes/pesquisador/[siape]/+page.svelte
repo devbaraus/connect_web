@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ProducaoBibliograficaChart from '$lib/components/charts/producao-bibliografica-chart.svelte'
+	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte'
 	import type { PageData } from './$types';
 
 	export let data: PageData
@@ -13,6 +13,6 @@
 
 <ul>
 	{#each data.formacao as formacao (formacao.id)}
-		<li><span class="font-bold">{formacao.tipo_formacao.replace('_', ' ')}</span>: {formacao.nome_curso} ({formacao.ano_inicio}~{formacao.ano_conclusao})</li>
+		<li><span class="font-bold">{formacao.tipo.replace('_', ' ')}</span>: ({formacao.ano_inicio}~{formacao.ano_conclusao})</li>
 	{/each}
 </ul>
