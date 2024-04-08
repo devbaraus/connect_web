@@ -15,6 +15,11 @@ export type ProducoesData = {
 	titulo: string,
 	classificacao: string,
 	meio_divulgacao: string,
+	curriculo: {
+		siape: string,
+		nome_completo: string,
+		numero_lattes: string
+	}
 	
 }
 
@@ -27,6 +32,22 @@ export type FormacaoStatsData =   {
 	status: string
 	tipo: string
 }
+
+export const TipoProducaoPlural = {
+	ARTIGO: 'Artigos',
+	TRABALHO_EVENTO: 'Trabalhos em Eventos',
+	RESUMO: 'Resumos',
+	LIVRO: 'Livros',
+	CAPITULO_LIVRO: 'Capítulos de Livros'
+};
+
+export const TipoProducaoSingular = {
+	ARTIGO: 'Artigo',
+	TRABALHO_EVENTO: 'Trabalho em Evento',
+	RESUMO: 'Resumo',
+	LIVRO: 'Livro',
+	CAPITULO_LIVRO: 'Capítulo de Livro'
+};
 
 export type Researcher = {
 	nome_completo: string
