@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select';
 	import { Button } from '$lib/components/ui/button';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import type { Selected } from 'bits-ui';
@@ -21,10 +22,12 @@
 			<Select.Value placeholder="Câmpus" />
 		</Select.Trigger>
 		<Select.Content>
-			<Select.Item value="">TODOS</Select.Item>
-			{#each data.campus as campus}
-				<Select.Item value={campus}>{campus.toUpperCase()}</Select.Item>
-			{/each}
+			<ScrollArea>
+				<Select.Item value="">TODOS</Select.Item>
+				{#each data.campus as campus}
+					<Select.Item value={campus}>{campus.toUpperCase()}</Select.Item>
+				{/each}
+			</ScrollArea>
 		</Select.Content>
 	</Select.Root>
 	<Select.Root onSelectedChange={(v) => gotoOption(v, 'grande_area')}>
@@ -32,12 +35,14 @@
 			<Select.Value placeholder="Grande Área do Conhecimento" />
 		</Select.Trigger>
 		<Select.Content>
-			<Select.Item value="">TODAS</Select.Item>
-			{#each data.grandesAreas as grandeArea}
-				<Select.Item value={grandeArea} class="capitalize"
-					>{grandeArea.replaceAll('_', ' ').toUpperCase()}</Select.Item
-				>
-			{/each}
+			<ScrollArea class="h-72">
+				<Select.Item value="">TODAS</Select.Item>
+				{#each data.grandesAreas as grandeArea}
+					<Select.Item value={grandeArea} class="capitalize"
+						>{grandeArea.replaceAll('_', ' ').toUpperCase()}</Select.Item
+					>
+				{/each}
+			</ScrollArea>
 		</Select.Content>
 	</Select.Root>
 	<Select.Root onSelectedChange={(v) => gotoOption(v, 'area')}>
@@ -45,10 +50,12 @@
 			<Select.Value placeholder="Área do Conhecimento" />
 		</Select.Trigger>
 		<Select.Content>
-			<Select.Item value="">TODAS</Select.Item>
-			{#each data.areas as area}
-				<Select.Item value={area} class="capitalize">{area}</Select.Item>
-			{/each}
+			<ScrollArea class="h-72">
+				<Select.Item value="">TODAS</Select.Item>
+				{#each data.areas as area}
+					<Select.Item value={area} class="capitalize">{area}</Select.Item>
+				{/each}
+			</ScrollArea>
 		</Select.Content>
 	</Select.Root>
 </div>
