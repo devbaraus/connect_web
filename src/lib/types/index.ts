@@ -4,6 +4,20 @@ export type ProducoesChartData = {
 	total: number;
 };
 
+export type ProducoesData = {
+	id : number,
+	doi: string,
+	natureza: string,
+	ano: string,
+	idioma: string,
+	tipo: string,
+	tipo_livro: string,
+	titulo: string,
+	classificacao: string,
+	meio_divulgacao: string,
+	
+}
+
 export type FormacaoStatsData =   {
 	id: number,
 	nome_instituicao: string,
@@ -17,3 +31,10 @@ export type FormacaoStatsData =   {
 export type Researcher = {
 	nome_completo: string
 }
+
+export type PaginatedResponse<T> = {
+	results: T[];
+	total: number;
+	per_page: number;
+	page: number;
+};
