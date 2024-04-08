@@ -10,6 +10,7 @@
 	import PesquisadorDataTableAction from '$lib/components/pesquisadores/pesquisador-data-table-action.svelte';
 
 	let searchQuery = '';
+	let timeout: NodeJS.Timeout;
 
 	const defaultColumns: ColumnDef<Researcher>[] = [
 		{
@@ -47,7 +48,10 @@
 
 	$: {
 		if (searchQuery.length > 0) {
-			$query.refetch();
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				$query.refetch();
+			}, 500);
 		}
 	}
 
