@@ -47,7 +47,7 @@
 	});
 
 	$: {
-		if (searchQuery.length > 0) {
+		if (typeof searchQuery == 'string') {
 			clearTimeout(timeout);
 			timeout = setTimeout(() => {
 				$query.refetch();
