@@ -3,7 +3,9 @@
 	import type { ProducoesChartData } from '$lib/types';
 
 	export let data: ProducoesChartData[];
-	export let defaultYears: number[] | undefined = undefined;
+	export let events: Record<string, (params: any) => void> = {};
+	export let defaultYears: string[] | undefined = undefined;
+	export let defaultRange: [number, number] | undefined = undefined;
 
 	const TipoProducao = {
 		ARTIGO: 'Artigos',
@@ -13,9 +15,12 @@
 		CAPITULO_LIVRO: 'Capítulos de Livros'
 	};
 
-	$: years = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
+	$: chartYears = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
 
-	$: percentYearsGTE2000 = 100 - (years.filter((year) => +year >= 2000).length / years.length * 100)
+	$: chartRange = defaultRange ?? [
+		100 - (chartYears.filter((year) => +year >= 2000).length / chartYears.length) * 100,
+		100
+	];
 
 	$: groups = data?.reduce(
 		(acc, d) => {
@@ -46,11 +51,13 @@
 		legend: {},
 		dataZoom: [
 			{
+				id: 'dataZoomInside',
 				type: 'inside',
 				start: 0,
 				end: 100
 			},
 			{
+				id: 'dataZoomSlider',
 				type: 'slider',
 				start: 0,
 				end: 100
@@ -70,8 +77,8 @@
 		},
 		xAxis: {
 			type: 'category',
-			data: years,
-			nameLocation: 'middle',
+			data: chartYears,
+			nameLocation: 'middle'
 		},
 		series: []
 	};
@@ -81,19 +88,21 @@
 			...options,
 			dataZoom: [
 				{
-				type: 'inside',
-				start: percentYearsGTE2000,
-				end: 100
-			},
-			{
-				type: 'slider',
-				start: percentYearsGTE2000,
-				end: 100
-			}
+					id: 'dataZoomInside',
+					type: 'inside',
+					start: chartRange[0],
+					end: chartRange[1]
+				},
+				{
+					id: 'dataZoomSlider',
+					type: 'slider',
+					start: chartRange[0],
+					end: chartRange[1]
+				}
 			],
 			xAxis: {
 				...options.xAxis,
-				data: years
+				data: chartYears
 			}
 		};
 	}
@@ -112,10 +121,10 @@
 				emphasis: {
 					focus: 'series'
 				},
-				data: years.map((year) => count[year] ?? 0)
+				data: chartYears.map((year) => count[year] ?? 0)
 			}))
 		};
 	}
 </script>
 
-<div class="h-[420px] py-12" use:chart={{options}} />
+<div class="h-[420px] py-12" use:chart={{ options, events }} />

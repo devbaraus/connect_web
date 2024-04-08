@@ -17,8 +17,6 @@ export function chart(node: HTMLDivElement, params: ChartParams) {
 		Object.entries(params.events).map(([event, fn]) => chart.on(event, fn))
 	}
 
-
-
 	return {
 		destroy() {
 			chart.dispose();
