@@ -1,11 +1,8 @@
 <script lang="ts">
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
-	import ProducoesFilters from '$lib/components/filters/ProducoesFilters.svelte';
+	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import ProducaoBibliograficaChart from '$lib/components/charts/producao-bibliografica-chart.svelte';
-	import * as Select from '$lib/components/ui/select';
-	import type { Selected } from 'bits-ui';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -44,12 +41,6 @@
 			goto(url.toString());
 		}, 500);
 	}
-
-	function gotoOption(option: Selected<string>, paramName: string) {
-		const url = new URL(location.href);
-		url.searchParams.set(paramName, option.value);
-		goto(url.toString());
-	}
 </script>
 
 <div class="space-y-4">
@@ -57,15 +48,10 @@
 </div>
 <ProducaoBibliograficaChart
 	data={data.chart}
-	defaultYears={chartYears}
-	defaultRange={chartRange}
-	events={{
-		datazoom: onDataZoom
-	}}
-/>
 
+/>
 <hr />
-{#await data.producoes}
+<!-- {#await data.producoes}
 	<p>Carregando...</p>
 {:then producoes}
 	<ul>
@@ -75,4 +61,4 @@
 	</ul>
 {:catch}
 	<p>Erro ao carregar</p>
-{/await}
+{/await} -->

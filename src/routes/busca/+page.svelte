@@ -7,7 +7,7 @@
 	import { writable } from 'svelte/store';
 	import type { Researcher } from '$lib/types';
 	import DataTable from '$lib/components/ui/data-table.svelte';
-	import PesquisadorDataTableAction from '$lib/components/pesquisadores/pesquisador-data-table-action.svelte';
+	import PesquisadorDataTableAction from '$lib/components/pesquisadores/PesquisadorDataTableAction.svelte';
 
 	let searchQuery = '';
 	let timeout: NodeJS.Timeout;

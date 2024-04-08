@@ -3,8 +3,8 @@
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 
 	import '../app.pcss';
-	import Header from '$lib/components/layout/header.svelte';
-	import Footer from '$lib/components/layout/footer.svelte';
+	import Header from '$lib/components/layout/Header.svelte';
+	import Footer from '$lib/components/layout/Footer.svelte';
 
 	const queryClient = new QueryClient({
 		defaultOptions: {
