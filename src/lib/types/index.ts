@@ -20,12 +20,12 @@ export type ProducoesData = {
 
 export type FormacaoStatsData =   {
 	id: number,
-	nome_instituicao: string,
-	nome_curso: string,
+	instituicao: number,
+	curso: number,
 	ano_inicio: string,
 	ano_conclusao: string,
-	status_curso: string
-	tipo_formacao: string
+	status: string
+	tipo: string
 }
 
 export type Researcher = {

@@ -2,9 +2,16 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+import { goto } from "$app/navigation";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
+}
+
+export function addSearchParam(key: string, value: string) {
+    const url = new URL(location.href);
+    url.searchParams.set(key, value);
+    goto(url.toString());
 }
 
 type FlyAndScaleParams = {

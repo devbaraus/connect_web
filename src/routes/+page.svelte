@@ -1,10 +1,13 @@
 <script lang="ts">
+	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
+	import ProducoesFilters from '$lib/components/filters/ProducoesFilters.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ProducaoBibliograficaChart from '$lib/components/charts/producao-bibliografica-chart.svelte';
 	import * as Select from '$lib/components/ui/select';
 	import type { Selected } from 'bits-ui';
 	import type { PageData } from './$types';
+
 	export let data: PageData;
 
 	let timeout: NodeJS.Timeout;
@@ -50,62 +53,7 @@
 </script>
 
 <div class="space-y-4">
-	<Select.Root onSelectedChange={(v) => gotoOption(v, 'campus')}>
-		<Select.Trigger>
-			<Select.Value placeholder="Câmpus" />
-		</Select.Trigger>
-		<Select.Content>
-			{#await data.campus}
-				<Select.Item value="">Carregando...</Select.Item>
-			{:then campuses}
-				<Select.Item value="">TODOS</Select.Item>
-
-				{#each campuses as campus}
-					<Select.Item value={campus}>{campus.toUpperCase()}</Select.Item>
-				{/each}
-			{:catch error}
-				<Select.Item value="">Erro ao carregar</Select.Item>
-			{/await}
-		</Select.Content>
-	</Select.Root>
-	<Select.Root onSelectedChange={(v) => gotoOption(v, 'grande_area')}>
-		<Select.Trigger>
-			<Select.Value placeholder="Grande Área do Conhecimento" />
-		</Select.Trigger>
-		<Select.Content>
-			{#await data.grandesAreas}
-				<Select.Item value="">Carregando...</Select.Item>
-			{:then grandesAreas}
-				<Select.Item value="">TODAS</Select.Item>
-
-				{#each grandesAreas as grandeArea}
-					<Select.Item value={grandeArea} class="capitalize"
-						>{grandeArea.replaceAll('_', ' ').toUpperCase()}</Select.Item
-					>
-				{/each}
-			{:catch}
-				<Select.Item value="">Erro ao carregar</Select.Item>
-			{/await}
-		</Select.Content>
-	</Select.Root>
-	<Select.Root onSelectedChange={(v) => gotoOption(v, 'area')}>
-		<Select.Trigger>
-			<Select.Value placeholder="Área do Conhecimento" />
-		</Select.Trigger>
-		<Select.Content>
-			{#await data.areas}
-				<Select.Item value="">Carregando...</Select.Item>
-			{:then areas}
-				<Select.Item value="">TODAS</Select.Item>
-
-				{#each areas as area}
-					<Select.Item value={area} class="capitalize">{area}</Select.Item>
-				{/each}
-			{:catch}
-				<Select.Item value="">Erro ao carregar</Select.Item>
-			{/await}
-		</Select.Content>
-	</Select.Root>
+	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
 <ProducaoBibliograficaChart
 	data={data.chart}

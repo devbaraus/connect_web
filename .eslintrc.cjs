@@ -5,8 +5,8 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:svelte/recommended',
-		'prettier',
-		'plugin:drizzle/recommended'
+		'plugin:prettier/recommended',
+		'plugin:tailwindcss/recommended'
 	],
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
