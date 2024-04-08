@@ -1,5 +1,5 @@
 import { PUBLIC_API_URL } from '$env/static/public';
-import type { PaginatedResponse, ProducoesChartData } from '$lib/types';
+import type { PaginatedResponse, ProducoesChartData, ProducoesData } from '$lib/types';
 
 export const ProducoesService = {
 	grandeAreas: async (filters?: {
@@ -34,7 +34,7 @@ export const ProducoesService = {
 			anoLte?: number | null;
 			anoGte?: number | null;
 			page?: number;
-			perPage?: number;
+			pageSize?: number;
 		}
 	) => {
 		const url = new URL(`v1/producoes`, PUBLIC_API_URL);
@@ -42,13 +42,13 @@ export const ProducoesService = {
 		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 		if (filters.area) url.searchParams.append('area', filters.area);
 		if (filters.page) url.searchParams.append('page', filters.page.toString());
-		if (filters.perPage) url.searchParams.append('per_page', filters.perPage.toString());
+		if (filters.pageSize) url.searchParams.append('page_size', filters.pageSize.toString());
 		if (filters.tipos) url.searchParams.append('tipos', filters.tipos.join(','));
 		if (filters.anoLte) url.searchParams.append('ano_lte', filters.anoLte.toString());
 		if (filters.anoGte) url.searchParams.append('ano_gte', filters.anoGte.toString());
 
 		const response = await fetch(url.toString());
-		return (await response.json()) as PaginatedResponse<ProducoesChartData>;
+		return (await response.json()) as PaginatedResponse<ProducoesData>;
 	},
 	chart: async (
 		filters: {

@@ -1,19 +1,13 @@
 <script lang="ts">
 	import { type ChartOptions, chart } from '$lib/actions/chart';
-	import type { ProducoesChartData } from '$lib/types';
+	import { TipoProducaoPlural, type ProducoesChartData } from '$lib/types';
 
 	export let data: ProducoesChartData[];
 	export let events: Record<string, (params: any) => void> = {};
 	export let defaultYears: string[] | undefined = undefined;
 	export let defaultRange: [number, number] | undefined = undefined;
 
-	const TipoProducao = {
-		ARTIGO: 'Artigos',
-		TRABALHO_EVENTO: 'Trabalhos em Eventos',
-		RESUMO: 'Resumos',
-		LIVRO: 'Livros',
-		CAPITULO_LIVRO: 'Capítulos de Livros'
-	};
+
 
 	$: chartYears = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
 
@@ -112,7 +106,7 @@
 			...options,
 			series: Object.entries(groups).map(([tipo, count]) => ({
 				id: tipo,
-				name: TipoProducao[tipo as keyof typeof TipoProducao],
+				name: TipoProducaoPlural[tipo as keyof typeof TipoProducaoPlural],
 				type: 'bar',
 				stack: 'total',
 				label: {

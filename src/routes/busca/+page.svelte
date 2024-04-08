@@ -24,7 +24,7 @@
 		{
 			accessorKey: 'actions',
 			header: () => 'Ações',
-			cell: ({ row }) => flexRender(PesquisadorDataTableAction, { id: row.getValue('siape') })
+			cell: ({ row }) => flexRender(PesquisadorDataTableAction, { siape: row.getValue('siape') })
 		}
 	];
 

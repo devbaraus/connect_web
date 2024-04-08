@@ -13,12 +13,12 @@ export const PesquisadoresService = {
 	list: async ({
 		query,
 		page,
-		perPage
+		perPage: pageSize
 	}: SearchResearchers): Promise<PaginatedResponse<Researcher>> => {
 		const url = new URL('v1/pesquisadores', PUBLIC_API_URL);
 		url.searchParams.append('query', query ?? '');
 		url.searchParams.append('page', (page ?? 0).toString());
-		url.searchParams.append('per_page', (perPage ?? 10).toString());
+		url.searchParams.append('page_size', (pageSize ?? 10).toString());
 
 		const response = await fetch(url.toString());
 		return await response.json();

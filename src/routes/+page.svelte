@@ -4,6 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
+	import ProducaoBibliograficaList from '$lib/components/list/ProducaoBibliograficaList.svelte';
+	import * as Collapsible from '$lib/components/ui/collapsible';
 
 	export let data: PageData;
 
@@ -23,7 +25,9 @@
 		(chartYears.filter((year) => +year <= +anoLte).length / chartYears.length) * 100
 	] as [number, number];
 
-	function onDataZoom(params: { batch: {start: number, end:number}[] } | {start: number, end: number}) {
+	function onDataZoom(
+		params: { batch: { start: number; end: number }[] } | { start: number; end: number }
+	) {
 		clearTimeout(timeout);
 
 		timeout = setTimeout(() => {
@@ -32,8 +36,7 @@
 
 			const startYear =
 				chartYears[Math.round((start / 100) * chartYears.length)] ?? chartYears.at(0);
-			const endYear =
-				chartYears[Math.round((end / 100) * chartYears.length)] ?? chartYears.at(-1);
+			const endYear = chartYears[Math.round((end / 100) * chartYears.length)] ?? chartYears.at(-1);
 
 			const url = new URL(location.href);
 			url.searchParams.set('ano_gte', startYear);
@@ -48,17 +51,14 @@
 </div>
 <ProducaoBibliograficaChart
 	data={data.chart}
-
+	events={{ dataZoom: onDataZoom }}
+	defaultYears={chartYears}
+	defaultRange={chartRange}
 />
 <hr />
-<!-- {#await data.producoes}
-	<p>Carregando...</p>
-{:then producoes}
-	<ul>
-		{#each producoes.results as producao (producao.id)}
-			<li>{producao.titulo}</li>
-		{/each}
-	</ul>
-{:catch}
-	<p>Erro ao carregar</p>
-{/await} -->
+<Collapsible.Root>
+	<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>
+	<Collapsible.Content>
+		<ProducaoBibliograficaList />
+	</Collapsible.Content>
+</Collapsible.Root>
