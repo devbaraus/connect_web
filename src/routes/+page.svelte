@@ -22,7 +22,7 @@
 			<Select.Value placeholder="Câmpus" />
 		</Select.Trigger>
 		<Select.Content>
-			<ScrollArea>
+			<ScrollArea class="h-72">
 				<Select.Item value="">TODOS</Select.Item>
 				{#each data.campus as campus}
 					<Select.Item value={campus}>{campus.toUpperCase()}</Select.Item>
