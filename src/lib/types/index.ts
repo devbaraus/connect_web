@@ -25,8 +25,14 @@ export type ProducoesData = {
 
 export type FormacaoStatsData =   {
 	id: number,
-	instituicao: number,
-	curso: number,
+	instituicao: {
+		nome: string,
+		codigo: string
+	},
+	curso: {
+		nome: string,
+		codigo: string
+	},
 	ano_inicio: string,
 	ano_conclusao: string,
 	status: string

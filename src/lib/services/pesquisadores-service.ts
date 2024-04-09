@@ -7,6 +7,14 @@ type SearchResearchers = {
 	perPage?: number;
 };
 
+type PesquisadorAreasConhecimento = {
+	grandes_areas: string[];
+	areas: string[];
+	subareas: string[];
+	especialidades: string[];
+
+}
+
 
 
 export const PesquisadoresService = {
@@ -33,8 +41,18 @@ export const PesquisadoresService = {
 		const response = await fetch(url.toString());
 		return await response.json();
 	},
-	formacaoStats: async (siape: string): Promise<FormacaoStatsData[]> => {
+	formacoes: async (siape: string): Promise<FormacaoStatsData[]> => {
 		const url = new URL(`v1/pesquisadores/${siape}/formacoes`, PUBLIC_API_URL);
+		const response = await fetch(url.toString());
+		return await response.json();
+	},
+	areasConhecimento: async (siape: string): Promise<PesquisadorAreasConhecimento> => {
+		const url = new URL(`v1/pesquisadores/${siape}/areas_conhecimento`, PUBLIC_API_URL);
+		const response = await fetch(url.toString());
+		return await response.json();
+	},
+	palavrasChave: async (siape: string): Promise<string[]> => {
+		const url = new URL(`v1/pesquisadores/${siape}/palavras_chave`, PUBLIC_API_URL);
 		const response = await fetch(url.toString());
 		return await response.json();
 	}
