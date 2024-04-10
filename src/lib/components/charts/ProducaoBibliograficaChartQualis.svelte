@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { chart, type ChartOptions } from '$lib/actions/chart';
-	import { TipoProducaoPlural, type ProducoesChartData } from '$lib/types';
+	import { Qualis, type ProducoesChartData } from '$lib/types';
 
 	export let data: ProducoesChartData[];
 	export let events: Record<string, (params: any) => void> = {};
 	export let defaultYears: string[] | undefined = undefined;
 	export let defaultRange: [number, number] | undefined = undefined;
+
 
 	$: chartYears = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
 
@@ -16,7 +17,7 @@
 
 	$: groups = data?.reduce(
 		(acc, d) => {
-			const tipo = d.tipo!;
+			const tipo = d.qualis!;
 
 			if (!acc[tipo]) {
 				acc[tipo] = {};
@@ -104,7 +105,7 @@
 			...options,
 			series: Object.entries(groups).map(([tipo, count]) => ({
 				id: tipo,
-				name: TipoProducaoPlural[tipo as never],
+				name: Qualis[tipo as never],
 				type: 'bar',
 				stack: 'total',
 				label: {
