@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
+	import ProducaoBibliograficaChartQualis from '$lib/components/charts/ProducaoBibliograficaChartQualis.svelte';
 	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -10,10 +11,12 @@
 	export let data: PageData;
 
 	let timeout: NodeJS.Timeout;
+	let isQualis = false;
 	let anoGte = '2000';
 	let anoLte = new Date().getFullYear().toString();
 
 	$: {
+		isQualis = $page.url.searchParams.get('qualis') === 'true';
 		anoGte = $page.url.searchParams.get('ano_gte') ?? anoGte;
 		anoLte = $page.url.searchParams.get('ano_lte') ?? anoLte;
 	}
@@ -49,12 +52,21 @@
 <div class="space-y-4">
 	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
-<ProducaoBibliograficaChart
-	data={data.chart}
-	events={{ dataZoom: onDataZoom }}
-	defaultYears={chartYears}
-	defaultRange={chartRange}
-/>
+{#if isQualis}
+	<ProducaoBibliograficaChartQualis
+		data={data.chart}
+		events={{ dataZoom: onDataZoom }}
+		defaultYears={chartYears}
+		defaultRange={chartRange}
+	/>
+{:else}
+	<ProducaoBibliograficaChart
+		data={data.chart}
+		events={{ dataZoom: onDataZoom }}
+		defaultYears={chartYears}
+		defaultRange={chartRange}
+	/>
+{/if}
 <hr />
 <Collapsible.Root>
 	<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>

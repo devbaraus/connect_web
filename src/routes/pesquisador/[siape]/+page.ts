@@ -6,7 +6,9 @@ export const load: PageLoad = async ({ params}) => {
 
 	return {
 		producoes: await PesquisadoresService.producoesChart(siape),
-		formacao: await PesquisadoresService.formacaoStats(siape),
-		pesquisador: await PesquisadoresService.get(siape)
+		palavrasChave: await PesquisadoresService.palavrasChave(siape),
+		formacoes: PesquisadoresService.formacoes(siape),
+		pesquisador: PesquisadoresService.get(siape),
+		areasConhecimento: PesquisadoresService.areasConhecimento(siape)
 	};
 };

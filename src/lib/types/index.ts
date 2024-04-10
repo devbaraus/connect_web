@@ -1,6 +1,7 @@
 export type ProducoesChartData = {
 	ano: string;
-	tipo: string;
+	tipo?: string;
+	qualis?: string;
 	total: number;
 };
 
@@ -25,12 +26,29 @@ export type ProducoesData = {
 
 export type FormacaoStatsData =   {
 	id: number,
-	instituicao: number,
-	curso: number,
+	instituicao: {
+		nome: string,
+		codigo: string
+	},
+	curso: {
+		nome: string,
+		codigo: string
+	},
 	ano_inicio: string,
 	ano_conclusao: string,
 	status: string
 	tipo: string
+}
+
+export const Qualis = {
+	"A1": "A1",
+	"A2": "A2",
+	"B1": "B1",
+	"B2": "B2",
+	"B3": "B3",
+	"B4": "B4",
+	"B5": "B5",
+	null: "Não classificado"
 }
 
 export const TipoProducaoPlural = {

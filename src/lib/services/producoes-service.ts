@@ -56,9 +56,10 @@ export const ProducoesService = {
 			grandeArea?: string | null;
 			area?: string | null;
 			siape?: string | null;
+			qualis?: string | null;
 		}
 	) => {
-		const url = new URL(`v1/producoes/stats`, PUBLIC_API_URL);
+		const url = new URL(`v1/producoes/stats${filters.qualis === 'true' ? '/qualis' : ''}`, PUBLIC_API_URL);
 		if (filters.campus) url.searchParams.append('campus', filters.campus);
 		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 		if (filters.area) url.searchParams.append('area', filters.area);

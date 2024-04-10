@@ -11,7 +11,8 @@ export type ChartParams = {
 
 export function chart(node: HTMLDivElement, params: ChartParams) {
 	const chart = echarts.init(node);
-	chart.setOption(params.options);
+	chart.setOption(params.options);			
+
 
 	if(params.events) {
 		Object.entries(params.events).map(([event, fn]) => chart.on(event, fn))

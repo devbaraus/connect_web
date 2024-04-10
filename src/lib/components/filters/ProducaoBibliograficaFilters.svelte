@@ -8,11 +8,11 @@
 	export let grandesAreas: Promise<string[]>;
 	export let areas: Promise<string[]>;
 
-	function gotoOption(paramName: string, option: Selected<string>) {
-		addSearchParam( paramName, option.value);
+	function gotoOption(paramName: string, option: Selected<string> | string) {
+		addSearchParam( paramName, typeof option === 'string' ? option : option.value);
 	}
 </script>
-
+<input type="checkbox" on:change={e => gotoOption('qualis', String(e.currentTarget.checked))}>
 <Select.Root onSelectedChange={(v) => gotoOption('campus', v)}>
 	<Select.Trigger>
 		<Select.Value placeholder="Câmpus" />

@@ -5,6 +5,7 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 	const campus = searchParams.get('campus');
 	const grandeArea = searchParams.get('grande_area');
 	const area = searchParams.get('area');
+	const qualis = searchParams.get('qualis');
 	// const anoLte = searchParams.get('ano_lte') ?? new Date().getFullYear().toString();
 	// const anoGte = searchParams.get('ano_gte') ?? '2000'
 
@@ -29,7 +30,8 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 		chart: await ProducoesService.chart({
 			campus,
 			grandeArea,
-			area
+			area, 
+			qualis
 		})
 	};
 };
