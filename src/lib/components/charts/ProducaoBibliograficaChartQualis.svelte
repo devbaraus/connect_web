@@ -7,6 +7,7 @@
 	export let defaultYears: string[] | undefined = undefined;
 	export let defaultRange: [number, number] | undefined = undefined;
 
+	const groupsOrder = Object.keys(Qualis);
 
 	$: chartYears = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
 
@@ -31,7 +32,7 @@
 				[year: string]: number;
 			}
 		>
-	);
+	)
 
 	let options: ChartOptions = {
 		tooltip: {
@@ -103,7 +104,9 @@
 	$: {
 		options = {
 			...options,
-			series: Object.entries(groups).map(([tipo, count]) => ({
+			series: Object.entries(groups)
+			.sort(([a], [b]) => groupsOrder.indexOf(a) - groupsOrder.indexOf(b))
+			.map(([tipo, count]) => ({
 				id: tipo,
 				name: Qualis[tipo as never],
 				type: 'bar',

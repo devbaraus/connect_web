@@ -41,6 +41,7 @@ export type FormacaoStatsData =   {
 }
 
 export const Qualis = {
+	null: "NC",
 	"A1": "A1",
 	"A2": "A2",
 	"B1": "B1",
@@ -48,7 +49,7 @@ export const Qualis = {
 	"B3": "B3",
 	"B4": "B4",
 	"B5": "B5",
-	null: "Não classificado"
+	"C": "C",
 }
 
 export const TipoProducaoPlural = {
