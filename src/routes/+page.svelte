@@ -1,26 +1,21 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
 	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import type { PageData } from './$types';
-	import ProducaoBibliograficaList from '$lib/components/list/ProducaoBibliograficaList.svelte';
-	import * as Collapsible from '$lib/components/ui/collapsible';
 
 	export let data: PageData;
 
-	let timeout: NodeJS.Timeout;
 	let kind = $page.url.searchParams.get('kind') || 'tipo';
-	let displayBy = $page.url.searchParams.get('display_by') || 'data'
+	let displayBy = $page.url.searchParams.get('display_by') || 'data';
 	let anoGte = '2000';
 	let anoLte = new Date().getFullYear().toString();
 
 	$: {
 		kind = $page.url.searchParams.get('kind') || 'tipo';
-		displayBy = $page.url.searchParams.get('display_by') || 'data'
+		displayBy = $page.url.searchParams.get('display_by') || 'data';
 		anoGte = $page.url.searchParams.get('ano_gte') ?? anoGte;
 		anoLte = $page.url.searchParams.get('ano_lte') ?? anoLte;
-
 	}
 
 	// $: chartYears = Array.from(new Set(data.chart?.map((d) => d.ano)));
@@ -54,15 +49,18 @@
 <div class="space-y-4">
 	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
-<ProducaoBibliograficaChart
-	data={data.chart}
-	kind={kind}
-	displayBy={displayBy}
-/>
-<hr />
-<Collapsible.Root>
-	<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>
-	<Collapsible.Content>
-		<ProducaoBibliograficaList />
-	</Collapsible.Content>
-</Collapsible.Root>
+
+<div class="h-[420px]">
+	{#await data.chart}
+		<div class="flex h-full w-full items-center justify-center"/>
+	{:then chart}
+		<ProducaoBibliograficaChart data={chart} {kind} {displayBy} />
+		<!-- <hr />
+	<Collapsible.Root>
+		<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>
+		<Collapsible.Content>
+			<ProducaoBibliograficaList />
+		</Collapsible.Content>
+	</Collapsible.Root> -->
+	{/await}
+</div>

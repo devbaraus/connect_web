@@ -65,8 +65,8 @@ export const ProducoesService = {
 		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 		if (filters.area) url.searchParams.append('area', filters.area);
 		if (filters.siape) url.searchParams.append('siape', filters.siape);
-		if (filters.kind) url.searchParams.append('kind', filters.kind);
-		if (filters.display_by) url.searchParams.append('display_by', filters.display_by);
+		url.searchParams.append('kind', filters.kind ?? 'tipo');
+		url.searchParams.append('display_by', filters.display_by ?? 'data');
 
 		const response = await fetch(url.toString());
 		return (await response.json()) as ProducoesChartData[];

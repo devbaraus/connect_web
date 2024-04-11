@@ -28,7 +28,7 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 		// 	page: 1,
 		// 	perPage: 10
 		// }),
-		chart: await ProducoesService.chart({
+		chart: ProducoesService.chart({
 			campus,
 			grandeArea,
 			area, 
