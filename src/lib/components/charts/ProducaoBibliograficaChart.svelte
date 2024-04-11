@@ -105,8 +105,8 @@
 			],
 			xAxis: {
 				type: 'category',
-				data: chartXAxis,
-				nameLocation: 'middle'
+				data: chartXAxis.map(v => v.replaceAll('_', ' ').toLocaleUpperCase()),
+				nameLocation: 'middle',
 			},
 			series: Object.entries(groups)
 				.sort(([a], [b]) => groupsOrder.indexOf(a) - groupsOrder.indexOf(b))
