@@ -5,7 +5,8 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 	const campus = searchParams.get('campus');
 	const grandeArea = searchParams.get('grande_area');
 	const area = searchParams.get('area');
-	const qualis = searchParams.get('qualis');
+	const kind = searchParams.get('kind');
+	const display_by = searchParams.get('display_by')
 	// const anoLte = searchParams.get('ano_lte') ?? new Date().getFullYear().toString();
 	// const anoGte = searchParams.get('ano_gte') ?? '2000'
 
@@ -31,7 +32,8 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 			campus,
 			grandeArea,
 			area, 
-			qualis
+			kind,
+			display_by
 		})
 	};
 };

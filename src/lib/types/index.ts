@@ -1,7 +1,8 @@
 export type ProducoesChartData = {
-	ano: string;
+	ano?: string;
 	tipo?: string;
 	qualis?: string;
+	grande_area?: string;
 	total: number;
 };
 

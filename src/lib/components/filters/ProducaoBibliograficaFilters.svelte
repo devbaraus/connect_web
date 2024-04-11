@@ -1,19 +1,72 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
+	import { Label } from '$lib/components/ui/label';
 	import { addSearchParam } from '$lib/utils';
 	import type { Selected } from 'bits-ui';
+	import { page } from '$app/stores';
 
 	export let campuses: Promise<string[]>;
 	export let grandesAreas: Promise<string[]>;
 	export let areas: Promise<string[]>;
 
+	const defaultCampus = $page.url.searchParams.get('campus') ? {
+		label: $page.url.searchParams.get('campus')!.toUpperCase(),
+		value: $page.url.searchParams.get('campus')!
+	} : {label: 'TODOS', value: ''};
+
+	const defaultGrandeArea = $page.url.searchParams.get('grande_area') ? 
+	{
+		label: $page.url.searchParams.get('grande_area')!.replaceAll('_', ' ').toUpperCase(),
+		value: $page.url.searchParams.get('grande_area')!
+	} : {label: 'TODAS', value: ''};
+
+	const defaultArea = $page.url.searchParams.get('area') ? 
+	{
+		label: $page.url.searchParams.get('area')!.toUpperCase(),
+		value: $page.url.searchParams.get('area')!
+	} : {label: 'TODAS', value: ''};
+
+	const defaultKind = $page.url.searchParams.get('kind') || 'tipo';
+	const defaultDisplayBy = $page.url.searchParams.get('display_by') || 'data';
+
 	function gotoOption(paramName: string, option: Selected<string> | string) {
-		addSearchParam( paramName, typeof option === 'string' ? option : option.value);
+		addSearchParam(paramName, typeof option === 'string' ? option : option.value);
 	}
 </script>
-<input type="checkbox" on:change={e => gotoOption('qualis', String(e.currentTarget.checked))}>
-<Select.Root onSelectedChange={(v) => gotoOption('campus', v)}>
+
+<RadioGroup.Root
+	value={defaultKind}
+	onValueChange={(v) => gotoOption('kind', v)}
+>
+	<div class="flex items-center space-x-2">
+		<RadioGroup.Item value="tipo" id="kind_tipo" />
+		<Label for="kind_tipo">Tipo de Produção</Label>
+	</div>
+	<div class="flex items-center space-x-2">
+		<RadioGroup.Item value="qualis" id="kind_qualis" />
+		<Label for="kind_qualis">Qualis</Label>
+	</div>
+	<RadioGroup.Input name="spacing" />
+</RadioGroup.Root>
+
+<RadioGroup.Root
+	value={defaultDisplayBy}
+	onValueChange={(v) => gotoOption('display_by', v)}
+>
+	<div class="flex items-center space-x-2">
+		<RadioGroup.Item value="data" id="display_data" />
+		<Label for="display_data">Data</Label>
+	</div>
+	<div class="flex items-center space-x-2">
+		<RadioGroup.Item value="categoria" id="display_categoria" />
+		<Label for="display_categoria">Categoria</Label>
+	</div>
+	<RadioGroup.Input name="spacing" />
+</RadioGroup.Root>
+
+<Select.Root selected={defaultCampus} onSelectedChange={(v) => gotoOption('campus', v)}>
 	<Select.Trigger>
 		<Select.Value placeholder="Câmpus" />
 	</Select.Trigger>
@@ -32,7 +85,7 @@
 		</ScrollArea>
 	</Select.Content>
 </Select.Root>
-<Select.Root onSelectedChange={(v) => gotoOption('grande_area', v)}>
+<Select.Root selected={defaultGrandeArea} onSelectedChange={(v) => gotoOption('grande_area', v)}>
 	<Select.Trigger>
 		<Select.Value placeholder="Grande Área do Conhecimento" />
 	</Select.Trigger>
@@ -55,7 +108,7 @@
 		</ScrollArea>
 	</Select.Content>
 </Select.Root>
-<Select.Root onSelectedChange={(v) => gotoOption('area', v)}>
+<Select.Root selected={defaultArea} onSelectedChange={(v) => gotoOption('area', v)}>
 	<Select.Trigger>
 		<Select.Value placeholder="Área do Conhecimento" />
 	</Select.Trigger>

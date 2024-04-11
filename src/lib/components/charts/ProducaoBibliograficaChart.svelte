@@ -1,27 +1,26 @@
 <script lang="ts">
 	import { chart, type ChartOptions } from '$lib/actions/chart';
-	import { TipoProducaoPlural, type ProducoesChartData } from '$lib/types';
+	import { TipoProducaoPlural, type ProducoesChartData, Qualis } from '$lib/types';
 
 	export let data: ProducoesChartData[];
+	export let kind: 'tipo' | 'qualis' = 'tipo';
+	export let displayBy: 'data' | 'categoria' = 'data';
 	export let events: Record<string, (params: any) => void> = {};
-	export let defaultYears: string[] | undefined = undefined;
-	export let defaultRange: [number, number] | undefined = undefined;
+	export let defaultXAxis: string[] | undefined = undefined;
+	export let defaultXRange: [number, number] | undefined = undefined;
 
-	$: chartYears = defaultYears ?? Array.from(new Set(data?.map((d) => d.ano)));
-
-	$: chartRange = defaultRange ?? [
-		100 - (chartYears.filter((year) => +year >= 2000).length / chartYears.length) * 100,
-		100
-	];
+	const groupsObj = kind === 'tipo' ? TipoProducaoPlural : Qualis;
+	const groupsOrder = Object.keys(groupsObj);
 
 	$: groups = data?.reduce(
 		(acc, d) => {
-			const tipo = d.tipo!;
+			const kindKey = kind === 'tipo' ? d.tipo! : d.qualis!;
+			const displayKey = displayBy === 'data' ? d.ano! : d.grande_area!;
 
-			if (!acc[tipo]) {
-				acc[tipo] = {};
+			if (!acc[kindKey]) {
+				acc[kindKey] = {};
 			}
-			acc[tipo][d.ano] = d.total;
+			acc[kindKey][displayKey] = d.total;
 			return acc;
 		},
 		{} as Record<
@@ -31,6 +30,13 @@
 			}
 		>
 	);
+
+	$: chartXAxis = defaultXAxis ?? Array.from(new Set(Object.values(groups).flatMap(Object.keys)));
+
+	$: chartXRange =
+		defaultXRange ?? displayBy == 'data'
+			? [100 - (chartXAxis.filter((year) => +year >= 2000).length / chartXAxis.length) * 100, 100]
+			: [0, 100];
 
 	let options: ChartOptions = {
 		tooltip: {
@@ -69,7 +75,7 @@
 		},
 		xAxis: {
 			type: 'category',
-			data: chartYears,
+			data: chartXAxis,
 			nameLocation: 'middle'
 		},
 		series: []
@@ -82,39 +88,36 @@
 				{
 					id: 'dataZoomInside',
 					type: 'inside',
-					start: chartRange[0],
-					end: chartRange[1]
+					start: chartXRange[0],
+					end: chartXRange[1]
 				},
 				{
 					id: 'dataZoomSlider',
 					type: 'slider',
-					start: chartRange[0],
-					end: chartRange[1]
+					start: chartXRange[0],
+					end: chartXRange[1]
 				}
 			],
 			xAxis: {
-				...options.xAxis,
-				data: chartYears
-			}
-		};
-	}
-
-	$: {
-		options = {
-			...options,
-			series: Object.entries(groups).map(([tipo, count]) => ({
-				id: tipo,
-				name: TipoProducaoPlural[tipo as never],
-				type: 'bar',
-				stack: 'total',
-				label: {
-					show: false
-				},
-				emphasis: {
-					focus: 'series'
-				},
-				data: chartYears.map((year) => count[year] ?? 0)
-			}))
+				type: 'category',
+				data: chartXAxis,
+				nameLocation: 'middle'
+			},
+			series: Object.entries(groups)
+				.sort(([a], [b]) => groupsOrder.indexOf(a) - groupsOrder.indexOf(b))
+				.map(([kind, display]) => ({
+					id: kind,
+					name: groupsObj[kind as never],
+					type: 'bar',
+					stack: 'total',
+					label: {
+						show: false
+					},
+					emphasis: {
+						focus: 'series'
+					},
+					data: chartXAxis.map((value) => display[value] ?? 0)
+				}))
 		};
 	}
 </script>
