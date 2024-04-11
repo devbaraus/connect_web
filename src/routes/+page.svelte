@@ -17,8 +17,8 @@
 	let kind = $page.url.searchParams.get('kind') || 'tipo';
 	let displayBy = $page.url.searchParams.get('display_by') || 'data';
 
-	const chartQuery = createQuery({
-		queryKey: ['producoes-chart'],
+	$: chartQuery = createQuery({
+		queryKey: ['producoes-chart', {campus, grandeArea, area, kind, displayBy}],
 		queryFn: async ({ signal }) =>
 			ProducoesService.chart(
 				{
@@ -38,9 +38,6 @@
 		campus = $page.url.searchParams.get('campus') || '';
 		grandeArea = $page.url.searchParams.get('grande_area') || '';
 		area = $page.url.searchParams.get('area') || '';
-
-		$chartQuery.refetch();
-
 		// anoGte = $page.url.searchParams.get('ano_gte') ?? anoGte;
 		// anoLte = $page.url.searchParams.get('ano_lte') ?? anoLte;
 	}
@@ -77,10 +74,8 @@
 	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
 
-{$chartQuery.status}
-
 <div class="h-[420px]">
-	{#if $chartQuery.isLoading}
+	{#if $chartQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
 			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
 		</div>
