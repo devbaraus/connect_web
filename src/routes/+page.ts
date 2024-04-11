@@ -11,14 +11,9 @@ export const load: PageLoad = async ({ url: { searchParams } }) => {
 	// const anoGte = searchParams.get('ano_gte') ?? '2000'
 
 	return {
-		grandesAreas: ProducoesService.grandeAreas({
-			campus
-		}),
-		areas: ProducoesService.area({
-			campus,
-			grandeArea
-		}),
-		campus: ProducoesService.campus(),
+		// grandesAreas: ProducoesService.grandeAreas(),
+		// areas: ProducoesService.area(),
+		// campus: ProducoesService.campus(),
 		// producoes: ProducoesService.list({
 		// 	campus,
 		// 	grandeArea,
