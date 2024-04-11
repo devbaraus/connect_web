@@ -2,20 +2,47 @@
 	import { page } from '$app/stores';
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
 	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
+	import type { ProducoesChartData } from '$lib/types';
+	import { createQuery } from '@tanstack/svelte-query';
 	import type { PageData } from './$types';
+	import { ProducoesService } from '$lib/services/producoes-service';
 
 	export let data: PageData;
 
+	// let anoGte = '2000';
+	// let anoLte = new Date().getFullYear().toString();
+	let campus = $page.url.searchParams.get('campus') || '';
+	let grandeArea = $page.url.searchParams.get('grande_area') || '';
+	let area = $page.url.searchParams.get('area') || '';
 	let kind = $page.url.searchParams.get('kind') || 'tipo';
 	let displayBy = $page.url.searchParams.get('display_by') || 'data';
-	let anoGte = '2000';
-	let anoLte = new Date().getFullYear().toString();
+
+	const chartQuery = createQuery({
+		queryKey: ['producoes-chart'],
+		queryFn: async ({ signal }) =>
+			ProducoesService.chart(
+				{
+					campus,
+					grandeArea,
+					area,
+					kind,
+					displayBy
+				},
+				{ signal }
+			)
+	});
 
 	$: {
 		kind = $page.url.searchParams.get('kind') || 'tipo';
 		displayBy = $page.url.searchParams.get('display_by') || 'data';
-		anoGte = $page.url.searchParams.get('ano_gte') ?? anoGte;
-		anoLte = $page.url.searchParams.get('ano_lte') ?? anoLte;
+		campus = $page.url.searchParams.get('campus') || '';
+		grandeArea = $page.url.searchParams.get('grande_area') || '';
+		area = $page.url.searchParams.get('area') || '';
+
+		$chartQuery.refetch();
+
+		// anoGte = $page.url.searchParams.get('ano_gte') ?? anoGte;
+		// anoLte = $page.url.searchParams.get('ano_lte') ?? anoLte;
 	}
 
 	// $: chartYears = Array.from(new Set(data.chart?.map((d) => d.ano)));
@@ -50,11 +77,15 @@
 	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
 
+{$chartQuery.status}
+
 <div class="h-[420px]">
-	{#await data.chart}
-		<div class="flex h-full w-full items-center justify-center"/>
-	{:then chart}
-		<ProducaoBibliograficaChart data={chart} {kind} {displayBy} />
+	{#if $chartQuery.isLoading}
+		<div class="flex h-full w-full items-center justify-center">
+			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+		</div>
+	{:else if $chartQuery.data}
+		<ProducaoBibliograficaChart data={$chartQuery.data} {kind} {displayBy} />
 		<!-- <hr />
 	<Collapsible.Root>
 		<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>
@@ -62,5 +93,5 @@
 			<ProducaoBibliograficaList />
 		</Collapsible.Content>
 	</Collapsible.Root> -->
-	{/await}
+	{/if}
 </div>
