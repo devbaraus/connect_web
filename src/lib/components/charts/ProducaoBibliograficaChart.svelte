@@ -31,7 +31,12 @@
 		>
 	);
 
-	$: chartXAxis = defaultXAxis ?? Array.from(new Set(Object.values(groups).flatMap(Object.keys)));
+	$: chartXAxis = defaultXAxis ?? Array.from(new Set(Object.values(groups).flatMap(Object.keys))).sort((a,b) => {
+		if (displayBy === 'data') {
+			return +a - +b;
+		}
+		return a.localeCompare(b);
+	});
 
 	$: chartXRange =
 		defaultXRange ?? displayBy == 'data'
