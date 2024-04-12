@@ -57,7 +57,6 @@ export const ProducoesService = {
 			campus?: string | null;
 			grandeArea?: string | null;
 			area?: string | null;
-			siape?: string | null;
 			kind?: string | null;
 			displayBy?: string | null;
 		},
@@ -69,7 +68,6 @@ export const ProducoesService = {
 		if (filters.campus) url.searchParams.append('campus', filters.campus);
 		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 		if (filters.area) url.searchParams.append('area', filters.area);
-		if (filters.siape) url.searchParams.append('siape', filters.siape);
 		url.searchParams.append('kind', filters.kind ?? 'tipo');
 		url.searchParams.append('display_by', filters.displayBy ?? 'data');
 

@@ -53,6 +53,14 @@ export const Qualis = {
 	"C": "C",
 }
 
+export const FormacaoAcademica = {
+	GRADUACAO: 'Graduação',
+	ESPECIALIZACAO: 'Especialização',
+	MESTRADO: 'Mestrado',
+	DOUTORADO: 'Doutorado',
+	POS_DOUTORADO: 'Pós-Doutorado',
+}
+
 export const TipoProducaoPlural = {
 	ARTIGO: 'Artigos',
 	TRABALHO_EVENTO: 'Trabalhos em Eventos',
