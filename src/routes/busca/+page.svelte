@@ -11,7 +11,6 @@
 	import { ApiService } from '$lib/services/api-service';
 
 	let searchQuery = '';
-	let abortController = new AbortController();
 	let timeout: NodeJS.Timeout;
 
 	const defaultColumns: ColumnDef<Researcher>[] = [
@@ -36,22 +35,28 @@
 		getCoreRowModel: getCoreRowModel()
 	});
 
-	$: {
-		if (timeout) {
-			clearTimeout(timeout);
-			abortController.abort();
-		}
-
-		timeout = setTimeout(() => {
-			(async () => {
-				const { hits } = await ApiService.busca(searchQuery, {
-					signal: abortController.signal
-				});
+	const query = createQuery({
+		queryKey: ['search_pesquisadores', searchQuery],
+		queryFn: async ({ signal }) => {
+			try {
+				const { hits } = await ApiService.busca(searchQuery, { signal });
 				options.update((o) => ({ ...o, data: hits }));
-			})();
-		}, 300);
+				return hits;
+			} catch (e) {
+				console.error(e);
+				return [];
+			}
+		},
+		enabled: true
+	});
 
-		abortController = new AbortController();
+	$: {
+		if (typeof searchQuery === 'string') {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				$query.refetch();
+			}, 300);
+		}
 	}
 
 	// $: query = createQuery({
