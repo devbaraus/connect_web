@@ -34,16 +34,23 @@
 		getCoreRowModel: getCoreRowModel()
 	});
 
-	const query = createQuery({
+	const query = createQuery<{
+		hits: [],
+		query: string,
+		processingTimeMs: number,
+		limit: number,
+		offset: number,
+		estimatedTotalHits: number
+	}>({
 		queryKey: ['search_pesquisadores', searchQuery],
 		queryFn: async ({ signal }) => {
 			try {
-				const { hits } = await ApiService.busca(searchQuery, { signal });
-				options.update((o) => ({ ...o, data: hits }));
-				return hits;
+				const data = await ApiService.busca(searchQuery, { signal });
+				options.update((o) => ({ ...o, data: data.hits }));
+				return data;
 			} catch (e) {
 				console.error(e);
-				return [];
+				return {};
 			}
 		},
 		enabled: true
@@ -62,8 +69,7 @@
 </script>
 
 <div class="mb-8">
-	<h1>Search - {searchQuery}</h1>
-	<Input type="text" bind:value={searchQuery} />
+	<Input type="text" bind:value={searchQuery} placeholder="Pesquise por nome do pesquisador, citação bibliográfica, produção bibliográfica, formação acadêmica ou palavra chave" />
 </div>
 
 <DataTable {table} />
