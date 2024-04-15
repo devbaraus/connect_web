@@ -78,7 +78,7 @@ export const TipoProducaoSingular = {
 };
 
 export type Researcher = {
-	nome_completo: string
+	nome: string
 }
 
 export type PaginatedResponse<T> = {

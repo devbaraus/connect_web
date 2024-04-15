@@ -5,15 +5,6 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	$: palavrasChave = Object.fromEntries(Object.entries(data.palavrasChave.reduce((acc, item) => {
-		if (!acc[item]) {
-			acc[item] = 0;
-		}
-		acc[item] += 1;
-
-		return acc;
-	}, {})).sort((a, b) => a[1] - b[1]))
 </script>
 
 {#await data.pesquisador}
@@ -24,7 +15,9 @@
 	</p>
 {/await}
 
-<ProducaoBibliograficaChart data={data.producoes} />
+{#if data.producoes?.length}
+	<ProducaoBibliograficaChart data={data.producoes} />
+{/if}
 
 <p>Formação Acadêmica</p>
 {#await data.formacoes}
@@ -84,41 +77,3 @@
 		{/each}
 	</ul>
 {/await}
-
-<div
-	class="h-96 w-full"
-	use:chart={{
-		options: {
-			title: {
-				text: 'World Population'
-			},
-			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'shadow'
-				}
-			},
-			legend: {},
-			grid: {
-				left: '3%',
-				right: '4%',
-				bottom: '3%',
-				containLabel: true
-			},
-			xAxis: {
-				type: 'value',
-				boundaryGap: [0, 0.01]
-			},
-			yAxis: {
-				type: 'category',
-				data: Object.keys(palavrasChave)
-			},
-			series: [
-				{
-					type: 'bar',
-					data: Object.values(palavrasChave)
-				}
-			]
-		}
-	}}
-></div>
