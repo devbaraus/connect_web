@@ -1,10 +1,14 @@
+import { PUBLIC_WEB_URL } from '$env/static/public';
+
 
 export const ApiService = {
-    busca: async (query: string) => {
-        const selfLocation = new URL(window.location.href);
-        const url = new URL(`${selfLocation.origin}/v1/busca`);
+    busca: async (query: string, config?: RequestInit) => {
+        const url = new URL(`${PUBLIC_WEB_URL}/v1/busca`);
         url.searchParams.set('query', query);
-        const response = await fetch(url.toString());
+        
+        const response = await fetch(url.toString(), {
+            signal: config?.signal
+        });
         return (await response.json()) 
     }
 }

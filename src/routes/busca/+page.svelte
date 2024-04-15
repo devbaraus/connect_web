@@ -11,6 +11,8 @@
 	import { ApiService } from '$lib/services/api-service';
 
 	let searchQuery = '';
+	let abortController = new AbortController();
+	let timeout: NodeJS.Timeout;
 
 	const defaultColumns: ColumnDef<Researcher>[] = [
 		{
@@ -35,10 +37,21 @@
 	});
 
 	$: {
-		(async () => {
-			const { hits } = await ApiService.busca(searchQuery);
-			options.update((o) => ({ ...o, data: hits }));
-		})();
+		if (timeout) {
+			clearTimeout(timeout);
+			abortController.abort();
+		}
+
+		timeout = setTimeout(() => {
+			(async () => {
+				const { hits } = await ApiService.busca(searchQuery, {
+					signal: abortController.signal
+				});
+				options.update((o) => ({ ...o, data: hits }));
+			})();
+		}, 300);
+
+		abortController = new AbortController();
 	}
 
 	// $: query = createQuery({
