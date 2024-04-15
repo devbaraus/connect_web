@@ -8,6 +8,12 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export function transpose(a: any[]) {
+    return Object.keys(a[0]).map(function(c) {
+        return a.map(function(r) { return r[c]; });
+    });
+}
+
 export function addSearchParam(key: string, value: string) {
     const url = new URL(location.href);
     url.searchParams.set(key, value);

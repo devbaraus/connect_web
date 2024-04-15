@@ -2,24 +2,25 @@
 	import { chart, type ChartOptions } from '$lib/actions/chart';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import { TipoProducaoPlural, type ProducoesChartData, Qualis } from '$lib/types';
+	import {
+		type ProducoesChartData,
+		FormacaoAcademica
+	} from '$lib/types';
 	import { transpose } from '$lib/utils';
 
 	export let data: ProducoesChartData[];
-	export let kind: 'tipo' | 'qualis' = 'tipo';
-	export let displayBy: 'data' | 'categoria' = 'data';
+	export let kind: 'formacao' | 'grande_area' = 'formacao';
 	export let events: Record<string, (params: any) => void> = {};
 	export let defaultXAxis: string[] | undefined = undefined;
 	export let defaultXRange: [number, number] | undefined = undefined;
 	let relative = false;
 
-	const groupsObj = kind === 'tipo' ? TipoProducaoPlural : Qualis;
-	const groupsOrder = Object.keys(groupsObj);
+	const groupsOrder = Object.keys(FormacaoAcademica);
 
 	$: groups = data?.reduce(
 		(acc, d) => {
-			const kindKey = kind === 'tipo' ? d.tipo! : d.qualis!;
-			const displayKey = displayBy === 'data' ? d.ano! : d.grande_area!;
+			const kindKey = d.tipo!;
+			const displayKey = kind === 'formacao' ? d.ano! : d.grande_area!;
 
 			if (!acc[kindKey]) {
 				acc[kindKey] = {};
@@ -38,14 +39,14 @@
 	$: chartXAxis =
 		defaultXAxis ??
 		Array.from(new Set(Object.values(groups).flatMap(Object.keys))).sort((a, b) => {
-			if (displayBy === 'data') {
+			if (kind === 'formacao') {
 				return +a - +b;
 			}
 			return a.localeCompare(b);
 		});
 
 	$: chartXRange =
-		defaultXRange ?? displayBy == 'data'
+		defaultXRange ?? kind === 'formacao'
 			? [100 - (chartXAxis.filter((year) => +year >= 2000).length / chartXAxis.length) * 100, 100]
 			: [0, 100];
 
@@ -129,7 +130,7 @@
 				axisLabel: {
 					formatter(value) {
 						return relative ? `${value.toFixed(0)}%` : `${value}`;
-					}
+					},
 				}
 			},
 			xAxis: {
@@ -141,7 +142,7 @@
 				.sort(([a], [b]) => groupsOrder.indexOf(a) - groupsOrder.indexOf(b))
 				.map(([kind, display], index) => ({
 					id: kind,
-					name: groupsObj[kind as never],
+					name: FormacaoAcademica[kind as never],
 					type: 'bar',
 					stack: 'total',
 					label: {

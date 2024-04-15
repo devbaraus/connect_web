@@ -6,6 +6,9 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { PageData } from './$types';
 	import { ProducoesService } from '$lib/services/producoes-service';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import PesquisadoresChart from '$lib/components/charts/PesquisadoresChart.svelte';
+	import PesquisadoresFilters from '$lib/components/filters/PesquisadoresFilters.svelte';
 
 	export let data: PageData;
 
@@ -14,27 +17,24 @@
 	let campus = $page.url.searchParams.get('campus') || '';
 	let grandeArea = $page.url.searchParams.get('grande_area') || '';
 	let area = $page.url.searchParams.get('area') || '';
-	let kind = $page.url.searchParams.get('kind') || 'tipo';
-	let displayBy = $page.url.searchParams.get('display_by') || 'data';
+	let kind = $page.url.searchParams.get('kind') || 'formacao';
 
 	$: chartQuery = createQuery({
-		queryKey: ['producoes-chart', {campus, grandeArea, area, kind, displayBy}],
+		queryKey: ['pesquisadores-chart'],
 		queryFn: async ({ signal }) =>
-			ProducoesService.chart(
+			PesquisadoresService.chart(
 				{
 					campus,
 					grandeArea,
 					area,
 					kind,
-					displayBy
 				},
 				{ signal }
 			)
 	});
 
 	$: {
-		kind = $page.url.searchParams.get('kind') || 'tipo';
-		displayBy = $page.url.searchParams.get('display_by') || 'data';
+		kind = $page.url.searchParams.get('kind') || 'formacao';
 		campus = $page.url.searchParams.get('campus') || '';
 		grandeArea = $page.url.searchParams.get('grande_area') || '';
 		area = $page.url.searchParams.get('area') || '';
@@ -71,7 +71,7 @@
 </script>
 
 <div class="space-y-4">
-	<ProducoesFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
+	<PesquisadoresFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
 
 <div class="h-[420px]">
@@ -80,7 +80,7 @@
 			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
 		</div>
 	{:else if $chartQuery.data}
-		<ProducaoBibliograficaChart data={$chartQuery.data} {kind} {displayBy} />
+		<PesquisadoresChart data={$chartQuery.data} {kind} />
 		<!-- <hr />
 	<Collapsible.Root>
 		<Collapsible.Trigger>Listar produções bibliográficas</Collapsible.Trigger>

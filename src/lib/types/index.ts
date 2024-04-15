@@ -1,7 +1,8 @@
 export type ProducoesChartData = {
-	ano: string;
+	ano?: string;
 	tipo?: string;
 	qualis?: string;
+	grande_area?: string;
 	total: number;
 };
 
@@ -50,6 +51,14 @@ export const Qualis = {
 	"B4": "B4",
 	"B5": "B5",
 	"C": "C",
+}
+
+export const FormacaoAcademica = {
+	GRADUACAO: 'Graduação',
+	ESPECIALIZACAO: 'Especialização',
+	MESTRADO: 'Mestrado',
+	DOUTORADO: 'Doutorado',
+	POS_DOUTORADO: 'Pós-Doutorado',
 }
 
 export const TipoProducaoPlural = {

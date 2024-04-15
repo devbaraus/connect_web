@@ -23,6 +23,7 @@ export function chart(node: HTMLDivElement, params: ChartParams) {
 			chart.dispose();
 		},
 		update(newParams: ChartParams) {
+			chart.clear();
 			chart.setOption(newParams.options);
 		}
 	};

@@ -5,6 +5,10 @@
 			href: '/'
 		},
 		{
+			name: 'Pesquisadores',
+			href: '/pesquisadores'
+		},
+		{
 			name: 'Busca',
 			href: '/busca'
 		}

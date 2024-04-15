@@ -28,8 +28,7 @@
 		value: $page.url.searchParams.get('area')!
 	} : {label: 'TODAS', value: ''};
 
-	const defaultKind = $page.url.searchParams.get('kind') || 'tipo';
-	const defaultDisplayBy = $page.url.searchParams.get('display_by') || 'data';
+	const defaultKind = $page.url.searchParams.get('kind') || 'formacao';
 
 	function gotoOption(paramName: string, option: Selected<string> | string) {
 		addSearchParam(paramName, typeof option === 'string' ? option : option.value);
@@ -41,27 +40,12 @@
 	onValueChange={(v) => gotoOption('kind', v)}
 >
 	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="tipo" id="kind_tipo" />
-		<Label for="kind_tipo">Tipo de Produção</Label>
+		<RadioGroup.Item value="grande_area" id="kind_grande_area" />
+		<Label for="kind_grande_area">Grande Área</Label>
 	</div>
 	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="qualis" id="kind_qualis" />
-		<Label for="kind_qualis">Qualis</Label>
-	</div>
-	<RadioGroup.Input name="spacing" />
-</RadioGroup.Root>
-
-<RadioGroup.Root
-	value={defaultDisplayBy}
-	onValueChange={(v) => gotoOption('display_by', v)}
->
-	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="data" id="display_data" />
-		<Label for="display_data">Data</Label>
-	</div>
-	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="categoria" id="display_categoria" />
-		<Label for="display_categoria">Categoria</Label>
+		<RadioGroup.Item value="formacao" id="kind_formacao" />
+		<Label for="kind_formacao">Formacao Acadêmica</Label>
 	</div>
 	<RadioGroup.Input name="spacing" />
 </RadioGroup.Root>
