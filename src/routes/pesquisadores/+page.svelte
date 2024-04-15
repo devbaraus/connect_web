@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
-	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
-	import type { ProducoesChartData } from '$lib/types';
-	import { createQuery } from '@tanstack/svelte-query';
-	import type { PageData } from './$types';
-	import { ProducoesService } from '$lib/services/producoes-service';
-	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import PesquisadoresChart from '$lib/components/charts/PesquisadoresChart.svelte';
 	import PesquisadoresFilters from '$lib/components/filters/PesquisadoresFilters.svelte';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import { createQuery } from '@tanstack/svelte-query';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
