@@ -37,7 +37,7 @@
 
 <RadioGroup.Root
 	value={defaultKind}
-	onValueChange={(v) => gotoOption('kind', v)}
+	onValueChange={(v) => gotoOption('exibir_por', v)}
 >
 	<div class="flex items-center space-x-2">
 		<RadioGroup.Item value="categoria" id="kind_categoria" />
