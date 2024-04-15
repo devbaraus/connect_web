@@ -28,7 +28,7 @@
 		value: $page.url.searchParams.get('area')!
 	} : {label: 'TODAS', value: ''};
 
-	const defaultKind = $page.url.searchParams.get('kind') || 'formacao';
+	const defaultKind = $page.url.searchParams.get('exibir_por') || 'data';
 
 	function gotoOption(paramName: string, option: Selected<string> | string) {
 		addSearchParam(paramName, typeof option === 'string' ? option : option.value);
@@ -40,12 +40,12 @@
 	onValueChange={(v) => gotoOption('kind', v)}
 >
 	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="grande_area" id="kind_grande_area" />
-		<Label for="kind_grande_area">Grande Área</Label>
+		<RadioGroup.Item value="categoria" id="kind_categoria" />
+		<Label for="kind_categoria">Categoria</Label>
 	</div>
 	<div class="flex items-center space-x-2">
-		<RadioGroup.Item value="formacao" id="kind_formacao" />
-		<Label for="kind_formacao">Formacao Acadêmica</Label>
+		<RadioGroup.Item value="data" id="kind_data" />
+		<Label for="kind_data">Data</Label>
 	</div>
 	<RadioGroup.Input name="spacing" />
 </RadioGroup.Root>

@@ -9,7 +9,7 @@
 	import { transpose } from '$lib/utils';
 
 	export let data: ProducoesChartData[];
-	export let kind: 'formacao' | 'grande_area' = 'formacao';
+	export let kind: 'data' | 'categoria' = 'data';
 	export let events: Record<string, (params: any) => void> = {};
 	export let defaultXAxis: string[] | undefined = undefined;
 	export let defaultXRange: [number, number] | undefined = undefined;
@@ -20,7 +20,7 @@
 	$: groups = data?.reduce(
 		(acc, d) => {
 			const kindKey = d.tipo!;
-			const displayKey = kind === 'formacao' ? d.ano! : d.grande_area!;
+			const displayKey = kind === 'data' ? d.ano! : d.grande_area!;
 
 			if (!acc[kindKey]) {
 				acc[kindKey] = {};
@@ -39,14 +39,14 @@
 	$: chartXAxis =
 		defaultXAxis ??
 		Array.from(new Set(Object.values(groups).flatMap(Object.keys))).sort((a, b) => {
-			if (kind === 'formacao') {
+			if (kind === 'data') {
 				return +a - +b;
 			}
 			return a.localeCompare(b);
 		});
 
 	$: chartXRange =
-		defaultXRange ?? kind === 'formacao'
+		defaultXRange ?? kind === 'data'
 			? [100 - (chartXAxis.filter((year) => +year >= 2000).length / chartXAxis.length) * 100, 100]
 			: [0, 100];
 

@@ -17,7 +17,7 @@
 	let campus = $page.url.searchParams.get('campus') || '';
 	let grandeArea = $page.url.searchParams.get('grande_area') || '';
 	let area = $page.url.searchParams.get('area') || '';
-	let kind = $page.url.searchParams.get('kind') || 'formacao';
+	let kind = $page.url.searchParams.get('exibir_por') || 'data';
 
 	$: chartQuery = createQuery({
 		queryKey: ['pesquisadores-chart'],
@@ -27,14 +27,14 @@
 					campus,
 					grandeArea,
 					area,
-					kind,
+					exibirPor: kind,
 				},
 				{ signal }
 			)
 	});
 
 	$: {
-		kind = $page.url.searchParams.get('kind') || 'formacao';
+		kind = $page.url.searchParams.get('exibir_por') || 'data';
 		campus = $page.url.searchParams.get('campus') || '';
 		grandeArea = $page.url.searchParams.get('grande_area') || '';
 		area = $page.url.searchParams.get('area') || '';

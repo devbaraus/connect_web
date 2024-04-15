@@ -36,17 +36,17 @@ export const PesquisadoresService = {
 			campus?: string | null;
 			grandeArea?: string | null;
 			area?: string | null;
-			kind?: string | null;
+			exibirPor?: string | null;
 		},
 		config?: {
 			signal?: AbortSignal;
 		}
 	) => {
-		const url = new URL(`v1/pesquisadores/stats`, PUBLIC_API_URL);
+		const url = new URL(`v1/pesquisadores/formacao/stats`, PUBLIC_API_URL);
 		if (filters.campus) url.searchParams.append('campus', filters.campus);
 		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
 		if (filters.area) url.searchParams.append('area', filters.area);
-		url.searchParams.append('kind', filters.kind ?? 'formacao');
+		url.searchParams.append('exibir_por', filters.exibirPor ?? 'data');
 
 		const response = await fetch(url.toString(), {
 			signal: config?.signal
