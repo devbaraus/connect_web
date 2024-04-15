@@ -8,9 +8,9 @@
 	import type { Researcher } from '$lib/types';
 	import DataTable from '$lib/components/ui/data-table.svelte';
 	import PesquisadorDataTableAction from '$lib/components/pesquisadores/PesquisadorDataTableAction.svelte';
+	import { ApiService } from '$lib/services/api-service';
 
 	let searchQuery = '';
-	let timeout: NodeJS.Timeout;
 
 	const defaultColumns: ColumnDef<Researcher>[] = [
 		{
@@ -18,7 +18,7 @@
 			header: () => 'Siape'
 		},
 		{
-			accessorKey: 'nome_completo',
+			accessorKey: 'nome',
 			header: () => 'Nome Completo'
 		},
 		{
@@ -34,26 +34,29 @@
 		getCoreRowModel: getCoreRowModel()
 	});
 
-	const query = createQuery({
-		queryKey: ['searchResearchers'],
-		queryFn: async () => {
-			const { results } = await PesquisadoresService.list({
-				query: searchQuery
-			});
-			options.update((o) => ({ ...o, data: results }));
-
-			return results;
-		}
-	});
-
 	$: {
-		if (typeof searchQuery == 'string') {
-			clearTimeout(timeout);
-			timeout = setTimeout(() => {
-				$query.refetch();
-			}, 500);
-		}
+		(async () => {
+			const { hits } = await ApiService.busca(searchQuery);
+			options.update((o) => ({ ...o, data: hits }));
+		})();
 	}
+
+	// $: query = createQuery({
+	// 	queryKey: ['search_pesquisadores', searchQuery],
+	// 	queryFn: async () => {
+	// 		console.log('nice')
+	// 		try {
+	// 			const { hits } = await ApiService.busca(searchQuery);
+	// 			console.log(hits)
+	// 			options.update((o) => ({ ...o, data: hits }));
+	// 			return hits;
+	// 		} catch (e) {
+	// 			console.error(e);
+	// 			return []
+	// 		}
+	// 	},
+	// 	enabled: true
+	// })
 
 	const table = createSvelteTable(options);
 </script>

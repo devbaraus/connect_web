@@ -20,7 +20,7 @@
 	<Skeleton class="h-8 w-64" />
 {:then pesquisador}
 	<p class="text-center text-2xl font-semibold">
-		{pesquisador.nome_completo}
+		{pesquisador.nome}
 	</p>
 {/await}
 
