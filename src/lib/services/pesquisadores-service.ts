@@ -29,25 +29,7 @@ export const PesquisadoresService = {
 		const response = await fetch(url.toString(), config);
 		return await response.json();
 	},
-	chart: async (
-		filters: {
-			campus?: string | null;
-			grandeArea?: string | null;
-			area?: string | null;
-			exibirPor?: string | null;
-		},
-		config?: RequestInit
-	) => {
-		const url = new URL(`v1/pesquisadores/formacao/stats`, PUBLIC_API_URL);
-		if (filters.campus) url.searchParams.append('campus', filters.campus);
-		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
-		if (filters.area) url.searchParams.append('area', filters.area);
-		url.searchParams.append('exibir_por', filters.exibirPor ?? 'data');
-
-		const response = await fetch(url.toString(), config);
-
-		return (await response.json()) as ProducoesChartData[];
-	},
+	
 	get: async (siape: string, config?: RequestInit): Promise<Researcher> => {
 		const url = new URL(`v1/pesquisadores/${siape}`, PUBLIC_API_URL);
 		const response = await fetch(url.toString(), config);

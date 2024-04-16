@@ -7,6 +7,7 @@
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import { ProducoesService } from '$lib/services/producoes-service';
+	import { GeneralService } from '$lib/services/general-service';
 
 	type Data = {
 		campus: Promise<string[]>;
@@ -22,9 +23,9 @@
 
 	onMount(async () => {
 		data = {
-			grandesAreas: ProducoesService.grandeAreas(),
-			areas: ProducoesService.area(),
-			campus: ProducoesService.campus()
+			grandesAreas: GeneralService.grandeAreas(),
+			areas: GeneralService.area(),
+			campus: GeneralService.campus()
 		};
 	});
 
@@ -39,7 +40,7 @@
 	$: chartQuery = createQuery({
 		queryKey: ['pesquisadores-chart'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.chart(
+		GeneralService.formacaoesChart(
 				{
 					campus,
 					grandeArea,

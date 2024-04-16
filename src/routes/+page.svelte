@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
 	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
+	import { GeneralService } from '$lib/services/general-service';
 	import { ProducoesService } from '$lib/services/producoes-service';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { onMount } from 'svelte';
@@ -10,19 +11,19 @@
 		campus: Promise<string[]>;
 		grandesAreas: Promise<string[]>;
 		areas: Promise<string[]>;
-	}
+	};
 
 	let data: Data = {
 		campus: Promise.resolve([]),
 		grandesAreas: Promise.resolve([]),
 		areas: Promise.resolve([])
-	}
+	};
 
 	onMount(async () => {
 		data = {
-			grandesAreas: ProducoesService.grandeAreas(),
-			areas: ProducoesService.area(),
-			campus: ProducoesService.campus()
+			grandesAreas: GeneralService.grandeAreas(),
+			areas: GeneralService.area(),
+			campus: GeneralService.campus()
 		};
 	});
 
@@ -37,7 +38,7 @@
 	$: chartQuery = createQuery({
 		queryKey: ['producoes-chart', { campus, grandeArea, area, kind, displayBy }],
 		queryFn: async ({ signal }) =>
-			ProducoesService.chart(
+			GeneralService.producoesChart(
 				{
 					campus,
 					grandeArea,
