@@ -5,8 +5,29 @@
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
+	import { ProducoesService } from '$lib/services/producoes-service';
 
-	export let data: PageData;
+	type Data = {
+		campus: Promise<string[]>;
+		grandesAreas: Promise<string[]>;
+		areas: Promise<string[]>;
+	}
+
+	let data: Data = {
+		campus: Promise.resolve([]),
+		grandesAreas: Promise.resolve([]),
+		areas: Promise.resolve([])
+	}
+
+	onMount(async () => {
+		data = {
+			grandesAreas: ProducoesService.grandeAreas(),
+			areas: ProducoesService.area(),
+			campus: ProducoesService.campus()
+		};
+	});
+
 
 	// let anoGte = '2000';
 	// let anoLte = new Date().getFullYear().toString();

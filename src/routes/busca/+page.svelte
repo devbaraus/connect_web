@@ -2,8 +2,8 @@
 	import PesquisadorDataTableAction from '$lib/components/pesquisadores/PesquisadorDataTableAction.svelte';
 	import DataTable from '$lib/components/ui/data-table.svelte';
 	import { Input } from '$lib/components/ui/input';
-	import { ApiService } from '$lib/services/api-service';
-	import type { Researcher } from '$lib/types';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import type { PesquisadoresQuery, Researcher } from '$lib/types';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { ColumnDef, TableOptions } from '@tanstack/svelte-table';
 	import { createSvelteTable, flexRender, getCoreRowModel } from '@tanstack/svelte-table';
@@ -34,23 +34,20 @@
 		getCoreRowModel: getCoreRowModel()
 	});
 
-	const query = createQuery<{
-		hits: [],
-		query: string,
-		processingTimeMs: number,
-		limit: number,
-		offset: number,
-		estimatedTotalHits: number
-	}>({
+	const query = createQuery<PesquisadoresQuery>({
 		queryKey: ['search_pesquisadores', searchQuery],
-		queryFn: async ({ signal }) => {
+		queryFn: async ({ signal }): Promise<PesquisadoresQuery> => {
 			try {
-				const data = await ApiService.busca(searchQuery, { signal });
+				const data = await PesquisadoresService.list({
+					query: searchQuery,
+					page: 1,
+					pageSize: 10
+				}, { signal });
 				options.update((o) => ({ ...o, data: data.hits }));
 				return data;
 			} catch (e) {
 				console.error(e);
-				return {};
+				return { hits: [], query: searchQuery, processingTimeMs: 0, limit: 0, offset: 0, estimatedTotalHits: 0 };
 			}
 		},
 		enabled: true

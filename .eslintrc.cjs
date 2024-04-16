@@ -9,11 +9,14 @@ module.exports = {
 		'plugin:tailwindcss/recommended'
 	],
 	parser: '@typescript-eslint/parser',
-	plugins: ['@typescript-eslint'],
+	plugins: ['@typescript-eslint', 'prettier'],
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,
 		extraFileExtensions: ['.svelte']
+	},
+	rules: {
+		"prettier/prettier": "warn"
 	},
 	env: {
 		browser: true,

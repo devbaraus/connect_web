@@ -87,3 +87,12 @@ export type PaginatedResponse<T> = {
 	per_page: number;
 	page: number;
 };
+
+export type PesquisadoresQuery = {
+	hits: Researcher[],
+	query: string,
+	processingTimeMs: number,
+	limit: number,
+	offset: number,
+	estimatedTotalHits: number
+};
