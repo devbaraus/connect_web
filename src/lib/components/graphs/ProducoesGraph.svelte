@@ -53,7 +53,7 @@
 			link.attr('transform', transform);
 		}
 
-		const zoom = d3.zoom().scaleExtent([0.5, 5]).on('zoom', zoomed);
+		const zoom = d3.zoom().scaleExtent([0.1, 5]).on('zoom', zoomed);
 
 		svg.call(zoom);
 
