@@ -1,5 +1,5 @@
-import type { FormacaoStatsData, PaginatedResponse, PesquisadoresQuery, ProducoesChartData, Researcher } from '$lib/types';
 import { PUBLIC_API_URL } from '$env/static/public';
+import type { FormacaoStatsData, Link, NodeCurriculo, NodeProducaoBibliografica, PesquisadoresQuery, ProducoesChartData, Researcher } from '$lib/types';
 
 type SearchResearchers = {
 	query?: string;
@@ -14,6 +14,7 @@ type PesquisadorAreasConhecimento = {
 	especialidades: string[];
 }
 
+type Node = NodeProducaoBibliografica | NodeCurriculo;
 
 export const PesquisadoresService = {
 	list: async ({
@@ -29,9 +30,13 @@ export const PesquisadoresService = {
 		const response = await fetch(url.toString(), config);
 		return await response.json();
 	},
-	
 	get: async (siape: string, config?: RequestInit): Promise<Researcher> => {
 		const url = new URL(`v1/pesquisadores/${siape}`, PUBLIC_API_URL);
+		const response = await fetch(url.toString(), config);
+		return await response.json();
+	},
+	producoesGraph: async (siape: string,config?: RequestInit): Promise<{ nodes: Node[]; links: Link[] }> => {
+		const url = new URL(`v1/pesquisadores/${siape}/producoes/graph`, PUBLIC_API_URL);
 		const response = await fetch(url.toString(), config);
 		return await response.json();
 	},

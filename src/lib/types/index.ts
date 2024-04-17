@@ -96,3 +96,30 @@ export type PesquisadoresQuery = {
 	offset: number,
 	estimatedTotalHits: number
 };
+
+export type NodeProducaoBibliografica = {
+	__node__: 'ProducaoBibliografica';
+	id: string;
+	doi: string;
+	titulo: string;
+	ano: string;
+	tipo: string;
+	tipo_livro: string | null;
+};
+
+export type NodeCurriculo = {
+	__node__: 'Curriculo';
+	id: string;
+	siape: string;
+	cnpq: string;
+	nome: string;
+	campus: string;
+	categoria: string;
+};
+
+export type Link = {
+	__rel__: string;
+	id: string;
+	start_node: string;
+	end_node: string;
+};

@@ -1,25 +1,65 @@
 <script lang="ts">
-	import { chart } from '$lib/actions/chart';
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { createQuery } from '@tanstack/svelte-query';
 	import type { PageData } from './$types';
+	import { page } from '$app/stores';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import ProducoesGraph from '$lib/components/graphs/ProducoesGraph.svelte';
 
-	export let data: PageData;
+	$: pesquisadorQuery = createQuery({
+		queryKey: ['pesquisador', $page.params.siape],
+		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape, { signal })
+	});
+
+	$: graphQuery = createQuery({
+		queryKey: ['pesquisador-graph', $page.params.siape],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesGraph($page.params.siape, { signal })
+	});
+
+	$: chartQuery = createQuery({
+		queryKey: ['producoes-chart'],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesChart($page.params.siape, { signal })
+	});
 </script>
 
-{#await data.pesquisador}
+{#if $pesquisadorQuery.isFetching}
 	<Skeleton class="h-8 w-64" />
-{:then pesquisador}
+{:else if $pesquisadorQuery.data}
 	<p class="text-center text-2xl font-semibold">
-		{pesquisador.nome}
+		{$pesquisadorQuery.data.nome}
 	</p>
-{/await}
-
-{#if data.producoes?.length}
-	<ProducaoBibliograficaChart data={data.producoes} />
 {/if}
 
-<p>Formação Acadêmica</p>
+<div class="h-[420px]">
+	<p class="text-xl font-semibold">
+		Produção Bibliográfica
+	</p>
+	{#if $chartQuery.isFetching}
+		<div class="flex h-full w-full items-center justify-center">
+			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+		</div>
+	{:else if $chartQuery.data}
+		<ProducaoBibliograficaChart data={$chartQuery.data} />
+	{/if}
+</div>
+
+<div class="h-[420px]">
+	<p class="text-xl font-semibold">
+		Colaborações em Produção Bibliográfica
+	</p>
+	{#if $graphQuery.isFetching}
+		<div class="flex h-full w-full items-center justify-center">
+			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+		</div>
+	{:else if $graphQuery.data}
+		<ProducoesGraph data={$graphQuery.data} />
+	{/if}
+</div>
+
+<!-- <p>Formação Acadêmica</p>
 {#await data.formacoes}
 	<Skeleton class="h-8 w-64" />
 {:then formacoes}
@@ -76,4 +116,4 @@
 			</li>
 		{/each}
 	</ul>
-{/await}
+{/await} -->

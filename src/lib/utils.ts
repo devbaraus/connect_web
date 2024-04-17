@@ -8,6 +8,10 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export function clamp(x: number, lo: number, hi: number) {
+  return x < lo ? lo : x > hi ? hi : x;
+}
+
 export function transpose(a: any[]) {
     return Object.keys(a[0]).map(function(c) {
         return a.map(function(r) { return r[c]; });
