@@ -9,6 +9,10 @@
 			href: '/pesquisadores'
 		},
 		{
+			name: 'Grafos',
+			href: '/grafos'
+		},
+		{
 			name: 'Busca',
 			href: '/busca'
 		}
