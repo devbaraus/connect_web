@@ -92,7 +92,7 @@
 	<PesquisadoresFilters campuses={data.campus} grandesAreas={data.grandesAreas} areas={data.areas} />
 </div>
 
-<div class="h-[420px]">
+<div class="h-[420px] mt-8 space-y-4">
 	{#if $chartQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
 			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>

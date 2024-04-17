@@ -33,7 +33,7 @@
 	</p>
 {/if}
 
-<div class="h-[420px]">
+<div class="h-[420px] mt-8 space-y-4">
 	<p class="text-xl font-semibold">
 		Produção Bibliográfica
 	</p>
@@ -46,7 +46,7 @@
 	{/if}
 </div>
 
-<div class="h-[420px]">
+<div class="h-[420px] mt-8 space-y-4">
 	<p class="text-xl font-semibold">
 		Colaborações em Produção Bibliográfica
 	</p>
