@@ -404,18 +404,17 @@
 		]
 	};
 
-
 	function graph(el: HTMLDivElement) {
 		// Specify the dimensions of the chart.
-		const width = 928;
-		const height = 680;
+		const width = el.clientWidth;
+		const height = el.clientHeight;
 
 		// Specify the color scale.
 		const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 		// The force simulation mutates links and nodes, so create a copy
 		// so that re-evaluating this cell produces the same result.
-		const links = data.links.map((d) => ({ ...d, source: d.start_node, target: d.end_node}));
+		const links = data.links.map((d) => ({ ...d, source: d.start_node, target: d.end_node }));
 		const nodes = data.nodes.map((d) => ({ ...d, group: d.__node__ }));
 
 		// Create a simulation with several forces.
@@ -425,12 +424,13 @@
 				'link',
 				d3.forceLink(links).id((d) => d.id)
 			)
-			.force('charge', d3.forceManyBody())
+			.force('charge', d3.forceManyBody().strength(-100))
 			.force('x', d3.forceX())
 			.force('y', d3.forceY());
 
 		// Create the SVG container.
-		const svg = d3.create("svg")
+		const svg = d3
+			.create('svg')
 			.attr('width', width)
 			.attr('height', height)
 			.attr('viewBox', [-width / 2, -height / 2, width, height])
@@ -453,10 +453,39 @@
 			.selectAll('circle')
 			.data(nodes)
 			.join('circle')
-			.attr('r', 5)
-			.attr('fill', (d) => color(d.group));
+			.attr('r', 7)
+			.attr('fill', (d) => color(d.group))
+			.text((d) => d.id) // Add text inside the node
+			.on('mouseover', function (event, d) {
+				// Add hover effects
+				d3.select(this).attr('r', '9');
+			})
+			.on('mouseout', function (event, d) {
+				d3.select(this).attr('r', '7')
+			});
 
-		node.append('title').text((d) => d.id);
+		node.append('title').text((d) => {
+			let tooltipText = '';
+			if (d.__node__ === 'Curriculo') {
+				tooltipText += `Nome: ${d.nome}\n`;
+				tooltipText += `ID: ${d.id}\n`;
+				tooltipText += `Siape: ${d.siape}\n`;
+			} else if (d.__node__ === 'ProducaoBibliografica') {
+				tooltipText += `Título: ${d.titulo}\n`;
+				tooltipText += `Tipo: ${d.tipo}\n`;
+				tooltipText += `Ano: ${d.ano}\n`;
+			}
+			return tooltipText;
+		});
+
+		// node.append('title').text((d) => {
+		// 	if (d.__node__ === 'Curriculo') {
+		// 		return d.nome;
+		// 	} else if (d.__node__ === 'ProducaoBibliografica') {
+		// 		return d.titulo;
+		// 	}
+
+		// });
 
 		// Add a drag behavior.
 		node.call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
@@ -508,5 +537,4 @@
 	}
 </script>
 
-<div use:graph/>
-
+<div use:graph class="h-96" />
