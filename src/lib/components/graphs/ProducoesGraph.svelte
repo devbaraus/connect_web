@@ -92,9 +92,11 @@
 		node
 			.on('mouseover', function (event, d) {
 				// Add hover effects
-				const nX = d3.select(this).attr('cx');
-				const nY = d3.select(this).attr('cy');
-				foreignObject.attr('x', +nX + nodeSize).attr('y', +nY);
+
+				const [x, y] = d3.pointer(event);
+				const { k, x: offsetX, y: offsetY } = d3.zoomTransform(svg.node());
+
+				foreignObject.attr('x', x * k + offsetX).attr('y', y * k + offsetY);
 
 				const list = document.createElement('ul');
 
@@ -119,9 +121,10 @@
 				foreignObject.style('visibility', 'visible');
 			})
 			.on('mousemove', function (event, d) {
-				const nX = d3.select(this).attr('cx');
-				const nY = d3.select(this).attr('cy');
-				foreignObject.attr('x', +nX + nodeSize).attr('y', +nY);
+				const [x, y] = d3.pointer(event);
+				const { k, x: offsetX, y: offsetY } = d3.zoomTransform(svg.node());
+
+				foreignObject.attr('x', x * k + offsetX).attr('y', y * k + offsetY);
 			})
 			.on('mouseout', function (event, d) {
 				foreignObject.style('visibility', 'hidden');
