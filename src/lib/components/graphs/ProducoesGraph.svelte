@@ -35,6 +35,7 @@
 				d3.forceLink(links).id((d) => d.id)
 			)
 			.force('charge', d3.forceManyBody().strength(-200))
+			.force('center', d3.forceCenter())
 			.force('x', d3.forceX())
 			.force('y', d3.forceY());
 
@@ -187,4 +188,4 @@
 	</foreignObject>
 </svg> -->
 
-<div use:graph={data} class="h-96" />
+<div use:graph={data} class="h-[420px]" />
