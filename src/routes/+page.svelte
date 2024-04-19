@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import ProducaoBibliograficaChart from '$lib/components/charts/ProducaoBibliograficaChart.svelte';
 	import ProducoesFilters from '$lib/components/filters/ProducaoBibliograficaFilters.svelte';
+	import Loader from '$lib/components/ui/Loader.svelte';
 	import { GeneralService } from '$lib/services/general-service';
 	import { ProducoesService } from '$lib/services/producoes-service';
 	import { createQuery } from '@tanstack/svelte-query';
@@ -95,7 +96,7 @@
 <div class="h-[420px] mt-8 space-y-4">
 	{#if $chartQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+			<Loader/>
 		</div>
 	{:else if $chartQuery.data}
 		<ProducaoBibliograficaChart data={$chartQuery.data} {kind} {displayBy} />

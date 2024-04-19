@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import ProducoesGraph from '$lib/components/graphs/ProducoesGraph.svelte';
+	import Loader from '$lib/components/ui/Loader.svelte';
 
 	$: pesquisadorQuery = createQuery({
 		queryKey: ['pesquisador', $page.params.siape],
@@ -39,7 +40,7 @@
 	</p>
 	{#if $chartQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+			<Loader/>
 		</div>
 	{:else if $chartQuery.data}
 		<ProducaoBibliograficaChart data={$chartQuery.data} />
@@ -52,7 +53,7 @@
 	</p>
 	{#if $graphQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+			<Loader/>
 		</div>
 	{:else if $graphQuery.data}
 		<ProducoesGraph data={$graphQuery.data} />

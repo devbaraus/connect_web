@@ -8,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import { ProducoesService } from '$lib/services/producoes-service';
 	import { GeneralService } from '$lib/services/general-service';
+	import Loader from '$lib/components/ui/Loader.svelte';
 
 	type Data = {
 		campus: Promise<string[]>;
@@ -95,7 +96,7 @@
 <div class="h-[420px] mt-8 space-y-4">
 	{#if $chartQuery.isFetching}
 		<div class="flex h-full w-full items-center justify-center">
-			<div class="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+			<Loader/>
 		</div>
 	{:else if $chartQuery.data}
 		<PesquisadoresChart data={$chartQuery.data} {kind} />
