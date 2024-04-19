@@ -156,9 +156,14 @@
 	}
 </script>
 
-<div class="flex items-center space-x-2">
-	<Switch bind:checked={relative} id="mode" />
-	<Label for="mode">{relative ? 'Relativo' : 'Real'}</Label>
-</div>
-
-<div class="h-[420px] py-12" use:chart={{ options, events }} />
+{#if data.length === 0}
+	<p class="flex h-full w-full items-center justify-center text-center">
+		Nenhuma produção bibliográfica encontrada.
+	</p>
+{:else}
+	<div class="flex items-center space-x-2">
+		<Switch bind:checked={relative} id="mode" />
+		<Label for="mode">{relative ? 'Relativo' : 'Real'}</Label>
+	</div>
+	<div class="h-[420px] py-12" use:chart={{ options, events }} />
+{/if}

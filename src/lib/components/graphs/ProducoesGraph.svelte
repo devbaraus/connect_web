@@ -17,7 +17,7 @@
 		const width = el.clientWidth;
 		const height = el.clientHeight;
 
-		const nodeSize = 12;
+		const nodeSize = 9;
 
 		// Specify the color scale.
 		const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -47,15 +47,15 @@
 			.attr('viewBox', [-width / 2, -height / 2, width, height])
 			.attr('style', 'max-width: 100%; height: auto; position: relative;');
 
-		function zoomed(event) {
-			const { transform } = event;
-			node.attr('transform', transform);
-			link.attr('transform', transform);
-		}
+		// function zoomed(event) {
+		// 	const { transform } = event;
+		// 	node.attr('transform', transform);
+		// 	link.attr('transform', transform);
+		// }
 
-		const zoom = d3.zoom().scaleExtent([0.1, 5]).on('zoom', zoomed);
+		// const zoom = d3.zoom().scaleExtent([0.1, 5]).on('zoom', zoomed);
 
-		svg.call(zoom);
+		// svg.call(zoom);
 
 		// Add a line for each link, and a circle for each node.
 		const link = svg
@@ -191,4 +191,10 @@
 	</foreignObject>
 </svg> -->
 
-<div use:graph={data} class="h-[420px]" />
+{#if data.nodes.length === 0}
+	<p class="flex h-full w-full items-center justify-center text-center">
+		Nenhuma produção bibliográfica encontrada.
+	</p>
+{:else}
+	<div use:graph={data} class="h-[420px]" />
+{/if}

@@ -2,10 +2,7 @@
 	import { chart, type ChartOptions } from '$lib/actions/chart';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import {
-		type ProducoesChartData,
-		FormacaoAcademica
-	} from '$lib/types';
+	import { type ProducoesChartData, FormacaoAcademica } from '$lib/types';
 	import { transpose } from '$lib/utils';
 
 	export let data: ProducoesChartData[];
@@ -130,7 +127,7 @@
 				axisLabel: {
 					formatter(value) {
 						return relative ? `${value.toFixed(0)}%` : `${value}`;
-					},
+					}
 				}
 			},
 			xAxis: {
@@ -157,9 +154,15 @@
 	}
 </script>
 
-<div class="flex items-center space-x-2">
-	<Switch bind:checked={relative} id="mode" />
-	<Label for="mode">{relative ? 'Relativo' : 'Real'}</Label>
-</div>
+{#if data.length === 0}
+	<p class="flex h-full w-full items-center justify-center text-center">
+		Nenhuma pesquisador encontrado
+	</p>
+{:else}
+	<div class="flex items-center space-x-2">
+		<Switch bind:checked={relative} id="mode" />
+		<Label for="mode">{relative ? 'Relativo' : 'Real'}</Label>
+	</div>
 
-<div class="h-[420px] py-12" use:chart={{ options, events }} />
+	<div class="h-[420px] py-12" use:chart={{ options, events }} />
+{/if}

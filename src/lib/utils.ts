@@ -12,7 +12,9 @@ export function clamp(x: number, lo: number, hi: number) {
   return x < lo ? lo : x > hi ? hi : x;
 }
 
-export function transpose(a: any[]) {
+export function transpose(a: any[][]) {
+    if (a.length === 0) return a;
+
     return Object.keys(a[0]).map(function(c) {
         return a.map(function(r) { return r[c]; });
     });
