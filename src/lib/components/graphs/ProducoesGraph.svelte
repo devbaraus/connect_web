@@ -196,5 +196,5 @@
 		Nenhuma produção bibliográfica encontrada.
 	</p>
 {:else}
-	<div use:graph={data} class="h-[420px]" />
+	<div use:graph={data} class="h-[620px] asc" />
 {/if}

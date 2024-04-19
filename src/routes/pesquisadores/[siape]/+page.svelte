@@ -46,7 +46,7 @@
 	{/if}
 </div>
 
-<div class="h-[450px] mt-8 space-y-4">
+<div class="h-[650px] mt-8 space-y-4">
 	<p class="text-xl font-semibold">
 		Colaborações em Produção Bibliográfica
 	</p>
