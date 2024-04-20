@@ -1,4 +1,8 @@
 <script lang="ts">
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { MenuIcon } from 'lucide-svelte';
+	import { Item } from '../ui/radio-group';
+
 	const links = [
 		{
 			name: 'Produções',
@@ -16,13 +20,11 @@
 </script>
 
 <!-- ========== { HEADER }==========  -->
-<header class="fixed top-0 left-0 right-0 z-40">
-	<nav class="main-nav">
-		<div class="container mx-auto px-4">
-			<div class="lg:flex lg:justify-between">
-				<div class="flex justify-between">
-					<div class="mx-w-10 text-4xl font-bold capitalize text-gray-900 flex items-center">CONNECT</div>
-					<!-- <div class="flex flex-row items-center py-4 lg:py-0">
+<header class="fixed left-0 right-0 top-0 z-40 bg-gray-900 text-gray-50">
+	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 lg:px-0">
+		<!-- <div class="flex justify-between"> -->
+		<div class="text-4xl font-bold capitalize">CONNECT</div>
+		<!-- <div class="flex flex-row items-center py-4 lg:py-0">
 						<div class="relative text-gray-900 hover:text-black block lg:hidden">
 							<button type="button" class="menu-mobile block py-3 px-6 border-b-2 border-transparent">
 								<span class="sr-only">Mobile menu</span>
@@ -37,20 +39,32 @@
 							</button>
 						</div>
 					</div> -->
-				</div>
+		<!-- </div> -->
 
-				<div class="flex flex-row">
-					<!-- nav menu -->
-					<ul class="bg-transparent w-full text-center flex flex-row text-gray-900 text-sm items-center font-bold">
-						{#each links as link (link.href)}
-							<li class="relative hover:text-black">
-								<a class="active block py-3 lg:py-7 px-6 border-b-2 border-transparent" href={link.href}>{link.name}</a>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			</div>
-		</div>
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger class="lg:hidden">
+				<MenuIcon class="h-8 w-8" />
+				<span class="sr-only">Toggle Menu</span>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content>
+				{#each links as link (link.href)}
+					<DropdownMenu.Item>
+						<a href={link.href}>{link.name}</a>
+					</DropdownMenu.Item>
+				{/each}
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
+
+		<!-- nav menu -->
+		<menu
+			class="hidden w-full items-center gap-6 bg-transparent text-sm font-bold lg:flex lg:w-auto lg:text-center"
+		>
+			{#each links as link (link.href)}
+				<li class="hover:text-gray-400">
+					<a class="block border-b-2 border-transparent py-3" href={link.href}>{link.name}</a>
+				</li>
+			{/each}
+		</menu>
 	</nav>
 </header>
 <!-- end header -->

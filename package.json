@@ -51,7 +51,7 @@
 	"dependencies": {
 		"@tanstack/svelte-query": "^5.29.0",
 		"@tanstack/svelte-table": "^8.16.0",
-		"bits-ui": "^0.21.3",
+		"bits-ui": "^0.21.4",
 		"clsx": "^2.1.0",
 		"d3": "^7.9.0",
 		"echarts": "^5.5.0",
