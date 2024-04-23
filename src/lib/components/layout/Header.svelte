@@ -20,7 +20,9 @@
 </script>
 
 <!-- ========== { HEADER }==========  -->
-<header class="fixed left-0 right-0 top-0 z-40 bg-gray-900 text-gray-50">
+<header
+	class="border-b-[1px] fixed left-0 right-0 top-0 z-40 border-b-neutral-600 bg-foreground text-background"
+>
 	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 lg:px-0">
 		<!-- <div class="flex justify-between"> -->
 		<div class="text-4xl font-bold capitalize">CONNECT</div>
@@ -60,7 +62,7 @@
 			class="hidden w-full items-center gap-6 bg-transparent text-sm font-bold lg:flex lg:w-auto lg:text-center"
 		>
 			{#each links as link (link.href)}
-				<li class="hover:text-gray-400">
+				<li class="hover:text-accent">
 					<a class="block border-b-2 border-transparent py-3" href={link.href}>{link.name}</a>
 				</li>
 			{/each}

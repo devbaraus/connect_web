@@ -96,7 +96,15 @@
 				const [x, y] = d3.pointer(event);
 				const { k, x: offsetX, y: offsetY } = d3.zoomTransform(svg.node());
 
-				foreignObject.attr('x', x * k + offsetX).attr('y', y * k + offsetY);
+				// Calculate position relative to SVG viewbox
+				const svgPoint = svg.node().createSVGPoint();
+				svgPoint.x = x;
+				svgPoint.y = y;
+				const transformedPoint = svgPoint.matrixTransform(svg.node().getScreenCTM().inverse());
+
+				foreignObject
+					.attr('x', transformedPoint.x * k + offsetX)
+					.attr('y', transformedPoint.y * k + offsetY);
 
 				const list = document.createElement('ul');
 
@@ -124,7 +132,15 @@
 				const [x, y] = d3.pointer(event);
 				const { k, x: offsetX, y: offsetY } = d3.zoomTransform(svg.node());
 
-				foreignObject.attr('x', x * k + offsetX).attr('y', y * k + offsetY);
+				// Calculate position relative to SVG viewbox
+				const svgPoint = svg.node().createSVGPoint();
+				svgPoint.x = x;
+				svgPoint.y = y;
+				const transformedPoint = svgPoint.matrixTransform(svg.node().getScreenCTM().inverse());
+
+				foreignObject
+					.attr('x', transformedPoint.x * k + offsetX)
+					.attr('y', transformedPoint.y * k + offsetY);
 			})
 			.on('mouseout', function (event, d) {
 				foreignObject.style('visibility', 'hidden');
@@ -196,5 +212,5 @@
 		Nenhuma produção bibliográfica encontrada.
 	</p>
 {:else}
-	<div use:graph={data} class="h-[620px] asc" />
+	<div use:graph={data} class="h-full" />
 {/if}

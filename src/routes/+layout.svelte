@@ -9,7 +9,8 @@
 	const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
-				enabled: browser
+				enabled: browser,
+				refetchOnWindowFocus: false,
 			}
 		}
 	});
@@ -29,7 +30,7 @@
 
 <QueryClientProvider client={queryClient}>
 	<Header />
-	<div class="container mx-auto my-24 px-4">
+	<div class="container mx-auto my-20 px-4">
 		<slot />
 	</div>
 	<Footer />
