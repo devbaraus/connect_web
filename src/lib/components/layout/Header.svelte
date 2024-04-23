@@ -25,7 +25,7 @@
 >
 	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 lg:px-0">
 		<!-- <div class="flex justify-between"> -->
-		<div class="text-4xl font-bold capitalize font-aquire">CONNECT</div>
+		<div class="text-4xl capitalize font-aquire">CONNECT</div>
 		<!-- <div class="flex flex-row items-center py-4 lg:py-0">
 						<div class="relative text-gray-900 hover:text-black block lg:hidden">
 							<button type="button" class="menu-mobile block py-3 px-6 border-b-2 border-transparent">
