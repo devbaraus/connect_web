@@ -12,21 +12,27 @@
 		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape, { signal })
 	});
 
-	$: graphQuery = createQuery({
-		queryKey: ['pesquisador-graph', $page.params.siape],
-		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesGraph($page.params.siape, { signal })
-	});
 
 	$: formacaoQuery = createQuery({
 		queryKey: ['pesquisador-formacao', $page.params.siape],
 		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape, { signal })
 	});
 
-	$: chartQuery = createQuery({
-		queryKey: ['producoes-chart'],
+	$: formacaoGraphQuery = createQuery({
+		queryKey: ['pesquisador-formacao-graph', $page.params.siape],
+		queryFn: async ({ signal }) => PesquisadoresService.formacoesGraph($page.params.siape, { signal })
+	});
+
+	$: producoesChartQuery = createQuery({
+		queryKey: ['pesquisador-producoes-chart'],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.producoesChart($page.params.siape, { signal })
+	});
+
+	$: producoesGraphQuery = createQuery({
+		queryKey: ['pesquisador-producoes-graph', $page.params.siape],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesGraph($page.params.siape, { signal })
 	});
 </script>
 
@@ -40,33 +46,60 @@
 	{/if}
 </div>
 <div class="space-y-8 pt-24">
-	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery}>
-		<ul>
-			{#each $formacaoQuery.data as formacao (formacao.curso.nome)}
-				<li>
-					<span class="font-bold">{formacao.tipo.replace('_', ' ')}</span>: ({formacao.ano_inicio}~{formacao.ano_conclusao})
-					{formacao.curso.nome} - {formacao.instituicao.nome}
-				</li>
-			{/each}
-		</ul>
-	</PesquisadorCard>
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+		<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="lg:col-span-2">
+			<ul class="divide-y divide-x-foreground space-y-2">
+				{#if $formacaoQuery.data}
+					{#each $formacaoQuery.data as formacao (formacao.curso.nome)}
+						<li class="space-y-1 pt-2">
+							<p class="text-lg capitalize">
+								{formacao.tipo.replace('_', ' ')}<span class="inline-bloc mx-1">-</span>{formacao
+									.curso.nome}
+							</p>
+							<time class="block text-sm"
+								>Início: {formacao.ano_inicio}<span class="mx-1 text-neutral-300">|</span>Conclusão: {formacao.ano_conclusao}</time
+							>
+							<p>
+								{formacao.instituicao.nome}
+							</p>
+						</li>
+					{/each}
+				{/if}
+			</ul>
+		</PesquisadorCard>
+
+		
+		<PesquisadorCard
+			title="Conexões por Formação Acadêmica"
+			query={formacaoGraphQuery}
+			contentClass="h-[420px]"
+		>
+			{#if $formacaoGraphQuery.data}
+				<ProducoesGraph data={$formacaoGraphQuery.data} />
+			{/if}
+		</PesquisadorCard>
+	</div>
 
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 		<PesquisadorCard
 			title="Produção Bibliográfica"
-			query={chartQuery}
+			query={producoesChartQuery}
 			class="lg:col-span-2"
 			contentClass="h-[420px]"
 		>
-			<ProducaoBibliograficaChart data={$chartQuery.data} />
+			{#if $producoesChartQuery.data}
+				<ProducaoBibliograficaChart data={$producoesChartQuery.data} />
+			{/if}
 		</PesquisadorCard>
 
 		<PesquisadorCard
 			title="Colaborações em Produção Bibliográfica"
-			query={graphQuery}
+			query={producoesGraphQuery}
 			contentClass="h-[420px]"
 		>
-			<ProducoesGraph data={$graphQuery.data} />
+			{#if $producoesGraphQuery.data}
+				<ProducoesGraph data={$producoesGraphQuery.data} />
+			{/if}
 		</PesquisadorCard>
 	</div>
 </div>

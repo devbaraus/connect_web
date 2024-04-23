@@ -50,6 +50,11 @@ export const PesquisadoresService = {
 		const response = await fetch(url.toString(), config);
 		return await response.json();
 	},
+	formacoesGraph: async (siape: string,config?: RequestInit): Promise<FormacaoStatsData[]> => {
+		const url = new URL(`v1/pesquisadores/${siape}/formacoes/graph`, PUBLIC_API_URL);
+		const response = await fetch(url.toString(), config);
+		return await response.json();
+	},
 	areasConhecimento: async (siape: string,config?: RequestInit): Promise<PesquisadorAreasConhecimento> => {
 		const url = new URL(`v1/pesquisadores/${siape}/areas_conhecimento`, PUBLIC_API_URL);
 		const response = await fetch(url.toString(), config);

@@ -1,18 +1,14 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
-	import type { HTMLAttributes } from 'svelte/elements';
-	import Header from '../layout/Header.svelte';
-	import Loader from '../ui/Loader.svelte';
 	import { cn } from '$lib/utils';
+	import { type CreateQueryResult } from '@tanstack/svelte-query';
+	import Loader from '../ui/Loader.svelte';
 
-	type $$Props = HTMLAttributes<HTMLDivElement>;
-
-	export let query: any;
+	export let query: CreateQueryResult;
 	export let title: string;
+	export let contentClass: string | undefined = undefined;
 
-	export let contentClass: string;
-
-	let className: $$Props['class'] = undefined;
+	let className: string | undefined = undefined;
 	export { className as class };
 </script>
 
@@ -25,7 +21,7 @@
 			<div class="flex h-full w-full items-center justify-center">
 				<Loader />
 			</div>
-		{:else if $query.data}
+		{:else}
 			<slot />
 		{/if}
 	</Card.Content>

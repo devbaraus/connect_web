@@ -24,7 +24,7 @@
 
 		// The force simulation mutates links and nodes, so create a copy
 		// so that re-evaluating this cell produces the same result.
-		const links = data.links.map((d) => ({ ...d, source: d.start_node, target: d.end_node }));
+		const links = data.links
 		const nodes = data.nodes.map((d) => ({ ...d, group: d.__node__ }));
 
 		// Create a simulation with several forces.
