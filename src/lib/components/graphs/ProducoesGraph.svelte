@@ -22,6 +22,8 @@
 		// Specify the color scale.
 		const color = d3.scaleOrdinal(d3.schemeCategory10);
 
+		console.log(d3.schemeCategory10)
+
 		// The force simulation mutates links and nodes, so create a copy
 		// so that re-evaluating this cell produces the same result.
 		const links = data.links
@@ -34,7 +36,7 @@
 				'link',
 				d3.forceLink(links).id((d) => d.id)
 			)
-			.force('charge', d3.forceManyBody().strength(-200))
+			.force('charge', d3.forceManyBody().strength(-120))
 			.force('center', d3.forceCenter())
 			.force('x', d3.forceX())
 			.force('y', d3.forceY());
@@ -75,7 +77,13 @@
 			.data(nodes)
 			.join('circle')
 			.attr('r', nodeSize)
-			.attr('fill', (d) => color(d.group))
+			.attr('fill', (d) => {
+				const dColor = color(d.group);
+
+				console.log(dColor)
+				
+				return dColor
+			})
 			.text((d) => d.id); // Add text inside the node
 
 		const foreignObject = svg

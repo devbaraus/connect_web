@@ -12,7 +12,6 @@
 		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape, { signal })
 	});
 
-
 	$: formacaoQuery = createQuery({
 		queryKey: ['pesquisador-formacao', $page.params.siape],
 		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape, { signal })
@@ -20,7 +19,8 @@
 
 	$: formacaoGraphQuery = createQuery({
 		queryKey: ['pesquisador-formacao-graph', $page.params.siape],
-		queryFn: async ({ signal }) => PesquisadoresService.formacoesGraph($page.params.siape, { signal })
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.formacoesGraph($page.params.siape, { signal })
 	});
 
 	$: producoesChartQuery = createQuery({
@@ -33,6 +33,40 @@
 		queryKey: ['pesquisador-producoes-graph', $page.params.siape],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.producoesGraph($page.params.siape, { signal })
+	});
+
+	$: producoesTecnicasChartQuery = createQuery({
+		queryKey: ['pesquisador-producoes-tecnicas-chart'],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesTecnicasStats($page.params.siape, { signal })
+	});
+
+	$: producoesTecnicasGraphQuery = createQuery({
+		queryKey: ['pesquisador-producoes-tecnicas-graph', $page.params.siape],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesTecnicasGraph($page.params.siape, { signal })
+	});
+
+	$: bancasStatsQuery = createQuery({
+		queryKey: ['pesquisador-bancas-stats', $page.params.siape],
+		queryFn: async ({ signal }) => PesquisadoresService.bancasStats($page.params.siape, { signal })
+	});
+
+	$: bancasGraphQuery = createQuery({
+		queryKey: ['pesquisador-bancas-graph', $page.params.siape],
+		queryFn: async ({ signal }) => PesquisadoresService.bancasGraph($page.params.siape, { signal })
+	});
+
+	$: projetosPesquisaStatsQuery = createQuery({
+		queryKey: ['pesquisador-projetos-pesquisa-stats', $page.params.siape],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.projetosPesquisaStats($page.params.siape, { signal })
+	});
+
+	$: projetosPesquisaGraphQuery = createQuery({
+		queryKey: ['pesquisador-projetos-pesquisa-graph', $page.params.siape],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.projetosPesquisaGraph($page.params.siape, { signal })
 	});
 </script>
 
@@ -48,7 +82,7 @@
 <div class="space-y-8 pt-24">
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 		<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="lg:col-span-2">
-			<ul class="divide-y divide-x-foreground space-y-2">
+			<ul class="divide-x-foreground space-y-2 divide-y">
 				{#if $formacaoQuery.data}
 					{#each $formacaoQuery.data as formacao (formacao.curso.nome)}
 						<li class="space-y-1 pt-2">
@@ -68,7 +102,6 @@
 			</ul>
 		</PesquisadorCard>
 
-		
 		<PesquisadorCard
 			title="Conexões por Formação Acadêmica"
 			query={formacaoGraphQuery}
@@ -99,6 +132,74 @@
 		>
 			{#if $producoesGraphQuery.data}
 				<ProducoesGraph data={$producoesGraphQuery.data} />
+			{/if}
+		</PesquisadorCard>
+	</div>
+
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+		<PesquisadorCard
+			title="Produção Técnica"
+			query={producoesTecnicasChartQuery}
+			class="lg:col-span-2"
+			contentClass="h-[420px]"
+		>
+			<!-- {#if $producoesTecnicasChartQuery.data}
+				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
+			{/if} -->
+		</PesquisadorCard>
+
+		<PesquisadorCard
+			title="Colaborações em Produção Técnica"
+			query={producoesTecnicasGraphQuery}
+			contentClass="h-[420px]"
+		>
+			{#if $producoesTecnicasGraphQuery.data}
+				<ProducoesGraph data={$producoesTecnicasGraphQuery.data} />
+			{/if}
+		</PesquisadorCard>
+	</div>
+
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+		<PesquisadorCard
+			title="Bancas"
+			query={bancasStatsQuery}
+			class="lg:col-span-2"
+			contentClass="h-[420px]"
+		>
+			<!-- {#if $producoesTecnicasChartQuery.data}
+				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
+			{/if} -->
+		</PesquisadorCard>
+
+		<PesquisadorCard
+			title="Colaborações em Bancas"
+			query={bancasGraphQuery}
+			contentClass="h-[420px]"
+		>
+			{#if $bancasGraphQuery.data}
+				<ProducoesGraph data={$bancasGraphQuery.data} />
+			{/if}
+		</PesquisadorCard>
+	</div>
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+		<PesquisadorCard
+			title="Projetos de Pesquisa"
+			query={projetosPesquisaStatsQuery}
+			class="lg:col-span-2"
+			contentClass="h-[420px]"
+		>
+			<!-- {#if $producoesTecnicasChartQuery.data}
+				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
+			{/if} -->
+		</PesquisadorCard>
+
+		<PesquisadorCard
+			title="Colaborações em Projetos de Pesquisa"
+			query={projetosPesquisaGraphQuery}
+			contentClass="h-[420px]"
+		>
+			{#if $projetosPesquisaGraphQuery.data}
+				<ProducoesGraph data={$projetosPesquisaGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>

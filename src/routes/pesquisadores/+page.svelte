@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import PesquisadoresChart from '$lib/components/charts/PesquisadoresChart.svelte';
+	import PesquisadoresChart from '$lib/components/charts/FormacaoAcademicaChart.svelte';
 	import PesquisadoresFilters from '$lib/components/filters/PesquisadoresFilters.svelte';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { createQuery } from '@tanstack/svelte-query';
