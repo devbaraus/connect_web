@@ -8,65 +8,65 @@
 	import PesquisadorCard from '$lib/components/pesquisadores/PesquisadorCard.svelte';
 
 	$: pesquisadorQuery = createQuery({
-		queryKey: ['pesquisador', $page.params.siape],
-		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape, { signal })
+		queryKey: ['pesquisador'],
+		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape!, { signal })
 	});
 
 	$: formacaoQuery = createQuery({
-		queryKey: ['pesquisador-formacao', $page.params.siape],
-		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape, { signal })
+		queryKey: ['pesquisador-formacao'],
+		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape!, { signal })
 	});
 
 	$: formacaoGraphQuery = createQuery({
-		queryKey: ['pesquisador-formacao-graph', $page.params.siape],
+		queryKey: ['pesquisador-formacao-graph'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.formacoesGraph($page.params.siape, { signal })
+			PesquisadoresService.formacoesGraph($page.params.siape!, { signal })
 	});
 
 	$: producoesChartQuery = createQuery({
 		queryKey: ['pesquisador-producoes-chart'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesChart($page.params.siape, { signal })
+			PesquisadoresService.producoesChart($page.params.siape!, { signal })
 	});
 
 	$: producoesGraphQuery = createQuery({
-		queryKey: ['pesquisador-producoes-graph', $page.params.siape],
+		queryKey: ['pesquisador-producoes-graph'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesGraph($page.params.siape, { signal })
+			PesquisadoresService.producoesGraph($page.params.siape!, { signal })
 	});
 
 	$: producoesTecnicasChartQuery = createQuery({
 		queryKey: ['pesquisador-producoes-tecnicas-chart'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesTecnicasStats($page.params.siape, { signal })
+			PesquisadoresService.producoesTecnicasStats($page.params.siape!, { signal })
 	});
 
 	$: producoesTecnicasGraphQuery = createQuery({
-		queryKey: ['pesquisador-producoes-tecnicas-graph', $page.params.siape],
+		queryKey: ['pesquisador-producoes-tecnicas-graph'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesTecnicasGraph($page.params.siape, { signal })
+			PesquisadoresService.producoesTecnicasGraph($page.params.siape!, { signal })
 	});
 
 	$: bancasStatsQuery = createQuery({
-		queryKey: ['pesquisador-bancas-stats', $page.params.siape],
-		queryFn: async ({ signal }) => PesquisadoresService.bancasStats($page.params.siape, { signal })
+		queryKey: ['pesquisador-bancas-stats'],
+		queryFn: async ({ signal }) => PesquisadoresService.bancasStats($page.params.siape!, { signal })
 	});
 
 	$: bancasGraphQuery = createQuery({
-		queryKey: ['pesquisador-bancas-graph', $page.params.siape],
-		queryFn: async ({ signal }) => PesquisadoresService.bancasGraph($page.params.siape, { signal })
+		queryKey: ['pesquisador-bancas-graph'],
+		queryFn: async ({ signal }) => PesquisadoresService.bancasGraph($page.params.siape!, { signal })
 	});
 
 	$: projetosPesquisaStatsQuery = createQuery({
-		queryKey: ['pesquisador-projetos-pesquisa-stats', $page.params.siape],
+		queryKey: ['pesquisador-projetos-pesquisa-stats'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.projetosPesquisaStats($page.params.siape, { signal })
+			PesquisadoresService.projetosPesquisaStats($page.params.siape!, { signal })
 	});
 
 	$: projetosPesquisaGraphQuery = createQuery({
-		queryKey: ['pesquisador-projetos-pesquisa-graph', $page.params.siape],
+		queryKey: ['pesquisador-projetos-pesquisa-graph'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.projetosPesquisaGraph($page.params.siape, { signal })
+			PesquisadoresService.projetosPesquisaGraph($page.params.siape!, { signal })
 	});
 </script>
 

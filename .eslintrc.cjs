@@ -13,6 +13,9 @@ module.exports = {
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,
+		ecmaFeatures: { 
+			impliedStrict: true 
+		  }, 
 		extraFileExtensions: ['.svelte']
 	},
 	rules: {

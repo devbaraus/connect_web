@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { Link, NodeCurriculo, NodeProducaoBibliografica } from '$lib/types';
+	import type { components } from '$lib/types/api';
 	import * as d3 from 'd3';
 
-	export let data: { nodes: Node[]; links: Link[] };
+	export let data: any
 
 	type Node = NodeProducaoBibliografica | NodeCurriculo;
 

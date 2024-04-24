@@ -1,28 +1,34 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+
 import type { ProducoesChartData } from '$lib/types';
+import type { operations } from '$lib/types/api';
+import { PUBLIC_API_URL } from '$env/static/public';
+import { client } from '.';
+import type { ClientOptions } from 'openapi-fetch';
 
 export const GeneralService = {
 	grandeAreas: async (
-		filters: {
-			campus?: string | null;
-		} = {}
+		filters: operations['routes_api_get_grande_areas']['parameters']['query'] = {},
+		config?: ClientOptions
 	) => {
-		const url = new URL(`v1/grande_area`, PUBLIC_API_URL);
-		if (filters?.campus) url.searchParams.append('campus', filters.campus);
-		const response = await fetch(url.toString());
-		return (await response.json()) as string[];
+		const response = await client.GET('/v1/grande_area', {
+			params: {
+				query: filters
+			},
+			config
+		});
+		return response.data
 	},
 	area: async (
-		filters: {
-			campus?: string | null;
-			grandeArea?: string | null;
-		} = {}
+		filters: operations['routes_api_get_areas']['parameters']['query'] = {},
+		config?: ClientOptions
 	) => {
-		const url = new URL(`v1/area`, PUBLIC_API_URL);
-		if (filters?.campus) url.searchParams.append('campus', filters.campus);
-		if (filters?.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
-		const response = await fetch(url.toString());
-		return (await response.json()) as string[];
+		const response = await client.GET('/v1/area', {
+			params: {
+				query: filters
+			},
+			config
+		});
+		return response.data
 	},
 	campus: async () => {
 		const url = new URL(`v1/campus`, PUBLIC_API_URL);
@@ -30,46 +36,34 @@ export const GeneralService = {
 		return (await response.json()) as string[];
 	},
 	formacaoesChart: async (
-		filters: {
-			campus?: string | null;
-			grandeArea?: string | null;
-			area?: string | null;
-			exibirPor?: string | null;
-		},
-		config?: RequestInit
+		filters: operations['routes_api_formacao_stats']['parameters']['query'],
+		config?: ClientOptions
 	) => {
-		const url = new URL(`v1/formacoes/stats`, PUBLIC_API_URL);
-		if (filters.campus) url.searchParams.append('campus', filters.campus);
-		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
-		if (filters.area) url.searchParams.append('area', filters.area);
-		url.searchParams.append('exibir_por', filters.exibirPor ?? 'data');
-
-		const response = await fetch(url.toString(), config);
-
-		return (await response.json()) as ProducoesChartData[];
+		const response = await client.GET('/v1/formacoes/stats', {
+			params: {
+				query: {
+					...filters,
+					exibir_por: filters?.exibir_por ?? 'data'
+				}
+			},
+			config
+		})
+		return response.data
 	},
 	producoesChart: async (
-		filters: {
-			campus?: string | null;
-			grandeArea?: string | null;
-			area?: string | null;
-			kind?: string | null;
-			displayBy?: string | null;
-		},
-		config?: {
-			signal?: AbortSignal;
-		}
+		filters: operations['routes_api_producao_bibliografica_stats']['parameters']['query'],
+		config?: ClientOptions
 	) => {
-		const url = new URL(`v1/producoes/stats`, PUBLIC_API_URL);
-		if (filters.campus) url.searchParams.append('campus', filters.campus);
-		if (filters.grandeArea) url.searchParams.append('grande_area', filters.grandeArea);
-		if (filters.area) url.searchParams.append('area', filters.area);
-		url.searchParams.append('kind', filters.kind ?? 'tipo');
-		url.searchParams.append('display_by', filters.displayBy ?? 'data');
-
-		const response = await fetch(url.toString(), {
-			signal: config?.signal
+		const response = await client.GET('/v1/producoes/stats', {
+			params: {
+				query: {
+					...filters,
+					display_by: filters?.display_by ?? 'data',
+					kind: filters?.kind ?? 'tipo'
+				}
+			},
+			config
 		});
-		return (await response.json()) as ProducoesChartData[];
+		return response.data
 	}
 }
