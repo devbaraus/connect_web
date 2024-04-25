@@ -1,21 +1,20 @@
 import * as echarts from 'echarts';
 export type ChartOptions = echarts.EChartsOption;
-export type ChartEvents = echarts.ECElementEvent
+export type ChartEvents = echarts.ECElementEvent;
 
 export type ChartParams = {
-	options: ChartOptions,
+	options: ChartOptions;
 	events?: {
-		[event: string]: (params: any) => void
-	}
-}
+		[event: string]: (params: any) => void;
+	};
+};
 
 export function chart(node: HTMLDivElement, params: ChartParams) {
-	const chart = echarts.init(node);
-	chart.setOption(params.options);			
+	const chart = echarts.init(node, 'base');
+	chart.setOption(params.options);
 
-
-	if(params.events) {
-		Object.entries(params.events).map(([event, fn]) => chart.on(event, fn))
+	if (params.events) {
+		Object.entries(params.events).map(([event, fn]) => chart.on(event, fn));
 	}
 
 	return {
@@ -29,6 +28,4 @@ export function chart(node: HTMLDivElement, params: ChartParams) {
 	};
 }
 
-export {
-	echarts,
-}
+export { echarts };

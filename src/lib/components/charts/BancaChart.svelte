@@ -6,13 +6,16 @@
 	export let data: BancaStats[];
 	export let events: Record<string, (params: object) => void> = {};
 
-	let labels = data.reduce(
-		(acc, d) => {
-			acc[d.natureza] = d.natureza;
-			return acc;
-		},
-		{} as Record<string, string>
-	);
+	let labels = data
+		.map((d) => d.natureza)
+		.sort((a, b) => a.localeCompare(b))
+		.reduce(
+			(acc, cur) => {
+				acc[cur] = cur;
+				return acc;
+			},
+			{} as Record<string, string>
+		);
 </script>
 
 <BaseChart key="banca" kind="natureza" display="ano" {data} {labels} {events} />

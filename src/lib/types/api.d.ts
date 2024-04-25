@@ -215,38 +215,6 @@ export interface components {
       /** Especialidades */
       especialidades: string[];
     };
-    /** MeiliResponse */
-    MeiliResponse: {
-      /** Hits */
-      hits: components["schemas"]["PesquisadorResponse"][];
-      /** Searchquery */
-      searchQuery: string;
-      /** Processingtimems */
-      processingTimeMs: number;
-      /** Limit */
-      limit: number;
-      /** Offset */
-      offset: number;
-      /** Estimatedhits */
-      estimatedHits: number;
-    };
-    /** PesquisadorResponse */
-    PesquisadorResponse: {
-      /** Id */
-      id: number;
-      /** Siape */
-      siape: string;
-      /** Nome */
-      nome: string;
-      /** Citacoes */
-      citacoes?: string | null;
-      /** Cnpq */
-      cnpq?: string | null;
-      /** Campus */
-      campus: string;
-      /** Palavras Chave */
-      palavras_chave?: string[] | null;
-    };
     /** CurriculoSchema */
     CurriculoSchema: {
       /** Siape */
@@ -534,6 +502,8 @@ export interface components {
       node?: "ProjetoPesquisa";
       /** Id */
       id: string;
+      /** Natureza */
+      natureza: string;
       /** Nome */
       nome: string;
       /** Ano Inicio */
@@ -747,9 +717,7 @@ export interface operations {
     responses: {
       /** @description OK */
       200: {
-        content: {
-          "application/json": components["schemas"]["MeiliResponse"][];
-        };
+        content: never;
       };
     };
   };

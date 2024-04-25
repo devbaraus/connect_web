@@ -4,11 +4,17 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
-	import ProducoesGraph from '$lib/components/graphs/ProducoesGraph.svelte';
+	import ProducoesGraph from '$lib/components/graphs/BaseGraph.svelte';
 	import PesquisadorCard from '$lib/components/pesquisadores/PesquisadorCard.svelte';
 	import ProducaoTecnicaChart from '$lib/components/charts/ProducaoTecnicaChart.svelte';
 	import BancaChart from '$lib/components/charts/BancaChart.svelte';
 	import ProjetoPesquisaChart from '$lib/components/charts/ProjetoPesquisaChart.svelte';
+	import ProducaoBibliograficaGraph from '$lib/components/graphs/ProducaoBibliograficaGraph.svelte';
+	import ProducaoTecnicaGraph from '$lib/components/graphs/ProducaoTecnicaGraph.svelte';
+	import BancasGraph from '$lib/components/graphs/BancaGraph.svelte';
+	import BancaGraph from '$lib/components/graphs/BancaGraph.svelte';
+	import FormacaoGraph from '$lib/components/graphs/FormacaoGraph.svelte';
+	import ProjetoPesquisaGraph from '$lib/components/graphs/ProjetoPesquisaGraph.svelte';
 
 	$: pesquisadorQuery = createQuery({
 		queryKey: ['pesquisador'],
@@ -87,7 +93,7 @@
 		<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="lg:col-span-2">
 			<ul class="divide-x-foreground space-y-2 divide-y">
 				{#if $formacaoQuery.data}
-					{#each $formacaoQuery.data as formacao (formacao.curso.nome)}
+					{#each $formacaoQuery.data as formacao (formacao.curso.id)}
 						<li class="space-y-1 pt-2">
 							<p class="text-lg capitalize">
 								{formacao.tipo.replace('_', ' ')}<span class="inline-bloc mx-1">-</span>{formacao
@@ -111,11 +117,10 @@
 			contentClass="h-[420px]"
 		>
 			{#if $formacaoGraphQuery.data}
-				<ProducoesGraph data={$formacaoGraphQuery.data} />
+				<FormacaoGraph data={$formacaoGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>
-
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 		<PesquisadorCard
 			title="Produção Bibliográfica"
@@ -134,11 +139,10 @@
 			contentClass="h-[420px]"
 		>
 			{#if $producoesGraphQuery.data}
-				<ProducoesGraph data={$producoesGraphQuery.data} />
+				<ProducaoBibliograficaGraph data={$producoesGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>
-
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 		<PesquisadorCard
 			title="Produção Técnica"
@@ -157,11 +161,10 @@
 			contentClass="h-[420px]"
 		>
 			{#if $producoesTecnicasGraphQuery.data}
-				<ProducoesGraph data={$producoesTecnicasGraphQuery.data} />
+				<ProducaoTecnicaGraph data={$producoesTecnicasGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>
-
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 		<PesquisadorCard
 			title="Bancas"
@@ -180,7 +183,7 @@
 			contentClass="h-[420px]"
 		>
 			{#if $bancasGraphQuery.data}
-				<ProducoesGraph data={$bancasGraphQuery.data} />
+				<BancaGraph data={$bancasGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>
@@ -202,7 +205,7 @@
 			contentClass="h-[420px]"
 		>
 			{#if $projetosPesquisaGraphQuery.data}
-				<ProducoesGraph data={$projetosPesquisaGraphQuery.data} />
+				<ProjetoPesquisaGraph data={$projetosPesquisaGraphQuery.data} />
 			{/if}
 		</PesquisadorCard>
 	</div>

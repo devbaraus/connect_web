@@ -12,6 +12,10 @@ export type PaginatedResponse<T> = {
 };
 
 export type PesquisadorSearch = components['schemas']['MeiliResponse'];
+
+export type FormacaoGraph =
+	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphCurso__'];
+
 export type ProducaoBibliograficaStats =
 	components['schemas']['ProducaoBibliograficaStatsResponse'];
 export type ProducaoBibliografica = components['schemas']['ProducaoBibliograficaSchema'];
@@ -19,10 +23,15 @@ export type ProducaoBibliograficaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoBibliografica__'];
 
 export type ProducaoTecnicaStats = components['schemas']['ProducaoTecnincaStatsResponse'];
+export type ProducaoTecnicaGraph =
+	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoTecnica__'];
 
 export type BancaStats = components['schemas']['BancaStatsResponse'];
+export type BancaGraph = components['schemas']['GraphResponse_Union_GraphCurriculo__GraphBanca__'];
 
 export type ProjetoPesquisaStats = components['schemas']['ProjetoPesquisaStatsResponse'];
+export type ProjetoPesquisaGraph =
+	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProjetoPesquisa__'];
 
 export const EnumQualis = {
 	null: 'NC',
