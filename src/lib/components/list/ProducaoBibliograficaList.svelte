@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { ProducoesBibliograficasService } from '$lib/services/producoes-bibliograficas-service';
-	import { EnumProducaoBibliograficaSingular, type ProducoesData } from '$lib/types';
+	import { EnumProducaoBibliografica, type ProducoesData } from '$lib/types';
 	import { createQuery } from '@tanstack/svelte-query';
 	import {
 		createSvelteTable,
@@ -26,7 +26,7 @@
 			accessorKey: 'tipo',
 			header: () => 'Tipo de Produção',
 			cell: ({ row }) =>
-				EnumProducaoBibliograficaSingular[row.getValue('tipo') as keyof typeof EnumProducaoBibliograficaSingular]
+				EnumProducaoBibliografica[row.getValue('tipo') as keyof typeof EnumProducaoBibliografica]
 		},
 		{
 			accessorKey: 'ano',

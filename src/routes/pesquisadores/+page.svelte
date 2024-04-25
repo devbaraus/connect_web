@@ -7,11 +7,12 @@
 	import { GeneralService } from '$lib/services/general-service';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { onMount } from 'svelte';
+	import type { Area, Campus, GrandeArea } from '$lib/types';
 
 	type Data = {
-		campus: Promise<string[] | undefined>;
-		grandesAreas: Promise<string[] | undefined>;
-		areas: Promise<string[] | undefined>;
+		campus: Promise<Campus[] | undefined>;
+		grandesAreas: Promise<GrandeArea[] | undefined>;
+		areas: Promise<Area[] | undefined>;
 	};
 
 	let data: Data = {
@@ -52,7 +53,6 @@
 		grandeArea = $page.url.searchParams.get('grande_area') || '';
 		area = $page.url.searchParams.get('area') || '';
 	}
-	
 </script>
 
 <div class="space-y-4">

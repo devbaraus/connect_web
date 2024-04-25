@@ -3,7 +3,7 @@
 	import type { components } from '$lib/types/api';
 	import * as d3 from 'd3';
 
-	export let data: any
+	export let data: any;
 
 	type Node = NodeProducaoBibliografica | NodeCurriculo;
 
@@ -23,12 +23,10 @@
 		// Specify the color scale.
 		const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-		console.log(d3.schemeCategory10)
-
 		// The force simulation mutates links and nodes, so create a copy
 		// so that re-evaluating this cell produces the same result.
-		const links = data.links
-		const nodes = data.nodes.map((d) => ({ ...d, group: d.__node__ }));
+		const links = data.links;
+		const nodes = data.nodes.map((d) => ({ ...d, group: d.node }));
 
 		// Create a simulation with several forces.
 		const simulation = d3
@@ -79,11 +77,7 @@
 			.join('circle')
 			.attr('r', nodeSize)
 			.attr('fill', (d) => {
-				const dColor = color(d.group);
-
-				console.log(dColor)
-				
-				return dColor
+				return color(d.group);
 			})
 			.text((d) => d.id); // Add text inside the node
 
@@ -117,7 +111,7 @@
 
 				const list = document.createElement('ul');
 
-				if (d.__node__ === 'Curriculo')
+				if (d.node === 'Curriculo')
 					['nome', 'campus', 'categoria'].forEach((key) => {
 						const item = document.createElement('li');
 						item.classList.add('text-sm');
@@ -125,7 +119,7 @@
 						list.appendChild(item);
 					});
 
-				if (d.__node__ === 'ProducaoBibliografica')
+				if (d.node === 'ProducaoBibliografica')
 					['titulo', 'ano', 'tipo'].forEach((key) => {
 						const item = document.createElement('li');
 						item.classList.add('text-sm');

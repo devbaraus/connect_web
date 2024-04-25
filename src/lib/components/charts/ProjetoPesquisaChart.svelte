@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { EnumProducaoTecnica, EnumProjetoPesquisa, type ProjetoPesquisaStats } from '$lib/types';
+	import { EnumProjetoPesquisa, type ProjetoPesquisaStats } from '$lib/types';
 	import BaseChart from '$lib/components/charts/BaseChart.svelte';
 
 	export let data: ProjetoPesquisaStats[];
@@ -7,10 +7,10 @@
 </script>
 
 <BaseChart
-	key="producao-tecnica"
+	key="projeto-pesquisa"
 	kind="natureza"
 	display="ano"
-	labels={EnumProducaoTecnica}
+	labels={EnumProjetoPesquisa}
 	{data}
 	{events}
 />

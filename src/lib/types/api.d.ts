@@ -217,6 +217,21 @@ export interface components {
     };
     /** MeiliResponse */
     MeiliResponse: {
+      /** Hits */
+      hits: components["schemas"]["PesquisadorResponse"][];
+      /** Searchquery */
+      searchQuery: string;
+      /** Processingtimems */
+      processingTimeMs: number;
+      /** Limit */
+      limit: number;
+      /** Offset */
+      offset: number;
+      /** Estimatedhits */
+      estimatedHits: number;
+    };
+    /** PesquisadorResponse */
+    PesquisadorResponse: {
       /** Id */
       id: number;
       /** Siape */
@@ -258,6 +273,8 @@ export interface components {
       id: string;
       /** Siape */
       siape: string;
+      /** Cnpq */
+      cnpq: string;
       /** Nome */
       nome: string;
       /** Campus */
@@ -294,7 +311,7 @@ export interface components {
       /** Tipo */
       tipo: string;
       /** Tipo Livro */
-      tipo_livro: string;
+      tipo_livro?: string | null;
     };
     /** GraphResponse[Union[GraphCurriculo, GraphProducaoBibliografica]] */
     GraphResponse_Union_GraphCurriculo__GraphProducaoBibliografica__: {
@@ -356,7 +373,7 @@ export interface components {
       /** Nome */
       nome: string;
       /** Codigo */
-      codigo: string;
+      codigo?: string | null;
     };
     /** GraphResponse[Union[GraphCurriculo, GraphCurso]] */
     GraphResponse_Union_GraphCurriculo__GraphCurso__: {
@@ -484,6 +501,10 @@ export interface components {
       ano_inicio?: string | null;
       /** Ano Fim */
       ano_fim?: string | null;
+      /** Situacao */
+      situacao?: string | null;
+      /** Natureza */
+      natureza?: string | null;
       /** Orgao */
       orgao?: number | null;
       /** Unidade */
@@ -497,6 +518,8 @@ export interface components {
     ProjetoPesquisaStatsResponse: {
       /** Ano */
       ano: string;
+      /** Natureza */
+      natureza: string;
       /** Total */
       total: number;
     };

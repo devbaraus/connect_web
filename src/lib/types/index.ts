@@ -12,11 +12,19 @@ export type PaginatedResponse<T> = {
 };
 
 export type PesquisadorSearch = components['schemas']['MeiliResponse'];
-export type ProducoesBibliograficasStats =
+export type ProducaoBibliograficaStats =
 	components['schemas']['ProducaoBibliograficaStatsResponse'];
-export type ProducoesBibliograficas = components['schemas']['ProducaoBibliograficaSchema'];
+export type ProducaoBibliografica = components['schemas']['ProducaoBibliograficaSchema'];
+export type ProducaoBibliograficaGraph =
+	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoBibliografica__'];
 
-export const Qualis = {
+export type ProducaoTecnicaStats = components['schemas']['ProducaoTecnincaStatsResponse'];
+
+export type BancaStats = components['schemas']['BancaStatsResponse'];
+
+export type ProjetoPesquisaStats = components['schemas']['ProjetoPesquisaStatsResponse'];
+
+export const EnumQualis = {
 	null: 'NC',
 	A1: 'A1',
 	A2: 'A2',
@@ -28,6 +36,28 @@ export const Qualis = {
 	C: 'C'
 };
 
+export const EnumProjetoPesquisa = {
+	DESENVOLVIMENTO: 'Desenvolvimento',
+	PESQUISA: 'Pesquisa',
+	ENSINO: 'Ensino',
+	EXTENSAO: 'Extensão',
+	OUTRA: 'Outra'
+};
+
+export const EnumProducaoTecnica = {
+	COMPUTACIONAL: 'Produção Computacional',
+	ASSESSORIA: 'Assessoria',
+	OUTRA: 'Outra Produção Técnica',
+	RELATORIO_TECNICO: 'Relatório Técnico',
+	ELABORACAO_DE_PROJETO: 'Elaboração de Projeto',
+	PARECER: 'Parecer',
+	CONSULTORIA: 'Consultoria',
+	SERVICOS_NA_AREA_DA_SAUDE: 'Serviços na Área da Saúde',
+	NAO_INFORMADO: 'Não Informado',
+	EXTENSAO_TECNOLOGICA: 'Extensão Tecnológica',
+	MULTIMIDIA: 'Multimídia'
+};
+
 export const EnumFormacaoAcademica = {
 	GRADUACAO: 'Graduação',
 	ESPECIALIZACAO: 'Especialização',
@@ -36,20 +66,10 @@ export const EnumFormacaoAcademica = {
 	POS_DOUTORADO: 'Pós-Doutorado'
 };
 
-export const EnumProducaoBibliograficaPlural = {
-	ARTIGO: 'Artigos',
-	TRABALHO_EVENTO: 'Trabalhos em Eventos',
-	RESUMO: 'Resumos',
-	LIVRO: 'Livros',
-	CAPITULO_LIVRO: 'Capítulos de Livros'
-};
-
-export const EnumProducaoBibliograficaSingular = {
+export const EnumProducaoBibliografica = {
 	ARTIGO: 'Artigo',
 	TRABALHO_EVENTO: 'Trabalho em Evento',
 	RESUMO: 'Resumo',
 	LIVRO: 'Livro',
 	CAPITULO_LIVRO: 'Capítulo de Livro'
 };
-
-

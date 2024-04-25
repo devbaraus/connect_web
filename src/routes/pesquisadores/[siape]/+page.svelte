@@ -6,6 +6,9 @@
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import ProducoesGraph from '$lib/components/graphs/ProducoesGraph.svelte';
 	import PesquisadorCard from '$lib/components/pesquisadores/PesquisadorCard.svelte';
+	import ProducaoTecnicaChart from '$lib/components/charts/ProducaoTecnicaChart.svelte';
+	import BancaChart from '$lib/components/charts/BancaChart.svelte';
+	import ProjetoPesquisaChart from '$lib/components/charts/ProjetoPesquisaChart.svelte';
 
 	$: pesquisadorQuery = createQuery({
 		queryKey: ['pesquisador'],
@@ -143,9 +146,9 @@
 			class="lg:col-span-2"
 			contentClass="h-[420px]"
 		>
-			<!-- {#if $producoesTecnicasChartQuery.data}
-				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
-			{/if} -->
+			{#if $producoesTecnicasChartQuery.data}
+				<ProducaoTecnicaChart data={$producoesTecnicasChartQuery.data} />
+			{/if}
 		</PesquisadorCard>
 
 		<PesquisadorCard
@@ -166,9 +169,9 @@
 			class="lg:col-span-2"
 			contentClass="h-[420px]"
 		>
-			<!-- {#if $producoesTecnicasChartQuery.data}
-				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
-			{/if} -->
+			{#if $bancasStatsQuery.data}
+				<BancaChart data={$bancasStatsQuery.data} />
+			{/if}
 		</PesquisadorCard>
 
 		<PesquisadorCard
@@ -188,9 +191,9 @@
 			class="lg:col-span-2"
 			contentClass="h-[420px]"
 		>
-			<!-- {#if $producoesTecnicasChartQuery.data}
-				<ProducaoBibliograficaChart data={$producoesTecnicasChartQuery.data} />
-			{/if} -->
+			{#if $projetosPesquisaStatsQuery.data}
+				<ProjetoPesquisaChart data={$projetosPesquisaStatsQuery.data} />
+			{/if}
 		</PesquisadorCard>
 
 		<PesquisadorCard
