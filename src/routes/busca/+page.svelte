@@ -3,7 +3,7 @@
 	import DataTable from '$lib/components/ui/data-table.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
-	import type { PesquisadoresQuery, Researcher } from '$lib/types';
+	import type { PesquisadorSearch } from '$lib/types';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { ColumnDef, TableOptions } from '@tanstack/svelte-table';
 	import { createSvelteTable, flexRender, getCoreRowModel } from '@tanstack/svelte-table';
@@ -12,7 +12,7 @@
 	let searchQuery = '';
 	let timeout: NodeJS.Timeout;
 
-	const defaultColumns: ColumnDef<Researcher>[] = [
+	const defaultColumns: ColumnDef<PesquisadorSearch>[] = [
 		{
 			accessorKey: 'siape',
 			header: () => 'Siape'
@@ -28,20 +28,20 @@
 		}
 	];
 
-	const options = writable<TableOptions<Researcher>>({
+	const options = writable<TableOptions<PesquisadorSearch>>({
 		data: [],
 		columns: defaultColumns,
 		getCoreRowModel: getCoreRowModel()
 	});
 
-	const query = createQuery<PesquisadoresQuery>({
+	const query = createQuery({
 		queryKey: ['search_pesquisadores', searchQuery],
-		queryFn: async ({ signal }): Promise<PesquisadoresQuery> => {
+		queryFn: async ({ signal }) => {
 			try {
 				const data = await PesquisadoresService.list({
 					query: searchQuery,
 					page: 1,
-					pageSize: 10
+					page_size: 10
 				}, { signal });
 				options.update((o) => ({ ...o, data: data.hits }));
 				return data;

@@ -1,14 +1,15 @@
-import type { operations } from '$lib/types/api';
+import { PUBLIC_API_URL } from '$env/static/public';
 import type { ClientOptions } from 'openapi-fetch';
 import { client } from '.';
 
+
+
 export const PesquisadoresService = {
-	list: async (filters: operations['routes_pesquisadores_search_researcher']['parameters']['query'], config?: ClientOptions) => {
+	list: async ({
+		query, page, pageSize: pageSize
+	}: SearchResearchers, config?: ClientOptions) => {
 		const response = await client.GET('/v1/pesquisadores', {
-			params: {
-				query: filters
-			},
-			config
+			signal: config?.signal,
 		});
 		return response.data;
 	},
@@ -165,5 +166,15 @@ export const PesquisadoresService = {
 			config
 		});
 		return response.data;
+	},
+	areasConhecimento: async (siape: string, config?: RequestInit): Promise<PesquisadorAreasConhecimento> => {
+		const url = new URL(`v1/pesquisadores/${siape}/areas_conhecimento`, PUBLIC_API_URL);
+		const response = await fetch(url.toString(), config);
+		return await response.json();
+	},
+	palavrasChave: async (siape: string, config?: RequestInit): Promise<string[]> => {
+		const url = new URL(`v1/pesquisadores/${siape}/palavras_chave`, PUBLIC_API_URL);
+		const response = await fetch(url.toString(), config);
+		return await response.json();
 	}
 };

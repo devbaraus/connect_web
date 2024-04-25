@@ -6,27 +6,32 @@
 	import { addSearchParam } from '$lib/utils';
 	import type { Selected } from 'bits-ui';
 	import { page } from '$app/stores';
+	import type { Area, Campus, GrandeArea } from '$lib/types';
 
-	export let campuses: Promise<string[]>;
-	export let grandesAreas: Promise<string[]>;
-	export let areas: Promise<string[]>;
+	export let campuses: Promise<Campus[] | undefined>;
+	export let grandesAreas: Promise<GrandeArea[] | undefined>;
+	export let areas: Promise<Area[] | undefined>;
 
-	const defaultCampus = $page.url.searchParams.get('campus') ? {
-		label: $page.url.searchParams.get('campus')!.toUpperCase(),
-		value: $page.url.searchParams.get('campus')!
-	} : {label: 'TODOS', value: ''};
+	const defaultCampus = $page.url.searchParams.get('campus')
+		? {
+				label: $page.url.searchParams.get('campus')!.toUpperCase(),
+				value: $page.url.searchParams.get('campus')!
+			}
+		: { label: 'TODOS', value: '' };
 
-	const defaultGrandeArea = $page.url.searchParams.get('grande_area') ? 
-	{
-		label: $page.url.searchParams.get('grande_area')!.replaceAll('_', ' ').toUpperCase(),
-		value: $page.url.searchParams.get('grande_area')!
-	} : {label: 'TODAS', value: ''};
+	const defaultGrandeArea = $page.url.searchParams.get('grande_area')
+		? {
+				label: $page.url.searchParams.get('grande_area')!.replaceAll('_', ' ').toUpperCase(),
+				value: $page.url.searchParams.get('grande_area')!
+			}
+		: { label: 'TODAS', value: '' };
 
-	const defaultArea = $page.url.searchParams.get('area') ? 
-	{
-		label: $page.url.searchParams.get('area')!.toUpperCase(),
-		value: $page.url.searchParams.get('area')!
-	} : {label: 'TODAS', value: ''};
+	const defaultArea = $page.url.searchParams.get('area')
+		? {
+				label: $page.url.searchParams.get('area')!.toUpperCase(),
+				value: $page.url.searchParams.get('area')!
+			}
+		: { label: 'TODAS', value: '' };
 
 	const defaultKind = $page.url.searchParams.get('kind') || 'tipo';
 	const defaultDisplayBy = $page.url.searchParams.get('display_by') || 'data';
@@ -36,10 +41,7 @@
 	}
 </script>
 
-<RadioGroup.Root
-	value={defaultKind}
-	onValueChange={(v) => gotoOption('kind', v)}
->
+<RadioGroup.Root value={defaultKind} onValueChange={(v) => gotoOption('kind', v)}>
 	<div class="flex items-center space-x-2">
 		<RadioGroup.Item value="tipo" id="kind_tipo" />
 		<Label for="kind_tipo">Tipo de Produção</Label>
@@ -51,10 +53,7 @@
 	<RadioGroup.Input name="spacing" />
 </RadioGroup.Root>
 
-<RadioGroup.Root
-	value={defaultDisplayBy}
-	onValueChange={(v) => gotoOption('display_by', v)}
->
+<RadioGroup.Root value={defaultDisplayBy} onValueChange={(v) => gotoOption('display_by', v)}>
 	<div class="flex items-center space-x-2">
 		<RadioGroup.Item value="data" id="display_data" />
 		<Label for="display_data">Data</Label>

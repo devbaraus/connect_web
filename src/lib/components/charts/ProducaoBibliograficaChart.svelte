@@ -2,10 +2,10 @@
 	import { chart, type ChartOptions } from '$lib/actions/chart';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import { TipoProducaoPlural, type ProducoesChartData, Qualis } from '$lib/types';
+	import { EnumProducaoBibliograficaPlural, type ProducoesBibliograficasStats, Qualis } from '$lib/types';
 	import { transpose } from '$lib/utils';
 
-	export let data: ProducoesChartData[];
+	export let data: ProducoesBibliograficasStats[];
 	export let kind: 'tipo' | 'qualis' = 'tipo';
 	export let displayBy: 'data' | 'categoria' = 'data';
 	export let events: Record<string, (params: any) => void> = {};
@@ -13,7 +13,7 @@
 	export let defaultXRange: [number, number] | undefined = undefined;
 	let relative = false;
 
-	const groupsObj = kind === 'tipo' ? TipoProducaoPlural : Qualis;
+	const groupsObj = kind === 'tipo' ? EnumProducaoBibliograficaPlural : Qualis;
 	const groupsOrder = Object.keys(groupsObj);
 
 	$: groups = data?.reduce(

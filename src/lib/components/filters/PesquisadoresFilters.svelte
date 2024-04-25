@@ -7,26 +7,30 @@
 	import type { Selected } from 'bits-ui';
 	import { page } from '$app/stores';
 
-	export let campuses: Promise<string[]>;
-	export let grandesAreas: Promise<string[]>;
-	export let areas: Promise<string[]>;
+	export let campuses: Promise<string[] | undefined>;
+	export let grandesAreas: Promise<string[] | undefined>;
+	export let areas: Promise<string[] | undefined>;
 
-	const defaultCampus = $page.url.searchParams.get('campus') ? {
-		label: $page.url.searchParams.get('campus')!.toUpperCase(),
-		value: $page.url.searchParams.get('campus')!
-	} : {label: 'TODOS', value: ''};
+	const defaultCampus = $page.url.searchParams.get('campus')
+		? {
+				label: $page.url.searchParams.get('campus')!.toUpperCase(),
+				value: $page.url.searchParams.get('campus')!
+			}
+		: { label: 'TODOS', value: '' };
 
-	const defaultGrandeArea = $page.url.searchParams.get('grande_area') ? 
-	{
-		label: $page.url.searchParams.get('grande_area')!.replaceAll('_', ' ').toUpperCase(),
-		value: $page.url.searchParams.get('grande_area')!
-	} : {label: 'TODAS', value: ''};
+	const defaultGrandeArea = $page.url.searchParams.get('grande_area')
+		? {
+				label: $page.url.searchParams.get('grande_area')!.replaceAll('_', ' ').toUpperCase(),
+				value: $page.url.searchParams.get('grande_area')!
+			}
+		: { label: 'TODAS', value: '' };
 
-	const defaultArea = $page.url.searchParams.get('area') ? 
-	{
-		label: $page.url.searchParams.get('area')!.toUpperCase(),
-		value: $page.url.searchParams.get('area')!
-	} : {label: 'TODAS', value: ''};
+	const defaultArea = $page.url.searchParams.get('area')
+		? {
+				label: $page.url.searchParams.get('area')!.toUpperCase(),
+				value: $page.url.searchParams.get('area')!
+			}
+		: { label: 'TODAS', value: '' };
 
 	const defaultKind = $page.url.searchParams.get('exibir_por') || 'data';
 
@@ -35,10 +39,7 @@
 	}
 </script>
 
-<RadioGroup.Root
-	value={defaultKind}
-	onValueChange={(v) => gotoOption('exibir_por', v)}
->
+<RadioGroup.Root value={defaultKind} onValueChange={(v) => gotoOption('exibir_por', v)}>
 	<div class="flex items-center space-x-2">
 		<RadioGroup.Item value="categoria" id="kind_categoria" />
 		<Label for="kind_categoria">Categoria</Label>

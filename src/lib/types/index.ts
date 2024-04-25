@@ -1,85 +1,8 @@
-export type ProducoesChartData = {
-	ano?: string;
-	tipo?: string;
-	qualis?: string;
-	grande_area?: string;
-	total: number;
-};
+import type { components } from './api';
 
-export type ProducoesData = {
-	id : number,
-	doi: string,
-	natureza: string,
-	ano: string,
-	idioma: string,
-	tipo: string,
-	tipo_livro: string,
-	titulo: string,
-	classificacao: string,
-	meio_divulgacao: string,
-	curriculo: {
-		siape: string,
-		nome_completo: string,
-		numero_lattes: string
-	}
-	
-}
-
-export type FormacaoStatsData =   {
-	id: number,
-	instituicao: {
-		nome: string,
-		codigo: string
-	},
-	curso: {
-		nome: string,
-		codigo: string
-	},
-	ano_inicio: string,
-	ano_conclusao: string,
-	status: string
-	tipo: string
-}
-
-export const Qualis = {
-	null: "NC",
-	"A1": "A1",
-	"A2": "A2",
-	"B1": "B1",
-	"B2": "B2",
-	"B3": "B3",
-	"B4": "B4",
-	"B5": "B5",
-	"C": "C",
-}
-
-export const FormacaoAcademica = {
-	GRADUACAO: 'Graduação',
-	ESPECIALIZACAO: 'Especialização',
-	MESTRADO: 'Mestrado',
-	DOUTORADO: 'Doutorado',
-	POS_DOUTORADO: 'Pós-Doutorado',
-}
-
-export const TipoProducaoPlural = {
-	ARTIGO: 'Artigos',
-	TRABALHO_EVENTO: 'Trabalhos em Eventos',
-	RESUMO: 'Resumos',
-	LIVRO: 'Livros',
-	CAPITULO_LIVRO: 'Capítulos de Livros'
-};
-
-export const TipoProducaoSingular = {
-	ARTIGO: 'Artigo',
-	TRABALHO_EVENTO: 'Trabalho em Evento',
-	RESUMO: 'Resumo',
-	LIVRO: 'Livro',
-	CAPITULO_LIVRO: 'Capítulo de Livro'
-};
-
-export type Researcher = {
-	nome: string
-}
+export type GrandeArea = string;
+export type Area = string;
+export type Campus = string;
 
 export type PaginatedResponse<T> = {
 	results: T[];
@@ -88,38 +11,45 @@ export type PaginatedResponse<T> = {
 	page: number;
 };
 
-export type PesquisadoresQuery = {
-	hits: Researcher[],
-	query: string,
-	processingTimeMs: number,
-	limit: number,
-	offset: number,
-	estimatedTotalHits: number
+export type PesquisadorSearch = components['schemas']['MeiliResponse'];
+export type ProducoesBibliograficasStats =
+	components['schemas']['ProducaoBibliograficaStatsResponse'];
+export type ProducoesBibliograficas = components['schemas']['ProducaoBibliograficaSchema'];
+
+export const Qualis = {
+	null: 'NC',
+	A1: 'A1',
+	A2: 'A2',
+	B1: 'B1',
+	B2: 'B2',
+	B3: 'B3',
+	B4: 'B4',
+	B5: 'B5',
+	C: 'C'
 };
 
-export type NodeProducaoBibliografica = {
-	__node__: 'ProducaoBibliografica';
-	id: string;
-	doi: string;
-	titulo: string;
-	ano: string;
-	tipo: string;
-	tipo_livro: string | null;
+export const EnumFormacaoAcademica = {
+	GRADUACAO: 'Graduação',
+	ESPECIALIZACAO: 'Especialização',
+	MESTRADO: 'Mestrado',
+	DOUTORADO: 'Doutorado',
+	POS_DOUTORADO: 'Pós-Doutorado'
 };
 
-export type NodeCurriculo = {
-	__node__: 'Curriculo';
-	id: string;
-	siape: string;
-	cnpq: string;
-	nome: string;
-	campus: string;
-	categoria: string;
+export const EnumProducaoBibliograficaPlural = {
+	ARTIGO: 'Artigos',
+	TRABALHO_EVENTO: 'Trabalhos em Eventos',
+	RESUMO: 'Resumos',
+	LIVRO: 'Livros',
+	CAPITULO_LIVRO: 'Capítulos de Livros'
 };
 
-export type Link = {
-	__rel__: string;
-	id: string;
-	start_node: string;
-	end_node: string;
+export const EnumProducaoBibliograficaSingular = {
+	ARTIGO: 'Artigo',
+	TRABALHO_EVENTO: 'Trabalho em Evento',
+	RESUMO: 'Resumo',
+	LIVRO: 'Livro',
+	CAPITULO_LIVRO: 'Capítulo de Livro'
 };
+
+

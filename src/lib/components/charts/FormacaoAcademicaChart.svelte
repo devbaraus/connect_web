@@ -2,17 +2,17 @@
 	import { chart, type ChartOptions } from '$lib/actions/chart';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import { type ProducoesChartData, FormacaoAcademica } from '$lib/types';
+	import { type ProducoesBibliograficasStats, EnumFormacaoAcademica } from '$lib/types';
 	import { transpose } from '$lib/utils';
 
-	export let data: ProducoesChartData[];
+	export let data: ProducoesBibliograficasStats[];
 	export let kind: 'data' | 'categoria' = 'data';
 	export let events: Record<string, (params: any) => void> = {};
 	export let defaultXAxis: string[] | undefined = undefined;
 	export let defaultXRange: [number, number] | undefined = undefined;
 	let relative = false;
 
-	const groupsOrder = Object.keys(FormacaoAcademica);
+	const groupsOrder = Object.keys(EnumFormacaoAcademica);
 
 	$: groups = data?.reduce(
 		(acc, d) => {
@@ -139,7 +139,7 @@
 				.sort(([a], [b]) => groupsOrder.indexOf(a) - groupsOrder.indexOf(b))
 				.map(([kind, display], index) => ({
 					id: kind,
-					name: FormacaoAcademica[kind as never],
+					name: EnumFormacaoAcademica[kind as never],
 					type: 'bar',
 					stack: 'total',
 					label: {

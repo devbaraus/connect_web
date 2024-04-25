@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { ProducoesService } from '$lib/services/producoes-service';
-	import { TipoProducaoSingular, type ProducoesData } from '$lib/types';
+	import { ProducoesBibliograficasService } from '$lib/services/producoes-bibliograficas-service';
+	import { EnumProducaoBibliograficaSingular, type ProducoesData } from '$lib/types';
 	import { createQuery } from '@tanstack/svelte-query';
 	import {
 		createSvelteTable,
+		flexRender,
 		getCoreRowModel,
 		type ColumnDef,
-		type TableOptions,
-		flexRender
+		type TableOptions
 	} from '@tanstack/svelte-table';
 	import { writable } from 'svelte/store';
-	import DataTable from '../ui/data-table.svelte';
 	import PesquisadorDataTableAction from '../pesquisadores/PesquisadorDataTableAction.svelte';
+	import DataTable from '../ui/data-table.svelte';
 
 	let campus = '';
 	let grandeArea = '';
@@ -26,7 +26,7 @@
 			accessorKey: 'tipo',
 			header: () => 'Tipo de Produção',
 			cell: ({ row }) =>
-				TipoProducaoSingular[row.getValue('tipo') as keyof typeof TipoProducaoSingular]
+				EnumProducaoBibliograficaSingular[row.getValue('tipo') as keyof typeof EnumProducaoBibliograficaSingular]
 		},
 		{
 			accessorKey: 'ano',
@@ -59,14 +59,11 @@
 	const query = createQuery({
 		queryKey: ['searchResearchers'],
 		queryFn: async () =>
-			await ProducoesService.list({
-				campus,
-				grandeArea,
-				area,
-				anoLte: anoLte ? parseInt(anoLte) : undefined,
-				anoGte: anoGte ? parseInt(anoGte) : undefined,
-				page: 0,
-				pageSize: 50
+			await ProducoesBibliograficasService.list({
+				// ano_lte: anoLte ? parseInt(anoLte) : undefined,
+				// ano_gte: anoGte ? parseInt(anoGte) : undefined,
+				// page: 0,
+				// pageSize: 50
 			}).then((data) => {
 				options.update((o) => ({ ...o, data: data.results }));
 				return data;

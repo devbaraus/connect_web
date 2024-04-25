@@ -26,13 +26,13 @@
 	$: producoesChartQuery = createQuery({
 		queryKey: ['pesquisador-producoes-chart'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesChart($page.params.siape!, { signal })
+			PesquisadoresService.producoesBibliograficasStats($page.params.siape!, { signal })
 	});
 
 	$: producoesGraphQuery = createQuery({
 		queryKey: ['pesquisador-producoes-graph'],
 		queryFn: async ({ signal }) =>
-			PesquisadoresService.producoesGraph($page.params.siape!, { signal })
+			PesquisadoresService.producoesBibliograficasGraph($page.params.siape!, { signal })
 	});
 
 	$: producoesTecnicasChartQuery = createQuery({

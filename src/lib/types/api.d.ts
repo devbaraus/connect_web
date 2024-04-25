@@ -26,20 +26,20 @@ export interface paths {
     get: operations["routes_api_get_areas"];
   };
   "/v1/atuacoes/stats": {
-    /** Atuacao Stats */
-    get: operations["routes_api_atuacao_stats"];
+    /** Stats */
+    get: operations["routes_atuacoes_stats"];
   };
   "/v1/formacoes/stats": {
-    /** Formacao Stats */
-    get: operations["routes_api_formacao_stats"];
+    /** Stats */
+    get: operations["routes_formacoes_stats"];
   };
-  "/v1/producoes/stats": {
-    /** Producao Bibliografica Stats */
-    get: operations["routes_api_producao_bibliografica_stats"];
+  "/v1/producoes_bibliograficas": {
+    /** List */
+    get: operations["routes_producoes_bibliograficas_list"];
   };
-  "/v1/producoes": {
-    /** Producao Bibliografica List */
-    get: operations["routes_producoes_producao_bibliografica_list"];
+  "/v1/producoes_bibliograficas/stats": {
+    /** Stats */
+    get: operations["routes_producoes_bibliograficas_stats"];
   };
   "/v1/pesquisadores/{siape}/areas_conhecimento": {
     /** Areas Conhecimento */
@@ -191,6 +191,19 @@ export interface components {
       /** Ano Gte */
       ano_gte?: number | null;
     };
+    /** ProducaoBibliograficaStatsResponse */
+    ProducaoBibliograficaStatsResponse: {
+      /** Ano */
+      ano?: string | null;
+      /** Qualis */
+      qualis?: string | null;
+      /** Grande Area */
+      grande_area?: string | null;
+      /** Tipo */
+      tipo?: string | null;
+      /** Total */
+      total: number;
+    };
     /** ProfessorAreasConhecimentoResponse */
     ProfessorAreasConhecimentoResponse: {
       /** Grandes Areas */
@@ -231,19 +244,6 @@ export interface components {
       citacoes?: unknown[] | null;
       /** Resumo Cv */
       resumo_cv?: string | null;
-    };
-    /** ProducaoBibliograficaStatsResponse */
-    ProducaoBibliograficaStatsResponse: {
-      /** Ano */
-      ano?: string | null;
-      /** Qualis */
-      qualis?: string | null;
-      /** Grande Area */
-      grande_area?: string | null;
-      /** Tipo */
-      tipo?: string | null;
-      /** Total */
-      total: number;
     };
     /** GraphCurriculo */
     GraphCurriculo: {
@@ -603,8 +603,8 @@ export interface operations {
       };
     };
   };
-  /** Atuacao Stats */
-  routes_api_atuacao_stats: {
+  /** Stats */
+  routes_atuacoes_stats: {
     parameters: {
       query?: {
         campus?: string | null;
@@ -621,8 +621,8 @@ export interface operations {
       };
     };
   };
-  /** Formacao Stats */
-  routes_api_formacao_stats: {
+  /** Stats */
+  routes_formacoes_stats: {
     parameters: {
       query?: {
         campus?: string | null;
@@ -640,28 +640,8 @@ export interface operations {
       };
     };
   };
-  /** Producao Bibliografica Stats */
-  routes_api_producao_bibliografica_stats: {
-    parameters: {
-      query?: {
-        campus?: string | null;
-        grande_area?: string | null;
-        area?: string | null;
-        kind?: "tipo" | "qualis";
-        display_by?: "data" | "categoria";
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": unknown[];
-        };
-      };
-    };
-  };
-  /** Producao Bibliografica List */
-  routes_producoes_producao_bibliografica_list: {
+  /** List */
+  routes_producoes_bibliograficas_list: {
     parameters: {
       query?: {
         page?: number;
@@ -678,6 +658,26 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["Schema_ProducaoBibliograficaSchema_"];
+        };
+      };
+    };
+  };
+  /** Stats */
+  routes_producoes_bibliograficas_stats: {
+    parameters: {
+      query?: {
+        campus?: string | null;
+        grande_area?: string | null;
+        area?: string | null;
+        kind?: "tipo" | "qualis";
+        display_by?: "data" | "categoria";
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ProducaoBibliograficaStatsResponse"][];
         };
       };
     };
