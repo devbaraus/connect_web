@@ -59,6 +59,25 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		.attr('viewBox', [-width / 2, -height / 2, width, height])
 		.attr('style', 'max-width: 100%; height: auto; position: relative;');
 
+	const zoom = d3.zoom().on('zoom', (event) => {
+		const { transform } = event;
+		node.attr('transform', transform);
+		link.attr('transform', transform);
+	});
+
+	const minusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('-').on('click', () => {
+		zoom.scaleBy(svg.transition().duration(750), 0.8);
+	});
+
+	const plusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('+').on('click', () => {
+		zoom.scaleBy(svg.transition().duration(750), 1.2);
+	})
+
+	const zoomBtn = d3.create('div').attr('class', 'absolute bottom-2 right-2 border rounded-md space-x-1')
+
+	zoomBtn.node().appendChild(minusZoom.node());
+	zoomBtn.node().appendChild(plusZoom.node());
+
 	const uuid = () =>
 		Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
@@ -176,6 +195,7 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 	el.style.position = 'relative';
 	el.appendChild(svg.node());
 	el.appendChild(tooltipEl.node());
+	el.appendChild(zoomBtn.node());
 
 	return {
 		destroy() {
