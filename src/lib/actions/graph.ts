@@ -66,11 +66,11 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 	});
 
 	const minusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('-').on('click', () => {
-		zoom.scaleBy(svg.transition().duration(750), 0.8);
+		zoom.scaleBy(svg.transition().duration(150), 0.8);
 	});
 
 	const plusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('+').on('click', () => {
-		zoom.scaleBy(svg.transition().duration(750), 1.2);
+		zoom.scaleBy(svg.transition().duration(150), 1.2);
 	})
 
 	const zoomBtn = d3.create('div').attr('class', 'absolute bottom-2 right-2 border rounded-md space-x-1')
@@ -87,7 +87,7 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		.attr('id', uuid)
 		.attr(
 			'style',
-			'position: fixed; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px sans-serif; padding: 10px; border-color: rgb(255, 255, 255); pointer-events: none;'
+			'position: fixed; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px sans-serif; padding: 10px; border-color: rgb(255, 255, 255); pointer-events: none; user-select: none;'
 		)
 		.style('top', 0)
 		.style('left', 0)
