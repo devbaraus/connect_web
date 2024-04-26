@@ -87,7 +87,7 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		.attr('id', uuid)
 		.attr(
 			'style',
-			'position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px sans-serif; padding: 10px; border-color: rgb(255, 255, 255); pointer-events: none;'
+			'position: fixed; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px sans-serif; padding: 10px; border-color: rgb(255, 255, 255); pointer-events: none;'
 		)
 		.style('top', 0)
 		.style('left', 0)
@@ -118,10 +118,32 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		.text((d) => d.id); // Add text inside the node
 
 	function getRelativeMousePosition(event: MouseEvent) {
-		const rect = svg.node().getBoundingClientRect();
+		const tip = tooltipEl.node().getBoundingClientRect();
+
+		const windowWidth = window.innerWidth;
+		const windowHeight = window.innerHeight;
+
+		const availableSpaceRight = windowWidth - event.clientX
+		const availableSpaceBottom = windowHeight - event.clientY
+
+		let tooltipLeft;
+		let tooltipTop;
+
+		if (availableSpaceRight < tip.width) { // If tooltip overflows to the right
+		  tooltipLeft = event.clientX - tip.width; // Position to the left
+		} else {
+		  tooltipLeft = event.clientX
+		}
+	  
+		if (availableSpaceBottom < tip.height) { // If tooltip overflows below
+		  tooltipTop = event.clientY - tip.height; // Position above
+		} else {
+		  tooltipTop = event.clientY
+		}
+		
 		return {
-			x: event.clientX - rect.left,
-			y: event.clientY - rect.top
+			x: tooltipLeft,
+			y: tooltipTop
 		};
 	}
 
