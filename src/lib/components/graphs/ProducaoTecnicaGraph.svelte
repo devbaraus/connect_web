@@ -8,7 +8,6 @@
 	import BaseGraph from '$lib/components/graphs/BaseGraph.svelte';
 	import base from '$lib/themes/base';
 	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
-	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
 	import { goto } from '$app/navigation';
 	import ProducaoTecnicaTooltip from '$lib/components/graphs/tooltips/ProducaoTecnicaTooltip.svelte';
 	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';

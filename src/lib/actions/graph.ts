@@ -65,15 +65,25 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		link.attr('transform', transform);
 	});
 
-	const minusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('-').on('click', () => {
-		zoom.scaleBy(svg.transition().duration(150), 0.8);
-	});
+	const minusZoom = d3
+		.create('button')
+		.attr('class', 'px-1 hover:bg-accent')
+		.text('-')
+		.on('click', () => {
+			zoom.scaleBy(svg.transition().duration(150), 0.8);
+		});
 
-	const plusZoom = d3.create('button').attr('class', 'px-1 hover:bg-accent').text('+').on('click', () => {
-		zoom.scaleBy(svg.transition().duration(150), 1.2);
-	})
+	const plusZoom = d3
+		.create('button')
+		.attr('class', 'px-1 hover:bg-accent')
+		.text('+')
+		.on('click', () => {
+			zoom.scaleBy(svg.transition().duration(150), 1.2);
+		});
 
-	const zoomBtn = d3.create('div').attr('class', 'absolute bottom-2 right-2 border rounded-md space-x-1')
+	const zoomBtn = d3
+		.create('div')
+		.attr('class', 'absolute bottom-2 right-2 border rounded-md space-x-1');
 
 	zoomBtn.node().appendChild(minusZoom.node());
 	zoomBtn.node().appendChild(plusZoom.node());
@@ -93,6 +103,12 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		.style('left', 0)
 		.style('opacity', 0)
 		.style('visibility', 'hidden');
+
+	const tooltipContent = document.querySelector(`#${tooltip}`);
+	if (tooltipContent) {
+		tooltipEl.node().innerHTML = '';
+		tooltipEl.node().appendChild(tooltipContent);
+	}
 
 	// Add a line for each link, and a circle for each node.
 	const link = svg
@@ -123,24 +139,26 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		const windowWidth = window.innerWidth;
 		const windowHeight = window.innerHeight;
 
-		const availableSpaceRight = windowWidth - event.clientX
-		const availableSpaceBottom = windowHeight - event.clientY
+		const availableSpaceRight = windowWidth - event.clientX;
+		const availableSpaceBottom = windowHeight - event.clientY;
 
 		let tooltipLeft;
 		let tooltipTop;
 
-		if (availableSpaceRight < tip.width) { // If tooltip overflows to the right
-		  tooltipLeft = event.clientX - tip.width; // Position to the left
+		if (availableSpaceRight < tip.width) {
+			// If tooltip overflows to the right
+			tooltipLeft = event.clientX - tip.width; // Position to the left
 		} else {
-		  tooltipLeft = event.clientX
+			tooltipLeft = event.clientX;
 		}
-	  
-		if (availableSpaceBottom < tip.height) { // If tooltip overflows below
-		  tooltipTop = event.clientY - tip.height; // Position above
+
+		if (availableSpaceBottom < tip.height) {
+			// If tooltip overflows below
+			tooltipTop = event.clientY - tip.height; // Position above
 		} else {
-		  tooltipTop = event.clientY
+			tooltipTop = event.clientY;
 		}
-		
+
 		return {
 			x: tooltipLeft,
 			y: tooltipTop
@@ -153,17 +171,10 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		})
 		.on('mouseover', function (event, d) {
 			actions?.mouseover?.(d);
-
 			const { x, y } = getRelativeMousePosition(event);
 
 			tooltipEl.style('top', `${y + nodeSize}px`).style('left', `${x + nodeSize}px`);
 			tooltipEl.style('opacity', 1).style('visibility', 'visible');
-
-			const tooltipContent = document.querySelector(`#${tooltip}`);
-			if (tooltipContent) {
-				tooltipEl.node().innerHTML = '';
-				tooltipEl.node().appendChild(tooltipContent);
-			}
 		})
 		.on('mousemove', function (event, d) {
 			const { x, y } = getRelativeMousePosition(event);
@@ -176,7 +187,7 @@ export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParam
 		});
 
 	// Add a drag behavior.
-	node.call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
+	// node.call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
 
 	// Set the position attributes of links and nodes each time the simulation ticks.
 	simulation.on('tick', () => {
