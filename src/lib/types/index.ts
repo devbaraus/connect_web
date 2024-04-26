@@ -11,7 +11,7 @@ export type PaginatedResponse<T> = {
 	page: number;
 };
 
-export type PesquisadorSearch = components['schemas']['MeiliResponse'];
+export type PesquisadorSearch = any;
 
 export type FormacaoGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphCurso__'];
@@ -32,6 +32,12 @@ export type BancaGraph = components['schemas']['GraphResponse_Union_GraphCurricu
 export type ProjetoPesquisaStats = components['schemas']['ProjetoPesquisaStatsResponse'];
 export type ProjetoPesquisaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProjetoPesquisa__'];
+
+export type CurriculoNode = components['schemas']['GraphCurriculo'];
+export type ProjetoPesquisaNode = components['schemas']['GraphProjetoPesquisa'];
+export type ProducaoTecnicaNode = components['schemas']['GraphProducaoTecnica'];
+export type ProducaoBibliograficaNode = components['schemas']['GraphProducaoBibliografica'];
+export type BancaNode = components['schemas']['GraphBanca'];
 
 export const EnumQualis = {
 	null: 'NC',

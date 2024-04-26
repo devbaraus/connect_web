@@ -1,7 +1,15 @@
 <script lang="ts">
-	import { type BancaGraph } from '$lib/types';
+	import { type BancaGraph, type BancaNode, type CurriculoNode } from '$lib/types';
 	import BaseGraph from '$lib/components/graphs/BaseGraph.svelte';
 	import base from '$lib/themes/base';
+	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
+	import BancaTooltip from '$lib/components/graphs/tooltips/BancaTooltip.svelte';
+	import { goto } from '$app/navigation';
+	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+
+	const tooltip = 'banca-tooltip';
+
+	let node: CurriculoNode | BancaNode;
 
 	export let data: BancaGraph;
 
@@ -21,13 +29,35 @@
 	const nodes = data.nodes.map((n) => ({
 		...n,
 		group: n.node === 'Banca' ? n.natureza : 'CURRICULO',
-		color: n.node === 'Banca' ? base.color[keys.indexOf(n.natureza)] : '#626c91'
+		color: n.node === 'Banca' ? base.color[keys.indexOf(n.natureza)] : '#626c91',
+		class: n.node === 'Banca' ? '' : 'hover:cursor-pointer'
 	}));
+
+	const actions = {
+		mouseover: (d) => {
+			node = d;
+		},
+		click: (d) => {
+			if (d.node === 'Curriculo') {
+				goto(`/pesquisadores/${d.siape}`);
+			}
+		}
+	};
 </script>
+
+<TooltipGraph {tooltip}>
+	{#if node?.node === 'Curriculo'}
+		<PesquisadorTooltip {node} />
+	{:else if node?.node === 'Banca'}
+		<BancaTooltip {node} />
+	{/if}
+</TooltipGraph>
 
 <BaseGraph
 	data={{
 		nodes,
 		links: data.links
 	}}
+	{tooltip}
+	{actions}
 />

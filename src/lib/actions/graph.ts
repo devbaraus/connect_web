@@ -1,17 +1,15 @@
 import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3';
 import * as d3 from 'd3';
 
-export interface Node extends SimulationNodeDatum {
+export interface NodeGraph extends SimulationNodeDatum {
 	id: string;
+	node: string;
 	group: number;
 	color: string;
-	tooltip?: string;
-	actions?: {
-		click?: () => void;
-	};
+	class: string;
 }
 
-export interface Link extends SimulationLinkDatum<Node> {
+export interface LinkGraph extends SimulationLinkDatum<NodeGraph> {
 	id: string;
 	source: string;
 	target: string;
@@ -19,12 +17,17 @@ export interface Link extends SimulationLinkDatum<Node> {
 
 export type GraphParams = {
 	data: {
-		nodes: Node[];
-		links: Link[];
+		nodes: NodeGraph[];
+		links: LinkGraph[];
+	};
+	tooltip?: string;
+	actions?: {
+		click?: (d: NodeGraph) => void;
+		mouseover?: (d: NodeGraph) => void;
 	};
 };
 
-export function graph(el: HTMLDivElement, { data }: GraphParams) {
+export function graph(el: HTMLDivElement, { data, tooltip, actions }: GraphParams) {
 	// Specify the dimensions of the chart.
 	const width = el.clientWidth;
 	const height = el.clientHeight;
@@ -59,7 +62,7 @@ export function graph(el: HTMLDivElement, { data }: GraphParams) {
 	const uuid = () =>
 		Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-	const tooltip = d3
+	const tooltipEl = d3
 		.create('div')
 		.append('div')
 		.attr('id', uuid)
@@ -92,6 +95,7 @@ export function graph(el: HTMLDivElement, { data }: GraphParams) {
 		.attr('fill', (d) => {
 			return d.color ?? '#000';
 		})
+		.attr('class', (d) => d.class ?? '')
 		.text((d) => d.id); // Add text inside the node
 
 	function getRelativeMousePosition(event: MouseEvent) {
@@ -104,26 +108,30 @@ export function graph(el: HTMLDivElement, { data }: GraphParams) {
 
 	node
 		.on('click', function (event, d) {
-			if (d.actions?.click) {
-				d.actions.click();
-			}
+			actions?.click?.(d);
 		})
 		.on('mouseover', function (event, d) {
+			actions?.mouseover?.(d);
+
 			const { x, y } = getRelativeMousePosition(event);
 
-			tooltip.style('top', `${y + nodeSize}px`).style('left', `${x + nodeSize}px`);
-			tooltip.style('opacity', 1).style('visibility', 'visible');
-			tooltip.selectAll('*').remove();
-			tooltip.append('div').html(d.tooltip ?? 'no tooltip');
+			tooltipEl.style('top', `${y + nodeSize}px`).style('left', `${x + nodeSize}px`);
+			tooltipEl.style('opacity', 1).style('visibility', 'visible');
+
+			const tooltipContent = document.querySelector(`#${tooltip}`);
+			if (tooltipContent) {
+				tooltipEl.node().innerHTML = '';
+				tooltipEl.node().appendChild(tooltipContent);
+			}
 		})
 		.on('mousemove', function (event, d) {
 			const { x, y } = getRelativeMousePosition(event);
 
-			tooltip.style('top', `${y + nodeSize}px`).style('left', `${x + nodeSize}px`);
-			tooltip.style('opacity', 1).style('visibility', 'visible');
+			tooltipEl.style('top', `${y + nodeSize}px`).style('left', `${x + nodeSize}px`);
+			tooltipEl.style('opacity', 1).style('visibility', 'visible');
 		})
 		.on('mouseout', function (event, d) {
-			tooltip.style('opacity', 0).style('visibility', 'hidden');
+			tooltipEl.style('opacity', 0).style('visibility', 'hidden');
 		});
 
 	// Add a drag behavior.
@@ -167,7 +175,7 @@ export function graph(el: HTMLDivElement, { data }: GraphParams) {
 	// invalidation.then(() => simulation.stop());
 	el.style.position = 'relative';
 	el.appendChild(svg.node());
-	el.appendChild(tooltip.node());
+	el.appendChild(tooltipEl.node());
 
 	return {
 		destroy() {

@@ -1,7 +1,21 @@
 <script lang="ts">
-	import { EnumProducaoTecnica, type ProducaoTecnicaGraph } from '$lib/types';
+	import {
+		type CurriculoNode,
+		EnumProducaoTecnica,
+		type ProducaoTecnicaGraph,
+		type ProducaoTecnicaNode
+	} from '$lib/types';
 	import BaseGraph from '$lib/components/graphs/BaseGraph.svelte';
 	import base from '$lib/themes/base';
+	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
+	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
+	import { goto } from '$app/navigation';
+	import ProducaoTecnicaTooltip from '$lib/components/graphs/tooltips/ProducaoTecnicaTooltip.svelte';
+	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+
+	const tooltip = 'producao-tecnica-tooltip';
+
+	let node: CurriculoNode | ProducaoTecnicaNode;
 
 	export let data: ProducaoTecnicaGraph;
 
@@ -20,13 +34,35 @@
 	const nodes = data.nodes.map((n) => ({
 		...n,
 		group: n.node === 'ProducaoTecnica' ? n.natureza : 'CURRICULO',
-		color: n.node === 'ProducaoTecnica' ? base.color[keys.indexOf(n.natureza)] : '#626c91'
+		color: n.node === 'ProducaoTecnica' ? base.color[keys.indexOf(n.natureza)] : '#626c91',
+		class: n.node === 'ProducaoTecnica' ? '' : 'hover:cursor-pointer'
 	}));
+
+	const actions = {
+		mouseover: (d) => {
+			node = d;
+		},
+		click: (d) => {
+			if (d.node === 'Curriculo') {
+				goto(`/pesquisadores/${d.siape}`);
+			}
+		}
+	};
 </script>
+
+<TooltipGraph {tooltip}>
+	{#if node?.node === 'Curriculo'}
+		<PesquisadorTooltip {node} />
+	{:else if node?.node === 'ProducaoTecnica'}
+		<ProducaoTecnicaTooltip {node} />
+	{/if}
+</TooltipGraph>
 
 <BaseGraph
 	data={{
 		nodes,
 		links: data.links
 	}}
+	{actions}
+	{tooltip}
 />

@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { graph } from '$lib/actions/graph';
+	import { graph, type NodeGraph } from '$lib/actions/graph';
 	export let data: any;
+	export let tooltip: string | undefined = undefined;
+	export let actions: Record<string, (d: NodeGraph) => void> | undefined = {};
 </script>
 
 {#if !data.nodes.length}
@@ -8,7 +10,9 @@
 {:else}
 	<div
 		use:graph={{
-			data
+			data,
+			tooltip,
+			actions
 		}}
 		class="h-full"
 	/>

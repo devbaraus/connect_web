@@ -1,8 +1,20 @@
 <script lang="ts">
-	import { EnumProducaoBibliografica, type ProducaoBibliograficaGraph } from '$lib/types';
+	import {
+		type CurriculoNode,
+		EnumProducaoBibliografica,
+		type ProducaoBibliograficaGraph,
+		type ProducaoBibliograficaNode
+	} from '$lib/types';
 	import BaseGraph from '$lib/components/graphs/BaseGraph.svelte';
 	import base from '$lib/themes/base';
 	import { goto } from '$app/navigation';
+	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
+	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
+	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+
+	const tooltip = 'producao-bibliografica-tooltip';
+
+	let node: CurriculoNode | ProducaoBibliograficaNode;
 
 	export let data: ProducaoBibliograficaGraph;
 
@@ -22,39 +34,34 @@
 		...n,
 		group: n.node === 'ProducaoBibliografica' ? n.tipo : 'CURRICULO',
 		color: n.node === 'ProducaoBibliografica' ? base.color[keys.indexOf(n.tipo)] : '#626c91',
-		tooltip:
-			n.node === 'ProducaoBibliografica'
-				? '<div class="w-[240px] px-2 text-sm">\n' +
-					'  <div class="font-bold">' +
-					EnumProducaoBibliografica[n.tipo] +
-					'</div>\n' +
-					'  <div class="mt-2 whitespace-normal">\n' +
-					'    <p>' +
-					n.titulo +
-					'</p>\n' +
-					'  </div>\n' +
-					'</div>'
-				: '<div class="w-[240px] px-2 text-sm">\n' +
-					'  <div class="font-bold">Pesquisador</div>\n' +
-					'  <div class="mt-2 whitespace-normal">\n' +
-					'    <p>' +
-					n.nome +
-					'</p>\n' +
-					'  </div>\n' +
-					'</div>',
-		actions: {
-			click: () => {
-				if (n.node === 'Curriculo') {
-					goto(`/pesquisadores/${n.siape}`);
-				}
+		class: n.node === 'ProducaoBibliografica' ? '' : 'hover:cursor-pointer'
+	}));
+
+	const actions = {
+		mouseover: (d) => {
+			node = d;
+		},
+		click: (d) => {
+			if (d.node === 'Curriculo') {
+				goto(`/pesquisadores/${d.siape}`);
 			}
 		}
-	}));
+	};
 </script>
+
+<TooltipGraph {tooltip}>
+	{#if node?.node === 'Curriculo'}
+		<PesquisadorTooltip {node} />
+	{:else if node?.node === 'ProducaoBibliografica'}
+		<ProducaoBibliograficaTooltip {node} />
+	{/if}
+</TooltipGraph>
 
 <BaseGraph
 	data={{
 		nodes,
 		links: data.links
 	}}
+	{tooltip}
+	{actions}
 />
