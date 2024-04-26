@@ -18,8 +18,8 @@
 	});
 </script>
 
-<PesquisadorSection>
-	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="lg:col-span-2">
+<PesquisadorSection class="lg:grid-cols-1">
+	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery}>
 		<ul class="divide-x-foreground space-y-2 divide-y">
 			{#if $formacaoQuery.data}
 				{#each $formacaoQuery.data as formacao (formacao.curso.id)}
@@ -40,7 +40,7 @@
 		</ul>
 	</PesquisadorCard>
 
-	<PesquisadorCard
+	<!-- <PesquisadorCard
 		title="Conexões por Formação Acadêmica"
 		query={formacaoGraphQuery}
 		contentClass="h-[420px]"
@@ -48,5 +48,5 @@
 		{#if $formacaoGraphQuery.data}
 			<FormacaoGraph data={$formacaoGraphQuery.data} />
 		{/if}
-	</PesquisadorCard>
+	</PesquisadorCard> -->
 </PesquisadorSection>
