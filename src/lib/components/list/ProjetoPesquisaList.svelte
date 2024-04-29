@@ -1,6 +1,10 @@
 <script lang="ts">
 	import Cell from './Cell.svelte';
-	import { EnumProjetoPesquisa, EnumProjetoPesquisaSituacao, type ProjetoPesquisa } from '$lib/types';
+	import {
+		EnumProjetoPesquisa,
+		EnumProjetoPesquisaSituacao,
+		type ProjetoPesquisa
+	} from '$lib/types';
 
 	import base from '$lib/themes/base';
 	import {
@@ -45,11 +49,12 @@
 			header: () => 'Natureza',
 			cell: ({ row }) =>
 				flexRender(ColoredBorderCell, {
+					id: `projeto-pesquisa-${row.original.id}`,
 					color: base.color[keys.indexOf(row.getValue('natureza'))],
-					text: EnumProjetoPesquisa[row.getValue('natureza') as keyof typeof EnumProjetoPesquisa]
+					slot: EnumProjetoPesquisa[row.getValue('natureza') as keyof typeof EnumProjetoPesquisa]
 				})
 		},
-		
+
 		{
 			accessorKey: 'nome',
 			header: () => 'Nome'
@@ -57,14 +62,24 @@
 		{
 			accessorKey: 'ano_fim',
 			header: () => 'Ano',
-			cell: ({row}) => flexRender(Cell, {slot: `${row.original.ano_inicio} - ${row.getValue('ano_fim') || '~'}`, class:'whitespace-nowrap'}),
+			cell: ({ row }) =>
+				flexRender(Cell, {
+					slot: `${row.original.ano_inicio} - ${row.getValue('ano_fim') || '~'}`,
+					class: 'whitespace-nowrap'
+				}),
 			enableSorting: false
 		},
 		{
 			accessorKey: 'situacao',
 			header: () => 'Situação',
-			cell: ({row}) => flexRender(Cell, {slot: EnumProjetoPesquisaSituacao[row.getValue('situacao') as keyof typeof EnumProjetoPesquisaSituacao], class:'whitespace-nowrap'})
-		},
+			cell: ({ row }) =>
+				flexRender(Cell, {
+					slot: EnumProjetoPesquisaSituacao[
+						row.getValue('situacao') as keyof typeof EnumProjetoPesquisaSituacao
+					],
+					class: 'whitespace-nowrap'
+				})
+		}
 		// {
 		// 	accessorKey: 'revista.qualificacao',
 		// 	header: () => 'Qualis'

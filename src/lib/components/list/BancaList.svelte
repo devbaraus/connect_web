@@ -44,8 +44,9 @@
 			header: () => 'Natureza',
 			cell: ({ row }) =>
 				flexRender(ColoredBorderCell, {
+					id: `banca-${row.original.id}`,
 					color: base.color[keys.indexOf(row.getValue('natureza'))],
-					text: row.getValue('natureza')
+					slot: row.getValue('natureza')
 				})
 		},
 		{
@@ -55,7 +56,7 @@
 		{
 			accessorKey: 'ano',
 			header: () => 'Ano'
-		},
+		}
 		// {
 		// 	accessorKey: 'revista.qualificacao',
 		// 	header: () => 'Qualis'

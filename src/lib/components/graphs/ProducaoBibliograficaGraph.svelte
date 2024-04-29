@@ -11,6 +11,7 @@
 	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
 	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
 	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+	import { scrollHightlight } from '$lib/utils';
 
 	const tooltip = 'producao-bibliografica-tooltip';
 
@@ -34,7 +35,7 @@
 		...n,
 		group: n.node === 'ProducaoBibliografica' ? n.tipo : 'CURRICULO',
 		color: n.node === 'ProducaoBibliografica' ? base.color[keys.indexOf(n.tipo)] : '#626c91',
-		class: n.node === 'ProducaoBibliografica' ? '' : 'hover:cursor-pointer'
+		class: 'hover:cursor-pointer'
 	}));
 
 	const actions = {
@@ -44,6 +45,12 @@
 		click: (d) => {
 			if (d.node === 'Curriculo') {
 				goto(`/pesquisadores/${d.siape}`);
+			}
+
+			if (d.node === 'ProducaoBibliografica') {
+				const row = document.querySelector(`tr:has(#producao-biblioteca-${d.uid})`);
+
+				scrollHightlight(row);
 			}
 		}
 	};

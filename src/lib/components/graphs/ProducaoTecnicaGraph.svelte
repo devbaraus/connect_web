@@ -11,6 +11,7 @@
 	import { goto } from '$app/navigation';
 	import ProducaoTecnicaTooltip from '$lib/components/graphs/tooltips/ProducaoTecnicaTooltip.svelte';
 	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+	import { scrollHightlight } from '$lib/utils';
 
 	const tooltip = 'producao-tecnica-tooltip';
 
@@ -34,7 +35,7 @@
 		...n,
 		group: n.node === 'ProducaoTecnica' ? n.natureza : 'CURRICULO',
 		color: n.node === 'ProducaoTecnica' ? base.color[keys.indexOf(n.natureza)] : '#626c91',
-		class: n.node === 'ProducaoTecnica' ? '' : 'hover:cursor-pointer'
+		class: 'hover:cursor-pointer'
 	}));
 
 	const actions = {
@@ -44,6 +45,12 @@
 		click: (d) => {
 			if (d.node === 'Curriculo') {
 				goto(`/pesquisadores/${d.siape}`);
+			}
+
+			if (d.node === 'ProducaoTecnica') {
+				const row = document.querySelector(`tr:has(#producao-tecnica-${d.uid})`);
+
+				scrollHightlight(row);
 			}
 		}
 	};

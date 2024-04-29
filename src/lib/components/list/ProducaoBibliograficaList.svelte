@@ -43,11 +43,14 @@
 		{
 			accessorKey: 'tipo',
 			header: () => 'Tipo de Produção',
-			cell: ({ row }) => flexRender(ColoredBorderCell, {
-				color: base.color[keys.indexOf(row.getValue('tipo'))],
-				text: 
-				EnumProducaoBibliografica[row.getValue('tipo') as keyof typeof EnumProducaoBibliografica]
-			})
+			cell: ({ row }) =>
+				flexRender(ColoredBorderCell, {
+					id: `producao-biblioteca-${row.original.id}`,
+					color: base.color[keys.indexOf(row.getValue('tipo'))],
+					slot: EnumProducaoBibliografica[
+						row.getValue('tipo') as keyof typeof EnumProducaoBibliografica
+					]
+				})
 		},
 		{
 			accessorKey: 'titulo',

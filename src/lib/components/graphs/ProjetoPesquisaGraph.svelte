@@ -13,6 +13,7 @@
 	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
 	import ProjetoPesquisaTooltip from '$lib/components/graphs/tooltips/ProjetoPesquisaTooltip.svelte';
 	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
+	import { scrollHightlight } from '$lib/utils';
 
 	const tooltip = 'projeto-pesquisa-tooltip';
 
@@ -36,7 +37,7 @@
 		...n,
 		group: n.node === 'ProjetoPesquisa' ? n.natureza : 'CURRICULO',
 		color: n.node === 'ProjetoPesquisa' ? base.color[keys.indexOf(n.natureza)] : '#626c91',
-		class: n.node === 'ProjetoPesquisa' ? '' : 'hover:cursor-pointer'
+		class: 'hover:cursor-pointer'
 	}));
 
 	const actions = {
@@ -46,6 +47,12 @@
 		click: (d) => {
 			if (d.node === 'Curriculo') {
 				goto(`/pesquisadores/${d.siape}`);
+			}
+
+			if (d.node === 'ProjetoPesquisa') {
+				const row = document.querySelector(`tr:has(#projeto-pesquisa-${d.uid})`);
+
+				scrollHightlight(row);
 			}
 		}
 	};

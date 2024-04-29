@@ -1,9 +1,7 @@
 <script lang="ts">
-    let className = '';
-    export let slot
-    export {className as class}
+	export let slot;
 </script>
 
-<div class={className}>
-    {slot}
+<div {...$$props}>
+	{slot}
 </div>

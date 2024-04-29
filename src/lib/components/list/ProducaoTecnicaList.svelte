@@ -49,8 +49,9 @@
 			header: () => 'Natureza',
 			cell: ({ row }) =>
 				flexRender(ColoredBorderCell, {
+					id: `producao-tecnica-${row.original.id}`,
 					color: base.color[keys.indexOf(row.getValue('natureza'))],
-					text: EnumProducaoTecnica[row.getValue('natureza') as keyof typeof EnumProducaoTecnica]
+					slot: EnumProducaoTecnica[row.getValue('natureza') as keyof typeof EnumProducaoTecnica]
 				})
 		},
 		{
