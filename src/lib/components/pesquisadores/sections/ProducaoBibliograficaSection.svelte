@@ -6,6 +6,13 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { page } from '$app/stores';
+	import ProducaoBibliograficaList from '$lib/components/list/ProducaoBibliograficaList.svelte';
+
+	$: producoesQuery = createQuery({
+		queryKey: ['pesquisador-producoes-list'],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesBibliograficas($page.params.siape!, { signal })
+	});
 
 	$: producoesChartQuery = createQuery({
 		queryKey: ['pesquisador-producoes-chart'],
@@ -39,6 +46,12 @@
 	>
 		{#if $producoesGraphQuery.data}
 			<ProducaoBibliograficaGraph data={$producoesGraphQuery.data} />
+		{/if}
+	</PesquisadorCard>
+
+	<PesquisadorCard title="Produções Bibliográficas" query={producoesQuery} class="col-span-full">
+		{#if $producoesQuery.data}
+			<ProducaoBibliograficaList data={$producoesQuery.data} />
 		{/if}
 	</PesquisadorCard>
 </PesquisadorSection>

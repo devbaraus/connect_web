@@ -82,7 +82,7 @@ export const EnumFormacaoAcademica = {
 };
 
 export const EnumProducaoBibliografica = {
-	ARTIGO: 'Artigo',
+	ARTIGO: 'Artigo Periódico',
 	TRABALHO_EVENTO: 'Trabalho em Evento',
 	RESUMO: 'Resumo',
 	LIVRO: 'Livro',

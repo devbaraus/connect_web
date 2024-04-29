@@ -56,6 +56,17 @@ export const PesquisadoresService = {
 		});
 		return response.data;
 	},
+	producoesBibliograficas: async (siape: string, config?: RequestInit) => {
+		const response = await client.GET('/v1/pesquisadores/{siape}/producoes', {
+			params: {
+				path: {
+					siape
+				}
+			},
+			config
+		});
+		return response.data;
+	},
 	producoesBibliograficasGraph: async (siape: string, config?: RequestInit) => {
 		const response = await client.GET('/v1/pesquisadores/{siape}/producoes/graph', {
 			params: {

@@ -1,32 +1,53 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { ProducoesBibliograficasService } from '$lib/services/producoes-bibliograficas-service';
-	import { EnumProducaoBibliografica, type ProducoesData } from '$lib/types';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { type ProducaoBibliografica } from '$lib/types';
+	import { EnumProducaoBibliografica } from '$lib/types';
 	import {
 		createSvelteTable,
 		flexRender,
 		getCoreRowModel,
+		getSortedRowModel,
 		type ColumnDef,
+		type OnChangeFn,
+		type SortingState,
 		type TableOptions
 	} from '@tanstack/svelte-table';
 	import { writable } from 'svelte/store';
 	import PesquisadorDataTableAction from '../pesquisadores/PesquisadorDataTableAction.svelte';
-	import DataTable from '../ui/data-table.svelte';
+	import DataTable from '../ui/DataTable.svelte';
+	import ColoredBorderCell from './ColoredBorderCell.svelte';
+	import base from '$lib/themes/base';
 
-	let campus = '';
-	let grandeArea = '';
-	let area = '';
-	let anoLte = '';
-	let anoGte = '';
-	let timeout: NodeJS.Timeout;
+	export let data: ProducaoBibliografica[];
 
-	const defaultColumns: ColumnDef<ProducoesData>[] = [
+	const existingKeys = new Set(data.map((n) => n.tipo).filter((k) => k !== null));
+	const keys = Object.keys(EnumProducaoBibliografica).filter((k) => existingKeys.has(k));
+
+	let sorting: SortingState = [];
+
+	const setSorting: OnChangeFn<SortingState> = (updater) => {
+		if (updater instanceof Function) {
+			sorting = updater(sorting);
+		} else {
+			sorting = updater;
+		}
+		options.update((old) => ({
+			...old,
+			state: {
+				...old.state,
+				sorting
+			}
+		}));
+	};
+
+	const defaultColumns: ColumnDef<ProducaoBibliografica>[] = [
 		{
 			accessorKey: 'tipo',
 			header: () => 'Tipo de Produção',
-			cell: ({ row }) =>
+			cell: ({ row }) => flexRender(ColoredBorderCell, {
+				color: base.color[keys.indexOf(row.getValue('tipo'))],
+				text: 
 				EnumProducaoBibliografica[row.getValue('tipo') as keyof typeof EnumProducaoBibliografica]
+			})
 		},
 		{
 			accessorKey: 'ano',
@@ -37,60 +58,33 @@
 			header: () => 'Título'
 		},
 		{
-			accessorKey: 'curriculo.nome_completo',
-			header: () => 'Autor'
-		},
-		{
-			accessorKey: 'id',
-			header: () => 'Ações',
-			cell: ({ row }) =>
-				flexRender(PesquisadorDataTableAction, { siape: row.original.curriculo.siape })
+			accessorKey: 'revista.qualificacao',
+			header: () => 'Qualis'
 		}
+		// {
+		// 	accessorKey: 'curriculo.nome_completo',
+		// 	header: () => 'Autor'
+		// },
+		// {
+		// 	accessorKey: 'id',
+		// 	header: () => 'Ações',
+		// 	cell: ({ row }) =>
+		// 		flexRender(PesquisadorDataTableAction, { siape: row.getValue('curriculo.siape') })
+		// }
 	];
 
-	const options = writable<TableOptions<ProducoesData>>({
-		data: [],
+	const options = writable<TableOptions<ProducaoBibliografica>>({
+		data,
 		columns: defaultColumns,
-		getCoreRowModel: getCoreRowModel()
+		state: {
+			sorting
+		},
+		onSortingChange: setSorting,
+		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel()
 	});
 
 	const table = createSvelteTable(options);
-
-	const query = createQuery({
-		queryKey: ['searchResearchers'],
-		queryFn: async () =>
-			await ProducoesBibliograficasService.list({
-				// ano_lte: anoLte ? parseInt(anoLte) : undefined,
-				// ano_gte: anoGte ? parseInt(anoGte) : undefined,
-				// page: 0,
-				// pageSize: 50
-			}).then((data) => {
-				options.update((o) => ({ ...o, data: data.results }));
-				return data;
-			}),
-		enabled: false
-	});
-
-	$: {
-		campus = $page.url.searchParams.get('campus') || '';
-		grandeArea = $page.url.searchParams.get('grande_area') || '';
-		area = $page.url.searchParams.get('area') || '';
-		anoLte = $page.url.searchParams.get('ano_lte') || '';
-		anoGte = $page.url.searchParams.get('ano_gte') || '';
-
-		clearTimeout(timeout);
-		timeout = setTimeout(() => {
-			$query.refetch();
-		}, 500);
-	}
 </script>
 
-{#if $query.isLoading}
-	<p>Loading...</p>
-{:else if $query.isError}
-	<p>Error: {$query.error.message}</p>
-{:else if $query.data?.results.length === 0}
-	<p>No results found</p>
-{:else if $query.data?.results.length}
-	<DataTable {table} caption={`Total de ${$query.data.total} publicações encontradas`} />
-{/if}
+<DataTable {table} caption={`Total de ${data.length} publicações encontradas`} />

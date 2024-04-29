@@ -23,7 +23,7 @@
 <header
 	class="border-b-[1px] fixed left-0 right-0 top-0 z-40 border-b-neutral-600 bg-foreground text-background"
 >
-	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 lg:px-0">
+	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 2xl:px-0">
 		<!-- <div class="flex justify-between"> -->
 		<div class="text-4xl capitalize font-aquire">CONNECT</div>
 		<!-- <div class="flex flex-row items-center py-4 lg:py-0">

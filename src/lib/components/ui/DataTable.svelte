@@ -1,6 +1,7 @@
 <script>
 	import { flexRender } from '@tanstack/svelte-table';
 	import * as Table from '$lib/components/ui/table';
+	import { ChevronDownIcon, ChevronUpIcon } from 'lucide-svelte';
 	export let table;
 	export let caption = '';
 </script>
@@ -12,9 +13,23 @@
 				{#each headerGroup.headers as header}
 					<Table.Head>
 						{#if !header.isPlaceholder}
-							<svelte:component
-								this={flexRender(header.column.columnDef.header, header.getContext())}
-							/>
+							<button
+								class:cursor-pointer={header.column.getCanSort()}
+								class:select-none={header.column.getCanSort()}
+								on:click={header.column.getToggleSortingHandler()}
+								class="inline-flex items-center"
+							>
+								<svelte:component
+									this={flexRender(header.column.columnDef.header, header.getContext())}
+								/>
+								{#if header.column.getIsSorted().toString() === 'asc'}
+									<ChevronUpIcon size="16" class="text-sm"/>
+								{:else if header.column.getIsSorted().toString() === 'desc'}
+									<ChevronDownIcon size="16" class="text-sm"/>
+								{:else}
+									<span class="w-[16px]"/>
+								{/if}
+							</button>
 						{/if}
 					</Table.Head>
 				{/each}

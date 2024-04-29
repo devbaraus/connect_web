@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PesquisadorDataTableAction from '$lib/components/pesquisadores/PesquisadorDataTableAction.svelte';
-	import DataTable from '$lib/components/ui/data-table.svelte';
+	import DataTable from '$lib/components/ui/DataTable.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import type { PesquisadorSearch } from '$lib/types';

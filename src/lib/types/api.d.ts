@@ -119,18 +119,9 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    /** CurriculoReducedSchema */
-    CurriculoReducedSchema: {
-      /** Siape */
-      siape?: string | null;
-      /** Nome */
-      nome: string;
-      /** Cnpq */
-      cnpq?: string | null;
-    };
     /** ProducaoBibliograficaSchema */
     ProducaoBibliograficaSchema: {
-      curriculo?: components["schemas"]["CurriculoReducedSchema"] | null;
+      revista?: components["schemas"]["RevistaSchema"] | null;
       /** ID */
       id?: number | null;
       /** Doi */
@@ -153,14 +144,25 @@ export interface components {
       meio_divulgacao?: string | null;
       /** Palavras Chave */
       palavras_chave?: unknown[] | null;
-      /** Revista */
-      revista: number;
       /** Conferencia */
       conferencia: number;
       /** Areas Conhecimento */
       areas_conhecimento: number[];
       /** Autores */
       autores: number[];
+    };
+    /** RevistaSchema */
+    RevistaSchema: {
+      /** ID */
+      id?: number | null;
+      /** Nome Revista */
+      nome_revista: string;
+      /** Qualificacao */
+      qualificacao?: string | null;
+      /** Area De Atuacao */
+      area_de_atuacao?: string | null;
+      /** Issn */
+      issn?: string | null;
     };
     /** Schema[ProducaoBibliograficaSchema] */
     Schema_ProducaoBibliograficaSchema_: {
@@ -349,6 +351,15 @@ export interface components {
       nodes: (components["schemas"]["GraphCurriculo"] | components["schemas"]["GraphCurso"])[];
       /** Links */
       links: components["schemas"]["GraphLink"][];
+    };
+    /** CurriculoReducedSchema */
+    CurriculoReducedSchema: {
+      /** Siape */
+      siape?: string | null;
+      /** Nome */
+      nome: string;
+      /** Cnpq */
+      cnpq?: string | null;
     };
     /** ProducaoTecnicaSchema */
     ProducaoTecnicaSchema: {
