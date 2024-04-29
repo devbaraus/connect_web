@@ -50,7 +50,7 @@
 			if (d.node === 'ProducaoBibliografica') {
 				const row = document.querySelector(`tr:has(#producao-biblioteca-${d.uid})`);
 
-				scrollHightlight(row);
+				scrollHightlight(row, d.color);
 			}
 		}
 	};

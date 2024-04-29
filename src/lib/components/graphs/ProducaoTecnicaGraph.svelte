@@ -50,7 +50,7 @@
 			if (d.node === 'ProducaoTecnica') {
 				const row = document.querySelector(`tr:has(#producao-tecnica-${d.uid})`);
 
-				scrollHightlight(row);
+				scrollHightlight(row, d.color);
 			}
 		}
 	};

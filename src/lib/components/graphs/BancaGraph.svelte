@@ -46,7 +46,7 @@
 			if (d.node === 'Banca') {
 				const row = document.querySelector(`tr:has(#banca-${d.uid})`);
 
-				scrollHightlight(row);
+				scrollHightlight(row, d.color);
 			}
 		}
 	};

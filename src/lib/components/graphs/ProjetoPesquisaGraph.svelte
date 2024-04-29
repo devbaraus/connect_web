@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {
 		type CurriculoNode,
-		EnumProducaoTecnica,
 		EnumProjetoPesquisa,
 		type ProjetoPesquisaGraph,
 		type ProjetoPesquisaNode
@@ -10,7 +9,6 @@
 	import base from '$lib/themes/base';
 	import { goto } from '$app/navigation';
 	import PesquisadorTooltip from '$lib/components/graphs/tooltips/PesquisadorTooltip.svelte';
-	import ProducaoBibliograficaTooltip from '$lib/components/graphs/tooltips/ProducaoBibliograficaTooltip.svelte';
 	import ProjetoPesquisaTooltip from '$lib/components/graphs/tooltips/ProjetoPesquisaTooltip.svelte';
 	import TooltipGraph from '$lib/components/graphs/TooltipGraph.svelte';
 	import { scrollHightlight } from '$lib/utils';
@@ -52,7 +50,7 @@
 			if (d.node === 'ProjetoPesquisa') {
 				const row = document.querySelector(`tr:has(#projeto-pesquisa-${d.uid})`);
 
-				scrollHightlight(row);
+				scrollHightlight(row, d.color);
 			}
 		}
 	};

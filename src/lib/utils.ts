@@ -4,16 +4,18 @@ import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 import { goto } from '$app/navigation';
 
-export function scrollHightlight(el: Element | null) {
+export function scrollHightlight(el: Element | null, hex: string = '#FFFF00') {
+	if (!el) return;
+
 	el?.scrollIntoView({
 		behavior: 'smooth',
 		block: 'center'
 	});
 
-	el?.classList.add('bg-yellow-100');
+	el.style.backgroundColor = `${hex}60`;
 
 	setTimeout(() => {
-		el?.classList.remove('bg-yellow-100');
+		el.style.backgroundColor = null;
 	}, 1500);
 }
 
