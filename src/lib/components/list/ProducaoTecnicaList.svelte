@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { EnumProducaoTecnica, type ProducaoBibliografica, type ProducaoTecnica } from '$lib/types';
+	import {
+		EnumProducaoTecnica,
+		type ProducaoBibliografica,
+		type ProducaoTecnica
+	} from '$lib/types';
 	import { EnumProducaoBibliografica } from '$lib/types';
 	import {
 		createSvelteTable,
@@ -43,20 +47,20 @@
 		{
 			accessorKey: 'natureza',
 			header: () => 'Natureza',
-			cell: ({ row }) => flexRender(ColoredBorderCell, {
-				color: base.color[keys.indexOf(row.getValue('natureza'))],
-				text: 
-				EnumProducaoTecnica[row.getValue('natureza') as keyof typeof EnumProducaoTecnica]
-			})
-		},
-		{
-			accessorKey: 'ano',
-			header: () => 'Ano de Publicação'
+			cell: ({ row }) =>
+				flexRender(ColoredBorderCell, {
+					color: base.color[keys.indexOf(row.getValue('natureza'))],
+					text: EnumProducaoTecnica[row.getValue('natureza') as keyof typeof EnumProducaoTecnica]
+				})
 		},
 		{
 			accessorKey: 'titulo',
 			header: () => 'Título'
 		},
+		{
+			accessorKey: 'ano',
+			header: () => 'Ano'
+		}
 		// {
 		// 	accessorKey: 'revista.qualificacao',
 		// 	header: () => 'Qualis'

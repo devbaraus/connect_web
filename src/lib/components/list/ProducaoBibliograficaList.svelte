@@ -50,12 +50,12 @@
 			})
 		},
 		{
-			accessorKey: 'ano',
-			header: () => 'Ano de Publicação'
-		},
-		{
 			accessorKey: 'titulo',
 			header: () => 'Título'
+		},
+		{
+			accessorKey: 'ano',
+			header: () => 'Ano'
 		},
 		{
 			accessorKey: 'revista.qualificacao',
