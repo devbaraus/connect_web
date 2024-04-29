@@ -22,13 +22,16 @@ export type ProducaoBibliografica = components['schemas']['ProducaoBibliografica
 export type ProducaoBibliograficaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoBibliografica__'];
 
+export type ProducaoTecnica = components['schemas']['ProducaoTecnicaSchema'];
 export type ProducaoTecnicaStats = components['schemas']['ProducaoTecnincaStatsResponse'];
 export type ProducaoTecnicaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoTecnica__'];
 
+export type Banca = components['schemas']['BancaSchema'];
 export type BancaStats = components['schemas']['BancaStatsResponse'];
 export type BancaGraph = components['schemas']['GraphResponse_Union_GraphCurriculo__GraphBanca__'];
 
+export type ProjetoPesquisa = components['schemas']['ProjetoPesquisaSchema'];
 export type ProjetoPesquisaStats = components['schemas']['ProjetoPesquisaStatsResponse'];
 export type ProjetoPesquisaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProjetoPesquisa__'];
@@ -38,6 +41,12 @@ export type ProjetoPesquisaNode = components['schemas']['GraphProjetoPesquisa'];
 export type ProducaoTecnicaNode = components['schemas']['GraphProducaoTecnica'];
 export type ProducaoBibliograficaNode = components['schemas']['GraphProducaoBibliografica'];
 export type BancaNode = components['schemas']['GraphBanca'];
+
+export const EnumProjetoPesquisaSituacao = {
+	"EM_ANDAMENTO": "Em Andamento",
+	"CONCLUIDO": "Concluído",
+	"NAO_INFORMADO": "Não Informado"
+}
 
 export const EnumQualis = {
 	null: 'NC',

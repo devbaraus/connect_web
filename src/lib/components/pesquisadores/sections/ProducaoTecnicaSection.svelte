@@ -6,11 +6,18 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { page } from '$app/stores';
+	import ProducaoTecnicaList from '$lib/components/list/ProducaoTecnicaList.svelte';
 
 	$: producoesTecnicasChartQuery = createQuery({
 		queryKey: ['pesquisador-producoes-tecnicas-chart'],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.producoesTecnicasStats($page.params.siape!, { signal })
+	});
+
+	$: producoesTecnicasQuery = createQuery({
+		queryKey: ['pesquisador-producoes-tecnicas'],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.producoesTecnicas($page.params.siape!, { signal })
 	});
 
 	$: producoesTecnicasGraphQuery = createQuery({
@@ -39,6 +46,12 @@
 	>
 		{#if $producoesTecnicasGraphQuery.data}
 			<ProducaoTecnicaGraph data={$producoesTecnicasGraphQuery.data} />
+		{/if}
+	</PesquisadorCard>
+
+	<PesquisadorCard title="Produções Técnicas" query={producoesTecnicasQuery} class="col-span-full">
+		{#if $producoesTecnicasQuery.data}
+			<ProducaoTecnicaList data={$producoesTecnicasQuery.data} />
 		{/if}
 	</PesquisadorCard>
 </PesquisadorSection>

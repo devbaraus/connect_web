@@ -3,4 +3,4 @@
     export let text: string;
 </script>
 
-<div class="border-l-4 pl-2 h-full" style={`border-color: ${color}`}><span>{text}</span></div>
+<div class="h-full before:absolute before:border-l-4 before:h-full before:top-0 before:left-0 before:border-inherit" style={`border-color: ${color}`}><span>{text}</span></div>

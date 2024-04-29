@@ -2,6 +2,7 @@
 	import { flexRender } from '@tanstack/svelte-table';
 	import * as Table from '$lib/components/ui/table';
 	import { ChevronDownIcon, ChevronUpIcon } from 'lucide-svelte';
+	import { cn } from '$lib/utils';
 	export let table;
 	export let caption = '';
 </script>
@@ -13,23 +14,43 @@
 				{#each headerGroup.headers as header}
 					<Table.Head>
 						{#if !header.isPlaceholder}
-							<button
-								class:cursor-pointer={header.column.getCanSort()}
-								class:select-none={header.column.getCanSort()}
-								on:click={header.column.getToggleSortingHandler()}
-								class="inline-flex items-center"
-							>
+							{#if header.column.getCanSort()}
+								<button
+									class:cursor-pointer={header.column.getCanSort()}
+									class:select-none={header.column.getCanSort()}
+									on:click={header.column.getToggleSortingHandler()}
+									type="button"
+									class="inline-flex w-full items-center justify-between gap-2"
+								>
+									<svelte:component
+										this={flexRender(header.column.columnDef.header, header.getContext())}
+									/>
+									<div class="">
+										<ChevronUpIcon
+											size="14"
+											class={cn(
+												header.column.getIsSorted().toString() === 'asc'
+													? 'text-foreground'
+													: 'text-foreground/30',
+												'text-sm'
+											)}
+										/>
+										<ChevronDownIcon
+											size="14"
+											class={cn(
+												header.column.getIsSorted().toString() === 'desc'
+													? 'text-foreground'
+													: 'text-foreground/30',
+												'text-sm'
+											)}
+										/>
+									</div>
+								</button>
+							{:else}
 								<svelte:component
 									this={flexRender(header.column.columnDef.header, header.getContext())}
 								/>
-								{#if header.column.getIsSorted().toString() === 'asc'}
-									<ChevronUpIcon size="16" class="text-sm"/>
-								{:else if header.column.getIsSorted().toString() === 'desc'}
-									<ChevronDownIcon size="16" class="text-sm"/>
-								{:else}
-									<span class="w-[16px]"/>
-								{/if}
-							</button>
+							{/if}
 						{/if}
 					</Table.Head>
 				{/each}
@@ -38,7 +59,7 @@
 	</Table.Header>
 	<Table.Body>
 		{#each $table.getRowModel().rows as row}
-			<Table.Row>
+			<Table.Row class="relative">
 				{#each row.getVisibleCells() as cell}
 					<Table.Cell>
 						<svelte:component this={flexRender(cell.column.columnDef.cell, cell.getContext())} />

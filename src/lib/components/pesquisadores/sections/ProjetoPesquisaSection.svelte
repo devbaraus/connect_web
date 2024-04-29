@@ -6,6 +6,13 @@
 	import ProjetoPesquisaGraph from '$lib/components/graphs/ProjetoPesquisaGraph.svelte';
 	import ProjetoPesquisaChart from '$lib/components/charts/ProjetoPesquisaChart.svelte';
 	import PesquisadorSection from '$lib/components/pesquisadores/PesquisadorSection.svelte';
+	import ProjetoPesquisaList from '$lib/components/list/ProjetoPesquisaList.svelte';
+
+	$: projetosPesquisaQuery = createQuery({
+		queryKey: ['pesquisador-projetos-pesquisa-list'],
+		queryFn: async ({ signal }) =>
+			PesquisadoresService.projetosPesquisa($page.params.siape!, { signal })
+	});
 
 	$: projetosPesquisaStatsQuery = createQuery({
 		queryKey: ['pesquisador-projetos-pesquisa-stats'],
@@ -39,6 +46,12 @@
 	>
 		{#if $projetosPesquisaGraphQuery.data}
 			<ProjetoPesquisaGraph data={$projetosPesquisaGraphQuery.data} />
+		{/if}
+	</PesquisadorCard>
+
+	<PesquisadorCard title="Produções Técnicas" query={projetosPesquisaQuery} class="col-span-full">
+		{#if $projetosPesquisaQuery.data}
+			<ProjetoPesquisaList data={$projetosPesquisaQuery.data} />
 		{/if}
 	</PesquisadorCard>
 </PesquisadorSection>

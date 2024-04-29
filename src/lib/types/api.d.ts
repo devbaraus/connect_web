@@ -241,6 +241,8 @@ export interface components {
       node?: "Curriculo";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Siape */
       siape: string;
       /** Cnpq */
@@ -274,6 +276,8 @@ export interface components {
       node?: "ProducaoBibliografica";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Titulo */
       titulo: string;
       /** Ano */
@@ -340,10 +344,10 @@ export interface components {
       node?: "Curso";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Nome */
       nome: string;
-      /** Codigo */
-      codigo?: string | null;
     };
     /** GraphResponse[Union[GraphCurriculo, GraphCurso]] */
     GraphResponse_Union_GraphCurriculo__GraphCurso__: {
@@ -405,6 +409,8 @@ export interface components {
       node?: "ProducaoTecnica";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Titulo */
       titulo: string;
       /** Ano */
@@ -454,6 +460,8 @@ export interface components {
       node?: "Banca";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Titulo */
       titulo: string;
       /** Ano */
@@ -513,6 +521,8 @@ export interface components {
       node?: "ProjetoPesquisa";
       /** Id */
       id: string;
+      /** Uid */
+      uid: number;
       /** Natureza */
       natureza: string;
       /** Nome */
