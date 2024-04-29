@@ -34,7 +34,7 @@
 <div class="space-y-8 pt-24">
 	<FormacaoSection />
 	<Tabs.Root {value} {onValueChange}>
-		<Tabs.List>
+		<Tabs.List class="flex-wrap h-full justify-start">
 			<Tabs.Trigger value="producao-bibliografica">Producao Bibliográfica</Tabs.Trigger>
 			<Tabs.Trigger value="producao-tecnica">Produção Técnica</Tabs.Trigger>
 			<Tabs.Trigger value="banca">Banca</Tabs.Trigger>

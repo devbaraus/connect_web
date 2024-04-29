@@ -86,4 +86,4 @@
 	const table = createSvelteTable(options);
 </script>
 
-<DataTable {table} caption={`Total de ${data.length} publicações encontradas`} />
+<DataTable {table} caption={`Total de ${data.length} participações em bancas encontradas`} />

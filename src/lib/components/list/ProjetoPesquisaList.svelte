@@ -57,7 +57,7 @@
 		{
 			accessorKey: 'ano_fim',
 			header: () => 'Ano',
-			cell: ({row}) => flexRender(Cell, {slot: `${row.original.ano_inicio} - ${row.getValue('ano_fim') || '~'}`, class:'whitespace-nowrap text-center'}),
+			cell: ({row}) => flexRender(Cell, {slot: `${row.original.ano_inicio} - ${row.getValue('ano_fim') || '~'}`, class:'whitespace-nowrap'}),
 			enableSorting: false
 		},
 		{
@@ -95,4 +95,4 @@
 	const table = createSvelteTable(options);
 </script>
 
-<DataTable {table} caption={`Total de ${data.length} publicações encontradas`} />
+<DataTable {table} caption={`Total de ${data.length} projetos de pesquisa encontrados`} />
