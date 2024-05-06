@@ -119,9 +119,32 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    /** CurriculoParticipanteSchema */
+    CurriculoParticipanteSchema: {
+      curriculo?: components["schemas"]["CurriculoReducedSchema"] | null;
+      /** ID */
+      id?: number | null;
+      /** Nome */
+      nome: string;
+      /** Cnpq */
+      cnpq?: string | null;
+      /** Citacoes */
+      citacoes?: unknown[] | null;
+    };
+    /** CurriculoReducedSchema */
+    CurriculoReducedSchema: {
+      /** Siape */
+      siape?: string | null;
+      /** Nome */
+      nome: string;
+      /** Cnpq */
+      cnpq?: string | null;
+    };
     /** ProducaoBibliograficaSchema */
     ProducaoBibliograficaSchema: {
       revista?: components["schemas"]["RevistaSchema"] | null;
+      /** Autores */
+      autores?: components["schemas"]["CurriculoParticipanteSchema"][] | null;
       /** ID */
       id?: number | null;
       /** Doi */
@@ -148,8 +171,6 @@ export interface components {
       conferencia: number;
       /** Areas Conhecimento */
       areas_conhecimento: number[];
-      /** Autores */
-      autores: number[];
     };
     /** RevistaSchema */
     RevistaSchema: {
@@ -355,15 +376,6 @@ export interface components {
       nodes: (components["schemas"]["GraphCurriculo"] | components["schemas"]["GraphCurso"])[];
       /** Links */
       links: components["schemas"]["GraphLink"][];
-    };
-    /** CurriculoReducedSchema */
-    CurriculoReducedSchema: {
-      /** Siape */
-      siape?: string | null;
-      /** Nome */
-      nome: string;
-      /** Cnpq */
-      cnpq?: string | null;
     };
     /** ProducaoTecnicaSchema */
     ProducaoTecnicaSchema: {
