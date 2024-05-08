@@ -24,7 +24,7 @@
 </script>
 
 <PesquisadorSection class="lg:grid-cols-3">
-	<PesquisadorCard title="Métricas do Professor" class="col-span-1">
+	<PesquisadorCard title="Métricas do Professor" class="lg:col-span-1">
 		<dl class="divide-y-foreground divide-y">
 			{#if $metrics}
 				{#each Object.entries($metrics) as [key, value]}
@@ -40,11 +40,11 @@
 			{/if}
 		</dl>
 	</PesquisadorCard>
-	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="col-span-2">
+	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="lg:col-span-2">
 		<dl class="divide-y-foreground divide-y">
 			{#if $formacaoQuery.data}
 				{#each $formacaoQuery.data.sort((a, b) => Number(a.ano_inicio) - Number(b.ano_inicio)) as formacao (formacao.curso.id)}
-					<div class="grid grid-cols-4 gap-4 px-4 py-6">
+					<div class="gap-4 px-4 py-6 md:grid md:grid-cols-4">
 						<dt class="font-medium">
 							{formacao.tipo.replace('_', ' ')}
 						</dt>
