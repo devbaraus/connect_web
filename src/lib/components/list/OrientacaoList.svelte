@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { type ProducaoBibliografica } from '$lib/types';
-	import { EnumProducaoBibliografica } from '$lib/types';
+	import base from '$lib/themes/base';
+	import { EnumOrientacao, type Banca, type Orientacao } from '$lib/types';
 	import {
 		createSvelteTable,
 		flexRender,
@@ -12,15 +12,13 @@
 		type TableOptions
 	} from '@tanstack/svelte-table';
 	import { writable } from 'svelte/store';
-	import PesquisadorDataTableAction from '../pesquisadores/PesquisadorDataTableAction.svelte';
 	import DataTable from '../ui/DataTable.svelte';
 	import ColoredBorderCell from './ColoredBorderCell.svelte';
-	import base from '$lib/themes/base';
 
-	export let data: ProducaoBibliografica[];
+	export let data: Orientacao[];
 
-	const existingKeys = new Set(data.map((n) => n.tipo).filter((k) => k !== null));
-	const keys = Object.keys(EnumProducaoBibliografica).filter((k) => existingKeys.has(k));
+	const existingKeys = new Set(data.map((n) => n.natureza).filter((k) => k !== null));
+	const keys = Object.keys(EnumOrientacao).filter((k) => existingKeys.has(k));
 
 	let sorting: SortingState = [];
 
@@ -39,17 +37,16 @@
 		}));
 	};
 
-	const defaultColumns: ColumnDef<ProducaoBibliografica>[] = [
+	const defaultColumns: ColumnDef<Orientacao>[] = [
 		{
-			accessorKey: 'tipo',
-			header: () => 'Tipo de Produção',
+			accessorKey: 'natureza',
+			header: () => 'Natureza',
 			cell: ({ row }) =>
 				flexRender(ColoredBorderCell, {
-					id: `producao-bibliografica-${row.original.id}`,
-					color: base.color[keys.indexOf(row.getValue('tipo'))],
-					slot: EnumProducaoBibliografica[
-						row.getValue('tipo') as keyof typeof EnumProducaoBibliografica
-					]
+					id: `orientacao-${row.original.id}`,
+					color: base.color[keys.indexOf(row.getValue('natureza'))],
+					class: 'capitalize',
+					slot: EnumOrientacao[row.getValue('natureza') as keyof typeof EnumOrientacao]
 				})
 		},
 		{
@@ -59,11 +56,11 @@
 		{
 			accessorKey: 'ano',
 			header: () => 'Ano'
-		},
-		{
-			accessorKey: 'revista.qualificacao',
-			header: () => 'Qualis'
 		}
+		// {
+		// 	accessorKey: 'revista.qualificacao',
+		// 	header: () => 'Qualis'
+		// }
 		// {
 		// 	accessorKey: 'curriculo.nome_completo',
 		// 	header: () => 'Autor'
@@ -76,7 +73,7 @@
 		// }
 	];
 
-	const options = writable<TableOptions<ProducaoBibliografica>>({
+	const options = writable<TableOptions<Orientacao>>({
 		data,
 		columns: defaultColumns,
 		state: {
@@ -90,4 +87,4 @@
 	const table = createSvelteTable(options);
 </script>
 
-<DataTable {table} caption={`Total de ${data.length} publicações bibliográficas encontradas`} />
+<DataTable {table} caption={`Total de ${data.length} orientações`} />

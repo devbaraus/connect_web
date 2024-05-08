@@ -27,6 +27,11 @@ export type ProducaoTecnicaStats = components['schemas']['ProducaoTecnincaStatsR
 export type ProducaoTecnicaGraph =
 	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphProducaoTecnica__'];
 
+export type Orientacao = components['schemas']['OrientacaoSchema'];
+export type OrientacaoStats = components['schemas']['OrientacaoStatsResponse'];
+export type OrientacaoGraph =
+	components['schemas']['GraphResponse_Union_GraphCurriculo__GraphOrientacao__'];
+
 export type Banca = components['schemas']['BancaSchema'];
 export type BancaStats = components['schemas']['BancaStatsResponse'];
 export type BancaGraph = components['schemas']['GraphResponse_Union_GraphCurriculo__GraphBanca__'];
@@ -41,12 +46,13 @@ export type ProjetoPesquisaNode = components['schemas']['GraphProjetoPesquisa'];
 export type ProducaoTecnicaNode = components['schemas']['GraphProducaoTecnica'];
 export type ProducaoBibliograficaNode = components['schemas']['GraphProducaoBibliografica'];
 export type BancaNode = components['schemas']['GraphBanca'];
+export type OrientacaoNode = components['schemas']['GraphOrientacao'];
 
 export const EnumProjetoPesquisaSituacao = {
-	"EM_ANDAMENTO": "Em Andamento",
-	"CONCLUIDO": "Concluído",
-	"NAO_INFORMADO": "Não Informado"
-}
+	EM_ANDAMENTO: 'Em Andamento',
+	CONCLUIDO: 'Concluído',
+	NAO_INFORMADO: 'Não Informado'
+};
 
 export const EnumQualis = {
 	null: 'NC',
@@ -96,4 +102,15 @@ export const EnumProducaoBibliografica = {
 	RESUMO: 'Resumo',
 	LIVRO: 'Livro',
 	CAPITULO_LIVRO: 'Capítulo de Livro'
+};
+
+export const EnumOrientacao = {
+	DISSERTACAO_MESTRADO: 'Dissertação de mestrado',
+	INICIACAO_CIENTIFICA: 'Iniciação científica',
+	MONOGRAFIA_CONCLUSAO_CURSO_APERFEICOAMENTO_ESPECIALIZACAO:
+		'Monografia de conclusão de curso de aperfeiçoamento e especialização',
+	ORIENTACAO_OUTRA_NATUREZA: 'Orientação de outra natureza',
+	SUPERVISAO_POS_DOUTORADO: 'Supervisão de pós-doutorado',
+	TESE_DOUTORADO: 'Tese de doutorado',
+	TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO: 'Trabalho de conclusão de curso de graduação'
 };

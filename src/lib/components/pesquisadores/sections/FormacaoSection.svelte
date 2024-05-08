@@ -16,7 +16,8 @@
 		producao_tecnica: 'Produção Técnica',
 		banca: 'Banca',
 		projeto_pesquisa: 'Projeto de Pesquisa',
-		formacao_academica: 'Formação Acadêmica'
+		formacao_academica: 'Formação Acadêmica',
+		orientacao: 'Orientação'
 	};
 
 	let metrics = getContext('metrics');

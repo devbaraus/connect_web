@@ -61,6 +61,18 @@ export interface paths {
     /** Get Metricas */
     get: operations["routes_pesquisadores_get_metricas"];
   };
+  "/v1/pesquisadores/{siape}/orientacoes": {
+    /** List Orientacoes */
+    get: operations["routes_pesquisadores_list_orientacoes"];
+  };
+  "/v1/pesquisadores/{siape}/orientacoes/stats": {
+    /** Stats Orientacoes */
+    get: operations["routes_pesquisadores_stats_orientacoes"];
+  };
+  "/v1/pesquisadores/{siape}/orientacoes/graph": {
+    /** Graph Orientacoes */
+    get: operations["routes_pesquisadores_graph_orientacoes"];
+  };
   "/v1/pesquisadores/{siape}/producoes": {
     /** List Producoes Bibliograficas */
     get: operations["routes_pesquisadores_list_producoes_bibliograficas"];
@@ -270,14 +282,16 @@ export interface components {
     };
     /** MetricasResponse */
     MetricasResponse: {
-      producao_bibliografica: components["schemas"]["ProducaoBibliograficaMetrica"];
       formacao_academica: components["schemas"]["FormacaoAcademicaMetrica"];
+      producao_bibliografica: components["schemas"]["ProducaoBibliograficaMetrica"];
       /** Producao Tecnica */
       producao_tecnica: unknown;
       /** Banca */
       banca: unknown;
       /** Projeto Pesquisa */
       projeto_pesquisa: unknown;
+      /** Orientacao */
+      orientacao: unknown;
     };
     /** ProducaoBibliograficaMetrica */
     ProducaoBibliograficaMetrica: {
@@ -291,6 +305,37 @@ export interface components {
       LIVRO?: number | null;
       /** Capitulo Livro */
       CAPITULO_LIVRO?: number | null;
+    };
+    /** OrientacaoSchema */
+    OrientacaoSchema: {
+      /** ID */
+      id?: number | null;
+      /** Natureza */
+      natureza: string;
+      /** Titulo */
+      titulo: string;
+      /** Ano */
+      ano: string;
+      /** Orientado */
+      orientado?: string | null;
+      /**
+       * Concluida
+       * @default false
+       */
+      concluida?: boolean;
+      /** Palavras Chave */
+      palavras_chave?: unknown[] | null;
+      /** Curriculo */
+      curriculo: number;
+    };
+    /** OrientacaoStatsResponse */
+    OrientacaoStatsResponse: {
+      /** Ano */
+      ano: string;
+      /** Natureza */
+      natureza: string;
+      /** Total */
+      total: number;
     };
     /** GraphCurriculo */
     GraphCurriculo: {
@@ -326,6 +371,37 @@ export interface components {
       source: string;
       /** Target */
       target: string;
+    };
+    /** GraphOrientacao */
+    GraphOrientacao: {
+      /**
+       * Node
+       * @default Orientacao
+       * @constant
+       * @enum {string}
+       */
+      node?: "Orientacao";
+      /** Id */
+      id: string;
+      /** Uid */
+      uid: number;
+      /** Titulo */
+      titulo: string;
+      /** Ano */
+      ano: string;
+      /** Tipo */
+      tipo: string;
+      /** Natureza */
+      natureza: string;
+      /** Orientado */
+      orientado: string;
+    };
+    /** GraphResponse[Union[GraphCurriculo, GraphOrientacao]] */
+    GraphResponse_Union_GraphCurriculo__GraphOrientacao__: {
+      /** Nodes */
+      nodes: (components["schemas"]["GraphCurriculo"] | components["schemas"]["GraphOrientacao"])[];
+      /** Links */
+      links: components["schemas"]["GraphLink"][];
     };
     /** GraphProducaoBibliografica */
     GraphProducaoBibliografica: {
@@ -823,6 +899,54 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["MetricasResponse"];
+        };
+      };
+    };
+  };
+  /** List Orientacoes */
+  routes_pesquisadores_list_orientacoes: {
+    parameters: {
+      path: {
+        siape: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OrientacaoSchema"][];
+        };
+      };
+    };
+  };
+  /** Stats Orientacoes */
+  routes_pesquisadores_stats_orientacoes: {
+    parameters: {
+      path: {
+        siape: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OrientacaoStatsResponse"][];
+        };
+      };
+    };
+  };
+  /** Graph Orientacoes */
+  routes_pesquisadores_graph_orientacoes: {
+    parameters: {
+      path: {
+        siape: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GraphResponse_Union_GraphCurriculo__GraphOrientacao__"];
         };
       };
     };

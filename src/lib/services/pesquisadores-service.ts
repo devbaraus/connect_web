@@ -190,5 +190,38 @@ export const PesquisadoresService = {
 			config
 		});
 		return response.data;
+	},
+	orientacoesList: async (siape: string, config?: RequestInit) => {
+		const response = await client.GET('/v1/pesquisadores/{siape}/orientacoes', {
+			params: {
+				path: {
+					siape
+				}
+			},
+			config
+		});
+		return response.data;
+	},
+	orientacoesStats: async (siape: string, config?: RequestInit) => {
+		const response = await client.GET('/v1/pesquisadores/{siape}/orientacoes/stats', {
+			params: {
+				path: {
+					siape
+				}
+			},
+			config
+		});
+		return response.data;
+	},
+	orientacoesGraph: async (siape: string, config?: RequestInit) => {
+		const response = await client.GET('/v1/pesquisadores/{siape}/orientacoes/graph', {
+			params: {
+				path: {
+					siape
+				}
+			},
+			config
+		});
+		return response.data;
 	}
 };

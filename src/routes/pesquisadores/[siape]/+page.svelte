@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import BancaSection from '$lib/components/pesquisadores/sections/BancaSection.svelte';
 	import FormacaoSection from '$lib/components/pesquisadores/sections/FormacaoSection.svelte';
+	import OrientacaoSection from '$lib/components/pesquisadores/sections/OrientacaoSection.svelte';
 	import ProducaoBibliograficaSection from '$lib/components/pesquisadores/sections/ProducaoBibliograficaSection.svelte';
 	import ProducaoTecnicaSection from '$lib/components/pesquisadores/sections/ProducaoTecnicaSection.svelte';
 	import ProjetoPesquisaSection from '$lib/components/pesquisadores/sections/ProjetoPesquisaSection.svelte';
@@ -76,6 +77,9 @@
 			{#if $metrics.projeto_pesquisa}
 				<Tabs.Trigger value="projeto-pesquisa">Projeto de Pesquisa</Tabs.Trigger>
 			{/if}
+			{#if $metrics.orientacao}
+				<Tabs.Trigger value="orientacao">Orientação</Tabs.Trigger>
+			{/if}
 		</Tabs.List>
 		{#if value === 'producao-bibliografica'}
 			<Tabs.Content value="producao-bibliografica">
@@ -92,6 +96,10 @@
 		{:else if value === 'projeto-pesquisa'}
 			<Tabs.Content value="projeto-pesquisa">
 				<ProjetoPesquisaSection />
+			</Tabs.Content>
+		{:else if value === 'orientacao'}
+			<Tabs.Content value="orientacao">
+				<OrientacaoSection />
 			</Tabs.Content>
 		{/if}
 	</Tabs.Root>
