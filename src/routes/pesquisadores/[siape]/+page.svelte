@@ -53,7 +53,7 @@
 
 <div class="absolute left-1/2 mx-auto h-16 w-full -translate-x-1/2 bg-foreground text-background">
 	{#if $pesquisadorQuery.isFetching}
-		<Skeleton class="h-8 w-64" />
+		<Skeleton class="mx-auto h-8 w-64" />
 	{:else if $pesquisadorQuery.data}
 		<p class="py-4 text-center text-2xl font-semibold">
 			{$pesquisadorQuery.data.nome}
