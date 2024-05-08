@@ -4,7 +4,7 @@
 	import { type CreateQueryResult } from '@tanstack/svelte-query';
 	import Loader from '../ui/Loader.svelte';
 
-	export let query: CreateQueryResult;
+	export let query: CreateQueryResult | undefined = undefined;
 	export let title: string;
 	export let contentClass: string | undefined = undefined;
 
@@ -17,7 +17,7 @@
 		<Card.Title>{title}</Card.Title>
 	</Card.Header>
 	<Card.Content class={contentClass}>
-		{#if $query.isFetching}
+		{#if $query?.isFetching}
 			<div class="flex h-full w-full items-center justify-center">
 				<Loader />
 			</div>

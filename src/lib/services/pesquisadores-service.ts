@@ -3,7 +3,21 @@ import type { ClientOptions } from 'openapi-fetch';
 import { client } from '.';
 
 export const PesquisadoresService = {
-	list: async (filters: operations['routes_pesquisadores_search_researcher']['parameters']['query'], config?: ClientOptions) => {
+	metrics: async (siape: string, config?: RequestInit) => {
+		const response = await client.GET('/v1/pesquisadores/{siape}/metricas', {
+			params: {
+				path: {
+					siape
+				}
+			},
+			signal: config?.signal
+		});
+		return response.data;
+	},
+	list: async (
+		filters: operations['routes_pesquisadores_search_researcher']['parameters']['query'],
+		config?: ClientOptions
+	) => {
 		const response = await client.GET('/v1/pesquisadores', {
 			params: {
 				query: filters

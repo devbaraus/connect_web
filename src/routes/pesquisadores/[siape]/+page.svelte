@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
-	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
-	import ProducaoBibliograficaSection from '$lib/components/pesquisadores/sections/ProducaoBibliograficaSection.svelte';
 	import BancaSection from '$lib/components/pesquisadores/sections/BancaSection.svelte';
+	import FormacaoSection from '$lib/components/pesquisadores/sections/FormacaoSection.svelte';
+	import ProducaoBibliograficaSection from '$lib/components/pesquisadores/sections/ProducaoBibliograficaSection.svelte';
 	import ProducaoTecnicaSection from '$lib/components/pesquisadores/sections/ProducaoTecnicaSection.svelte';
 	import ProjetoPesquisaSection from '$lib/components/pesquisadores/sections/ProjetoPesquisaSection.svelte';
-	import FormacaoSection from '$lib/components/pesquisadores/sections/FormacaoSection.svelte';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 	import * as Tabs from '$lib/components/ui/tabs';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	let value = 'producao-bibliografica';
 
@@ -16,6 +18,33 @@
 		queryKey: ['pesquisador'],
 		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape!, { signal })
 	});
+
+	const metricsQuery = createQuery({
+		queryKey: ['pesquisador', 'metrics'],
+		queryFn: async ({ signal }) => PesquisadoresService.metrics($page.params.siape!, { signal })
+	});
+
+	let metrics = writable({});
+
+	$: {
+		$metrics = $metricsQuery.data
+			? Object.fromEntries(
+					Object.entries($metricsQuery.data).map(([key, value]) => {
+						return [
+							key,
+							Object.values(value).reduce((acc, curr) => {
+								if (curr) {
+									return acc + curr;
+								}
+								return acc;
+							}, 0)
+						];
+					})
+				)
+			: {};
+	}
+
+	setContext('metrics', metrics);
 
 	function onValueChange(v?: string) {
 		value = String(v);
@@ -34,11 +63,19 @@
 <div class="space-y-8 pt-24">
 	<FormacaoSection />
 	<Tabs.Root {value} {onValueChange}>
-		<Tabs.List class="flex-wrap h-full justify-start">
-			<Tabs.Trigger value="producao-bibliografica">Producao Bibliográfica</Tabs.Trigger>
-			<Tabs.Trigger value="producao-tecnica">Produção Técnica</Tabs.Trigger>
-			<Tabs.Trigger value="banca">Banca</Tabs.Trigger>
-			<Tabs.Trigger value="projeto-pesquisa">Projeto de Pesquisa</Tabs.Trigger>
+		<Tabs.List class="h-full flex-wrap justify-start">
+			{#if $metrics.producao_bibliografica}
+				<Tabs.Trigger value="producao-bibliografica">Producao Bibliográfica</Tabs.Trigger>
+			{/if}
+			{#if $metrics.producao_tecnica}
+				<Tabs.Trigger value="producao-tecnica">Produção Técnica</Tabs.Trigger>
+			{/if}
+			{#if $metrics.banca}
+				<Tabs.Trigger value="banca">Banca</Tabs.Trigger>
+			{/if}
+			{#if $metrics.projeto_pesquisa}
+				<Tabs.Trigger value="projeto-pesquisa">Projeto de Pesquisa</Tabs.Trigger>
+			{/if}
 		</Tabs.List>
 		{#if value === 'producao-bibliografica'}
 			<Tabs.Content value="producao-bibliografica">

@@ -57,6 +57,10 @@ export interface paths {
     /** Get Pesquisador */
     get: operations["routes_pesquisadores_get_pesquisador"];
   };
+  "/v1/pesquisadores/{siape}/metricas": {
+    /** Get Metricas */
+    get: operations["routes_pesquisadores_get_metricas"];
+  };
   "/v1/pesquisadores/{siape}/producoes": {
     /** List Producoes Bibliograficas */
     get: operations["routes_pesquisadores_list_producoes_bibliograficas"];
@@ -250,6 +254,43 @@ export interface components {
       citacoes?: unknown[] | null;
       /** Resumo Cv */
       resumo_cv?: string | null;
+    };
+    /** FormacaoAcademicaMetrica */
+    FormacaoAcademicaMetrica: {
+      /** Graduacao */
+      GRADUACAO?: number | null;
+      /** Mestrado */
+      MESTRADO?: number | null;
+      /** Doutorado */
+      DOUTORADO?: number | null;
+      /** Pos Doutorado */
+      POS_DOUTORADO?: number | null;
+      /** Especializacao */
+      ESPECIALIZACAO?: number | null;
+    };
+    /** MetricasResponse */
+    MetricasResponse: {
+      producao_bibliografica: components["schemas"]["ProducaoBibliograficaMetrica"];
+      formacao_academica: components["schemas"]["FormacaoAcademicaMetrica"];
+      /** Producao Tecnica */
+      producao_tecnica: unknown;
+      /** Banca */
+      banca: unknown;
+      /** Projeto Pesquisa */
+      projeto_pesquisa: unknown;
+    };
+    /** ProducaoBibliograficaMetrica */
+    ProducaoBibliograficaMetrica: {
+      /** Artigo */
+      ARTIGO?: number | null;
+      /** Trabalho Evento */
+      TRABALHO_EVENTO?: number | null;
+      /** Resumo */
+      RESUMO?: number | null;
+      /** Livro */
+      LIVRO?: number | null;
+      /** Capitulo Livro */
+      CAPITULO_LIVRO?: number | null;
     };
     /** GraphCurriculo */
     GraphCurriculo: {
@@ -766,6 +807,22 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["CurriculoSchema"];
+        };
+      };
+    };
+  };
+  /** Get Metricas */
+  routes_pesquisadores_get_metricas: {
+    parameters: {
+      path: {
+        siape: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["MetricasResponse"];
         };
       };
     };

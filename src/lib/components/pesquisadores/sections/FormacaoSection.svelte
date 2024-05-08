@@ -1,43 +1,66 @@
 <script lang="ts">
-	import PesquisadorSection from '$lib/components/pesquisadores/PesquisadorSection.svelte';
-	import FormacaoGraph from '$lib/components/graphs/FormacaoGraph.svelte';
-	import PesquisadorCard from '$lib/components/pesquisadores/PesquisadorCard.svelte';
-	import { createQuery } from '@tanstack/svelte-query';
-	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { page } from '$app/stores';
+	import PesquisadorCard from '$lib/components/pesquisadores/PesquisadorCard.svelte';
+	import PesquisadorSection from '$lib/components/pesquisadores/PesquisadorSection.svelte';
+	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { getContext } from 'svelte';
 
-	$: formacaoQuery = createQuery({
+	const formacaoQuery = createQuery({
 		queryKey: ['pesquisador-formacao'],
 		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape!, { signal })
 	});
 
-	$: formacaoGraphQuery = createQuery({
-		queryKey: ['pesquisador-formacao-graph'],
-		queryFn: async ({ signal }) =>
-			PesquisadoresService.formacoesGraph($page.params.siape!, { signal })
-	});
+	const InfoType = {
+		producao_bibliografica: 'Produção Bibliográfica',
+		producao_tecnica: 'Produção Técnica',
+		banca: 'Banca',
+		projeto_pesquisa: 'Projeto de Pesquisa',
+		formacao_academica: 'Formação Acadêmica'
+	};
+
+	let metrics = getContext('metrics');
 </script>
 
-<PesquisadorSection class="lg:grid-cols-1">
-	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery}>
-		<ul class="divide-x-foreground space-y-2 divide-y">
-			{#if $formacaoQuery.data}
-				{#each $formacaoQuery.data as formacao (formacao.curso.id)}
-					<li class="space-y-1 pt-2">
-						<p class="text-lg capitalize">
-							{formacao.tipo.replace('_', ' ')}<span class="inline-bloc mx-1">-</span>{formacao
-								.curso.nome}
-						</p>
-						<time class="block text-sm"
-							>Início: {formacao.ano_inicio}<span class="mx-1 text-neutral-300">|</span>Conclusão: {formacao.ano_conclusao}</time
-						>
-						<p>
-							{formacao.instituicao.nome}
-						</p>
-					</li>
+<PesquisadorSection class="lg:grid-cols-3">
+	<PesquisadorCard title="Métricas do Professor" class="col-span-1">
+		<dl class="divide-y-foreground divide-y">
+			{#if $metrics}
+				{#each Object.entries($metrics) as [key, value]}
+					{#if value}
+						<div class="grid grid-cols-2 gap-4 px-4 py-6">
+							<dt class="font-medium">{InfoType[key]}</dt>
+							<dd class="mt-1 text-foreground/80 sm:mt-0">
+								{value}
+							</dd>
+						</div>
+					{/if}
 				{/each}
 			{/if}
-		</ul>
+		</dl>
+	</PesquisadorCard>
+	<PesquisadorCard title="Formacação Acadêmica" query={formacaoQuery} class="col-span-2">
+		<dl class="divide-y-foreground divide-y">
+			{#if $formacaoQuery.data}
+				{#each $formacaoQuery.data.sort((a, b) => Number(a.ano_inicio) - Number(b.ano_inicio)) as formacao (formacao.curso.id)}
+					<div class="grid grid-cols-4 gap-4 px-4 py-6">
+						<dt class="font-medium">
+							{formacao.tipo.replace('_', ' ')}
+						</dt>
+						<dd class="col-span-3 mt-1 text-foreground/80 sm:mt-0">
+							<p>{formacao.curso.nome}</p>
+
+							<time class="block text-sm"
+								>Início: {formacao.ano_inicio}<span class="mx-1 text-neutral-300">|</span>Conclusão: {formacao.ano_conclusao}</time
+							>
+							<p>
+								{formacao.instituicao.nome}
+							</p>
+						</dd>
+					</div>
+				{/each}
+			{/if}
+		</dl>
 	</PesquisadorCard>
 
 	<!-- <PesquisadorCard
