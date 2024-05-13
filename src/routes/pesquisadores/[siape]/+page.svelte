@@ -52,7 +52,9 @@
 	}
 </script>
 
-<div class="absolute left-1/2 mx-auto h-16 w-full -translate-x-1/2 bg-foreground text-background">
+<div
+	class="absolute left-1/2 top-20 mx-auto h-16 w-full -translate-x-1/2 bg-foreground text-background"
+>
 	{#if $pesquisadorQuery.isFetching}
 		<Skeleton class="mx-auto h-8 w-64" />
 	{:else if $pesquisadorQuery.data}
@@ -61,7 +63,7 @@
 		</p>
 	{/if}
 </div>
-<div class="space-y-8 pt-24">
+<div class="space-y-8 pt-16">
 	<FormacaoSection />
 	<Tabs.Root {value} {onValueChange}>
 		<Tabs.List class="h-full flex-wrap justify-start">

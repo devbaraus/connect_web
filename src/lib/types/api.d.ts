@@ -389,8 +389,6 @@ export interface components {
       titulo: string;
       /** Ano */
       ano: string;
-      /** Tipo */
-      tipo: string;
       /** Natureza */
       natureza: string;
       /** Orientado */

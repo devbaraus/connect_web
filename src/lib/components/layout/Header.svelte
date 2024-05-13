@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { MenuIcon } from 'lucide-svelte';
-	import { Item } from '../ui/radio-group';
+	import SearchBar from './SearchBar.svelte';
 
 	const links = [
 		{
@@ -11,21 +11,21 @@
 		{
 			name: 'Pesquisadores',
 			href: '/pesquisadores'
-		},
-		{
-			name: 'Busca',
-			href: '/busca'
 		}
+		// {
+		// 	name: 'Busca',
+		// 	href: '/busca'
+		// }
 	];
 </script>
 
 <!-- ========== { HEADER }==========  -->
 <header
-	class="border-b-[1px] fixed left-0 right-0 top-0 z-40 border-b-neutral-600 bg-foreground text-background"
+	class="fixed left-0 right-0 top-0 z-40 border-b-[1px] border-b-neutral-600 bg-foreground text-background"
 >
 	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 2xl:px-0">
 		<!-- <div class="flex justify-between"> -->
-		<div class="text-4xl capitalize font-aquire">CONNECT</div>
+		<div class="font-aquire text-4xl capitalize">CONNECT</div>
 		<!-- <div class="flex flex-row items-center py-4 lg:py-0">
 						<div class="relative text-gray-900 hover:text-black block lg:hidden">
 							<button type="button" class="menu-mobile block py-3 px-6 border-b-2 border-transparent">
@@ -48,7 +48,8 @@
 				<MenuIcon class="h-8 w-8" />
 				<span class="sr-only">Toggle Menu</span>
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Content>
+			<DropdownMenu.Content class="w-3/4 space-y-2">
+				<SearchBar class="w-full text-foreground" />
 				{#each links as link (link.href)}
 					<DropdownMenu.Item>
 						<a href={link.href}>{link.name}</a>
@@ -56,6 +57,8 @@
 				{/each}
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
+
+		<SearchBar class="hidden w-1/2 text-foreground lg:flex" />
 
 		<!-- nav menu -->
 		<menu

@@ -10,7 +10,7 @@
 		defaultOptions: {
 			queries: {
 				enabled: browser,
-				refetchOnWindowFocus: false,
+				refetchOnWindowFocus: false
 			}
 		}
 	});
@@ -30,7 +30,7 @@
 
 <QueryClientProvider client={queryClient}>
 	<Header />
-	<div class="container mx-auto my-20 px-4 2xl:px-0">
+	<div class="container mx-auto my-28 px-4 2xl:px-0">
 		<slot />
 	</div>
 	<Footer />
