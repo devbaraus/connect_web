@@ -6,7 +6,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { getContext } from 'svelte';
 
-	const formacaoQuery = createQuery({
+	$: formacaoQuery = createQuery({
 		queryKey: ['pesquisador-formacao'],
 		queryFn: async ({ signal }) => PesquisadoresService.formacoes($page.params.siape!, { signal })
 	});

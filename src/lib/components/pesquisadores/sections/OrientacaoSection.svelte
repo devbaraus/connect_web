@@ -10,19 +10,19 @@
 	import { PesquisadoresService } from '$lib/services/pesquisadores-service';
 	import { createQuery } from '@tanstack/svelte-query';
 
-	const orientacoesStatsQuery = createQuery({
+	$: orientacoesStatsQuery = createQuery({
 		queryKey: ['pesquisador-orientacoes-stats'],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.orientacoesStats($page.params.siape!, { signal })
 	});
 
-	const orientacoesGraphQuery = createQuery({
+	$: orientacoesGraphQuery = createQuery({
 		queryKey: ['pesquisador-orientacoes-graph'],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.orientacoesGraph($page.params.siape!, { signal })
 	});
 
-	const orientacoesQuery = createQuery({
+	$: orientacoesQuery = createQuery({
 		queryKey: ['pesquisador-orientacoes-list'],
 		queryFn: async ({ signal }) =>
 			PesquisadoresService.orientacoesList($page.params.siape!, { signal })

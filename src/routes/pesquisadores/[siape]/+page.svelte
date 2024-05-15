@@ -20,7 +20,7 @@
 		queryFn: async ({ signal }) => PesquisadoresService.get($page.params.siape!, { signal })
 	});
 
-	const metricsQuery = createQuery({
+	$: metricsQuery = createQuery({
 		queryKey: ['pesquisador', 'metrics'],
 		queryFn: async ({ signal }) => PesquisadoresService.metrics($page.params.siape!, { signal })
 	});
