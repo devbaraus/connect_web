@@ -5,12 +5,29 @@
 	<meta charset="utf-8" />
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- HTML in your document's head -->
+	<link rel="preconnect" href="https://rsms.me/">
+	<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+
+
 	%sveltekit.head%
 	<style>
 		@font-face {
 			font-family: Aquire;
 			src: url("/fonts/Aquire.otf") format("opentype");
 		}
+
+		:root {
+			font-family: Inter, sans-serif;
+			font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+		}
+
+		@supports (font-variation-settings: normal) {
+			:root { font-family: InterVariable, sans-serif; }
+		}
+
+		
 
 		/* @font-face {
 			font-family: Aquire;

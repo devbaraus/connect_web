@@ -5,12 +5,12 @@
 
 	const links = [
 		{
-			name: 'Produções',
-			href: '/'
+			name: 'Produções Bibliográficas',
+			href: '/producao-bibliografica'
 		},
 		{
-			name: 'Pesquisadores',
-			href: '/pesquisadores'
+			name: 'Formações Acadêmicas',
+			href: '/formacao-academica'
 		}
 		// {
 		// 	name: 'Busca',
@@ -25,7 +25,16 @@
 >
 	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 2xl:px-0">
 		<!-- <div class="flex justify-between"> -->
-		<div class="font-aquire text-4xl capitalize">CONNECT</div>
+		<div class="flex items-center gap-4">
+			<div class="font-aquire text-4xl capitalize">CONNECT</div>
+			<menu class="hidden h-full items-center gap-6 bg-transparent text-center text-sm lg:flex">
+				{#each links as link (link.href)}
+					<li class="hover:text-accent">
+						<a href={link.href}>{link.name}</a>
+					</li>
+				{/each}
+			</menu>
+		</div>
 		<!-- <div class="flex flex-row items-center py-4 lg:py-0">
 						<div class="relative text-gray-900 hover:text-black block lg:hidden">
 							<button type="button" class="menu-mobile block py-3 px-6 border-b-2 border-transparent">
@@ -49,7 +58,9 @@
 				<span class="sr-only">Toggle Menu</span>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content class="w-3/4 space-y-2">
-				<SearchBar class="w-full text-foreground" />
+				<div class="px-1">
+					<SearchBar class="w-full text-foreground" />
+				</div>
 				{#each links as link (link.href)}
 					<DropdownMenu.Item>
 						<a href={link.href}>{link.name}</a>
@@ -58,18 +69,9 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 
-		<SearchBar class="hidden w-1/2 text-foreground lg:flex" />
-
 		<!-- nav menu -->
-		<menu
-			class="hidden w-full items-center gap-6 bg-transparent text-sm font-bold lg:flex lg:w-auto lg:text-center"
-		>
-			{#each links as link (link.href)}
-				<li class="hover:text-accent">
-					<a class="block border-b-2 border-transparent py-3" href={link.href}>{link.name}</a>
-				</li>
-			{/each}
-		</menu>
+
+		<SearchBar class="hidden w-4/12 text-foreground lg:flex" />
 	</nav>
 </header>
 <!-- end header -->

@@ -5,6 +5,8 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { page } from '$app/stores';
 	import { cn } from '$lib/utils';
+	import { SearchIcon } from 'lucide-svelte';
+	import { Button } from '../ui/button';
 
 	let className: string | undefined = undefined;
 
@@ -23,7 +25,6 @@
 					{ signal }
 				);
 			} catch (e) {
-				console.error(e);
 				return {
 					hits: [],
 					query: searchQuery,
@@ -42,13 +43,21 @@
 	export { className as class };
 </script>
 
-<form action="/busca" class={cn(className)}>
+<form action="/pesquisadores" class={cn('relative ', className)}>
 	<Input
 		value={searchQuery}
 		autocomplete="off"
 		name="q"
 		placeholder="Pesquise por nome do pesquisador, citação bibliográfica, produção bibliográfica, formação acadêmica ou palavra chave"
 		type="text"
-		class="w-full"
+		class="border border-input border-input/20 bg-foreground pr-12 text-background ring-offset-foreground"
 	/>
+	<Button
+		class="absolute right-0 top-1/2 -translate-y-1/2 text-background"
+		variant="ghost"
+		size="icon"
+		type="submit"
+	>
+		<SearchIcon />
+	</Button>
 </form>
