@@ -26,7 +26,11 @@
 	<nav class="container mx-auto flex h-20 items-center justify-between gap-4 px-4 py-4 2xl:px-0">
 		<!-- <div class="flex justify-between"> -->
 		<div class="flex items-center gap-4">
-			<div class="font-aquire text-4xl capitalize">CONNECT</div>
+			<a href='/' >
+				<h1 class="font-aquire text-4xl capitalize">
+					CONNECT
+				</h1>
+			</a>
 			<menu class="hidden h-full items-center gap-6 bg-transparent text-center text-sm lg:flex">
 				{#each links as link (link.href)}
 					<li class="hover:text-accent">

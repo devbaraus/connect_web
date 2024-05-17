@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LinkCell from './LinkCell.svelte';
 	import { type ProducaoBibliografica } from '$lib/types';
 	import { EnumProducaoBibliografica } from '$lib/types';
 	import {
@@ -54,7 +55,13 @@
 		},
 		{
 			accessorKey: 'titulo',
-			header: () => 'Título'
+			header: () => 'Título',
+			cell: ({ row }) => {
+				if(row.original.doi) {
+					return flexRender(LinkCell, { href: `https://dx.doi.org/${row.original.doi}`, slot: row.getValue('titulo')})
+				}
+				return row.getValue('titulo');
+			} 
 		},
 		{
 			accessorKey: 'ano',

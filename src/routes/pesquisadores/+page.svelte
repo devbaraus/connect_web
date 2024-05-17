@@ -8,10 +8,10 @@
 	import { writable } from 'svelte/store';
 
 	const defaultColumns: ColumnDef<PesquisadorSearch>[] = [
-		{
-			accessorKey: 'siape',
-			header: () => 'Siape'
-		},
+		// {
+		// 	accessorKey: 'siape',
+		// 	header: () => 'Siape'
+		// },
 		{
 			accessorKey: 'nome',
 			header: () => 'Nome Completo'
@@ -19,7 +19,8 @@
 		{
 			accessorKey: 'actions',
 			header: () => 'Ações',
-			cell: ({ row }) => flexRender(PesquisadorDataTableAction, { siape: row.getValue('siape') })
+			enableSorting: false,
+			cell: ({ row }) => flexRender(PesquisadorDataTableAction, { pesquisador: row.original })
 		}
 	];
 
