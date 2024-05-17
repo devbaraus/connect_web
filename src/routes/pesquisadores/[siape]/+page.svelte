@@ -13,7 +13,7 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	let value = 'producao-bibliografica';
+	let value = '';
 
 	$: pesquisadorQuery = createQuery({
 		queryKey: ['pesquisador'],
@@ -26,6 +26,7 @@
 	});
 
 	let metrics = writable({});
+	let showTabs = writable(false);
 
 	$: {
 		$metrics = $metricsQuery.data
@@ -43,6 +44,14 @@
 					})
 				)
 			: {};
+
+		$metrics.producao_bibliografica > 0 ||
+		$metrics.producao_tecnica > 0 ||
+		$metrics.banca > 0 ||
+		$metrics.projeto_pesquisa > 0 ||
+		$metrics.orientacao > 0
+			? showTabs.set(true)
+			: showTabs.set(false);
 	}
 
 	setContext('metrics', metrics);
@@ -65,6 +74,7 @@
 </div>
 <div class="space-y-8 pt-16">
 	<FormacaoSection />
+	{#if showTabs}
 	<Tabs.Root {value} {onValueChange}>
 		<Tabs.List class="h-full flex-wrap justify-start">
 			{#if $metrics.producao_bibliografica}
@@ -105,4 +115,5 @@
 			</Tabs.Content>
 		{/if}
 	</Tabs.Root>
+	{/if}
 </div>
